@@ -1,3 +1,8 @@
+var body = document.querySelector('body');
+if (data.view === 'homepage') {
+  body.setAttribute('style', 'background-color: #000;');
+}
+
 var colorPickerForm = document.querySelector('.form-color-picker');
 
 colorPickerForm.addEventListener('submit', function (event) {
@@ -23,6 +28,9 @@ function viewSwapDataViews(dataView) {
     }
   }
 
+  if (data.view !== 'homepage') {
+    body.setAttribute('style', 'background-color: #FFF;');
+  }
 }
 
 document.addEventListener('click', function (event) {

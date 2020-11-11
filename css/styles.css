@@ -1,22 +1,21 @@
-.hidden {
-  display: none !important;
+body {
+  font-family: 'Raleway', sans-serif;
 }
 
-body {
-  background: white url("/images/gray-white-pixelated.jpg") no-repeat fixed center;
-  font-family: 'Raleway', sans-serif;
+main {
+  background: url("/images/Background.svg") repeat fixed center;
 }
 
 .container-app-title,
 .select-color,
 .select-random {
   background-color: white;
-  margin: 1rem auto 1rem;
-  border: 1px solid black;
+  border: 1px solid #dddddd;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   width: 80%;
   padding: 1rem 2rem 3rem;
-  flex-basis: 25%;
+  flex-basis: 30%;
 }
 
 h1, h3,
@@ -29,18 +28,20 @@ h1, h3,
   font-family: 'Paytone One', sans-serif;
   font-size: 4rem;
   color: #ff7878;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .home-cookbook {
   font-weight: 400;
   font-size: 2.9rem;
   line-height: 1.5rem;
+  text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
 }
 
 .home-descr {
   background-color: white;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid #dddddd;
   border-radius: 10px;
   width: 65%;
   padding: 1rem 1rem 1rem;
@@ -52,6 +53,7 @@ form {
 
 .button-getcookin {
   align-self: flex-end;
+  padding-right: 1rem;
 }
 
 .input-button {
@@ -70,29 +72,34 @@ form {
 button,
 .button {
   background-color: #ff7878;
-  box-shadow: 0 2px 3px rgba(255 ,255 , 255, 0.25);
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   color: white;
   padding: 0.75rem 1rem;
   border: 0;
 }
 
-.navigation {
+.row.navigation {
+  flex-wrap: nowrap;
+  align-items: center;
   width: 100%;
-  bottom: 0;
-  background-color: black;
+  background-color: rgb(24, 24, 24);
   padding: 0 2rem;
+  margin-top: 1rem;
+  position: relative;
 }
 
 .container-icon {
   display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: white;
   border-radius: 6px;
   padding: 0.5rem;
   margin: 1rem 0.5rem;
-
 }
 
 img {
   width: 100%;
+  object-fit: contain;
 }

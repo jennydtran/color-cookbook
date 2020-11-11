@@ -1,2 +1,4 @@
 /* exported data */
-var data = {}
+var data = {
+  view: 'homepage'
+};
