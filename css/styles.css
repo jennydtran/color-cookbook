@@ -1,0 +1,97 @@
+.hidden {
+  display: none !important;
+}
+
+body {
+  background-color: bisque;
+  font-family: 'Raleway', sans-serif;
+}
+
+.container-app-title,
+.select-color,
+.select-random {
+  background-color: white;
+  margin: 1rem auto 1rem;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 80%;
+  padding: 1rem 2rem 3rem;
+  flex-basis: 25%;
+}
+
+h1, h3,
+.select-color {
+  text-align: center;
+  margin: 0;
+}
+
+.home-color {
+  font-family: 'Paytone One', sans-serif;
+  font-size: 4rem;
+}
+
+.home-cookbook {
+  font-weight: 400;
+  font-size: 2.9rem;
+  line-height: 1.5rem;
+}
+
+.home-descr {
+  background-color: white;
+  text-align: center;
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 65%;
+  padding: 1rem 1rem 1rem;
+}
+
+form {
+  width: 100%;
+}
+
+.button-getcookin {
+  align-self: flex-end;
+}
+
+.input-button {
+  margin: 0 auto;
+  margin-top: 1rem;
+}
+
+.color-box {
+  background-color: transparent;
+  width: 70%;
+  height: 150px;
+  margin-top: 1rem;
+  border: none;
+}
+
+button,
+.button {
+  background-color: #ff7878;
+  box-shadow: 0 2px 3px rgba(255 ,255 , 255, 0.25);
+  border-radius: 6px;
+  color: white;
+  padding: 0.75rem 1rem;
+  border: 0;
+}
+
+.navigation {
+  width: 100%;
+  bottom: 0;
+  background-color: black;
+  padding: 0 2rem;
+}
+
+.container-icon {
+  display: flex;
+  background-color: white;
+  border-radius: 6px;
+  padding: 0.5rem;
+  margin: 1rem 0.5rem;
+
+}
+
+img {
+  width: 100%;
+}
