@@ -4,14 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
+  <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Raleway:wght@400;700&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <header>
-  </header>
   <main>
+    <div class="container home" data-view="homepage">
+      <div class="row container-app-title">
+        <div class="title">
+          <h1 class="home-color">COLOR</h1>
+          <h1 class="home-cookbook">cookbook</h1>
+        </div>
+      </div>
+      <div class="row home-descr">
+        <p class="p-description">Get some color inspirations<br />for your next project!</p>
+      </div>
+      <div class="button-getcookin">
+        <a class="button" href="#" data-view="picker-page">Let's get cookin'!</a>
+      </div>
+    </div>
+    <div class="container picker-page hidden" data-view="picker-page">
+      <div class="row select-color">
+        <form class="form-color-picker">
+          <label name="colorBox"><h3>Select a color</h3></label>
+          <input name="colorBox" class="color-box" type="color" value="#000000">
+          <button class="row input-button" type="submit" data-view="color-data">Select</button>
+        </form>
+      </div>
+      <div class="row or">
+        <h2>OR</h2>
+      </div>
+      <div class="row select-random">
+        <h3>Get inspired with<br />a random color!</h3>
+        <button class="random input-button" type="button" data-view="color-data">Random</button>
+      </div>
+      <div class="row navigation">
+        <a href="#" data-view="picker-page">
+          <div class="container-icon">
+            <img src="images/eye-dropper-solid.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="scheme-page">
+          <div class="container-icon">
+            <img src="images/palette-solid.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="scheme-maker-page">
+          <div class="container-icon">
+            <img src="images/cauldron.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="saved-colors-page">
+          <div class="container-icon">
+            <img src="images/book-open-solid.svg" alt="">
+          </div>
+        </a>
+      </div>
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
