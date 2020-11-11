@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: bisque;
+  background: white url("/images/gray-white-pixelated.jpg") no-repeat fixed center;
   font-family: 'Raleway', sans-serif;
 }
 
@@ -28,6 +28,7 @@ h1, h3,
 .home-color {
   font-family: 'Paytone One', sans-serif;
   font-size: 4rem;
+  color: #ff7878;
 }
 
 .home-cookbook {

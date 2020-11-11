@@ -1,3 +1,14 @@
+var colorPickerForm = document.querySelector('.form-color-picker');
+
+colorPickerForm.addEventListener('submit', function (event) {
+  event.preventDefault();
+  var colorValue = document.forms[0].colorBox.value;
+  colorValue = colorValue.slice(1, 7);
+
+  colorCode(colorValue);
+
+});
+
 function viewSwapDataViews(dataView) {
   var divPageList = document.querySelectorAll('div[data-view]');
   var i;
