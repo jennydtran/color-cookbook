@@ -1,5 +1,7 @@
 var body = document.querySelector('body');
-if (data.view === 'homepage') {
+if (data.view !== 'homepage') {
+  body.setAttribute('style', 'background-color: #FFF;');
+} else {
   body.setAttribute('style', 'background-color: #000;');
 }
 
@@ -10,7 +12,7 @@ colorPickerForm.addEventListener('submit', function (event) {
   var colorValue = document.forms[0].colorBox.value;
   colorValue = colorValue.slice(1, 7);
 
-  colorCode(colorValue);
+  getColorCode(colorValue);
 
 });
 
@@ -48,23 +50,45 @@ document.addEventListener('click', function (event) {
 });
 
 function getRandomColor() {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'http://www.colr.org/json/color/random');
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    console.log(xhr.status);
-    console.log(xhr.response);
+  var randomColor = new XMLHttpRequest();
+  randomColor.open('GET', 'http://www.colr.org/json/color/random');
+  randomColor.responseType = 'json';
+  randomColor.addEventListener('load', function () {
+    console.log(randomColor.status);
+    console.log(randomColor.response);
+    getColorCode(randomColor.response.new_color);
+    upDateSelectColor();
   });
-  xhr.send();
+  randomColor.send();
 }
 
-function colorCode(hex) {
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
-  xhr.responseType = 'json';
-  xhr.addEventListener('load', function () {
-    console.log(xhr.status);
-    console.log(xhr.response);
+function upDateSelectColor() {
+  var colorName = document.querySelector('.color-name');
+  colorName.textContent = data.color.name;
+  
+  var rgbText = document.querySelector('.rgb-text');
+  rgbText.textContent = data.color.rgb.slice(3);
+  var hexText = document.querySelector('.hex-text');
+  hexText.textContent = data.color.hex;
+  var hslText = document.querySelector('.hsl-text');
+  hslText.textContent = data.color.hsl.slice(3);
+
+  var dataColorBox = document.querySelector('.data-color-box');
+  dataColorBox.style.background = data.color.hex;
+}
+
+function getColorCode(hex) {
+  var selectedColor = new XMLHttpRequest();
+  selectedColor.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
+  selectedColor.responseType = 'json';
+  selectedColor.addEventListener('load', function () {
+    console.log(selectedColor.status);
+    console.log(selectedColor.response);
+    data.color.name = selectedColor.response.name.value;
+    data.color.rgb = selectedColor.response.rgb.value;
+    data.color.hex = selectedColor.response.hex.value;
+    data.color.hsl = selectedColor.response.hsl.value;
+    upDateSelectColor();
   });
-  xhr.send();
+  selectedColor.send();
 }

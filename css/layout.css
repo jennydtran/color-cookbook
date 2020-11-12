@@ -12,11 +12,13 @@ height: 100vh;
 
 .container {
   max-width: 900px;
+  height: 100vh;
 }
 
 .select-random,
 .select-color,
 .container.home,
+.container.color-data-page,
 .container.picker-page {
   display:flex;
   flex-direction: column;
@@ -25,6 +27,7 @@ height: 100vh;
   height: 100%;
 }
 
+.container.color-data-page,
 .container.picker-page {
   justify-content: space-between;
   padding-top: 1rem;
@@ -39,7 +42,7 @@ height: 100vh;
 
 .row {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
 }
 

@@ -26,11 +26,12 @@
         <a class="button" href="#" data-view="picker-page">Let's get cookin'!</a>
       </div>
     </div>
+
     <div class="container picker-page hidden" data-view="picker-page">
       <div class="row select-color">
         <form class="form-color-picker">
           <label name="colorBox"><h3>Select a color</h3></label>
-          <input name="colorBox" class="color-box" type="color" value="#000000">
+          <input name="colorBox" class="select-color-box" type="color" value="#000000">
           <button class="row input-button" type="submit" data-view="color-data">Select</button>
         </form>
       </div>
@@ -40,6 +41,38 @@
       <div class="row select-random">
         <h3>Get inspired with<br />a random color!</h3>
         <button class="random input-button" type="button" data-view="color-data">Random</button>
+      </div>
+      <div class="row navigation">
+        <a href="#" data-view="picker-page">
+          <div class="container-icon">
+            <img src="images/eye-dropper-solid.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="scheme-page">
+          <div class="container-icon">
+            <img src="images/palette-solid.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="scheme-maker-page">
+          <div class="container-icon">
+            <img src="images/cauldron.svg" alt="">
+          </div>
+        </a>
+        <a href="#" data-view="saved-colors-page">
+          <div class="container-icon">
+            <img src="images/book-open-solid.svg" alt="">
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="container color-data-page hidden" data-view="color-data">
+      <div class="row select-color">
+        <h3 class="color-name">ColorName</h3>
+        <div class="data-color-box"></div>
+        <p>RGB: <span class='rgb-text'>(0,0,0)</span></p>
+        <p>HEX: <span class='hex-text'>#000000</span></p>
+        <p>HSL: <span class='hsl-text'>(0,0,0)</span></p>
       </div>
       <div class="row navigation">
         <a href="#" data-view="picker-page">

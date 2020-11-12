@@ -3,7 +3,7 @@ body {
 }
 
 main {
-  background: url("/images/Background.svg") repeat fixed center;
+  background: url("../images/Background.svg") repeat fixed center;
 }
 
 .container-app-title,
@@ -24,6 +24,9 @@ h1, h3,
   margin: 0;
 }
 
+p {
+  margin: 1rem 0 0 0;
+}
 .home-color {
   font-family: 'Paytone One', sans-serif;
   font-size: 4rem;
@@ -61,12 +64,20 @@ form {
   margin-top: 1rem;
 }
 
-.color-box {
+.select-color-box {
   background-color: transparent;
   width: 70%;
   height: 150px;
   margin-top: 1rem;
   border: none;
+}
+
+.data-color-box {
+  width: 70%;
+  height: 150px;
+  margin-top: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
 }
 
 button,
@@ -102,4 +113,8 @@ button,
 img {
   width: 100%;
   object-fit: contain;
+}
+
+i {
+  color: black;
 }
