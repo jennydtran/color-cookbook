@@ -6,14 +6,18 @@
   <title>AJAX Project</title>
   <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Raleway:wght@400;700&display=swap"
     rel="stylesheet">
+  <link rel="stylesheet" crossorigin="anonymous"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <main>
+
     <div class="container home" data-view="homepage">
-      <div class="row container-app-title">
+      <div class="row app-title">
         <div class="title">
           <h1 class="home-color">COLOR</h1>
           <h1 class="home-cookbook">cookbook</h1>
@@ -22,6 +26,7 @@
       <div class="row home-descr">
         <p class="p-description">Get some color inspirations<br />for your next project!</p>
       </div>
+      <div></div>
       <div class="button-getcookin">
         <a class="button" href="#" data-view="picker-page">Let's get cookin'!</a>
       </div>
@@ -30,7 +35,7 @@
     <div class="container picker-page hidden" data-view="picker-page">
       <div class="row select-color">
         <form class="form-color-picker">
-          <label name="colorBox"><h3>Select a color</h3></label>
+          <label name="colorBox"><h2>Select a color</h2></label>
           <input name="colorBox" class="select-color-box" type="color" value="#000000">
           <button class="row input-button" type="submit" data-view="color-data">Select</button>
         </form>
@@ -39,62 +44,69 @@
         <h2>OR</h2>
       </div>
       <div class="row select-random">
-        <h3>Get inspired with<br />a random color!</h3>
+        <h2>Get inspired with<br />a random color!</h2>
         <button class="random input-button" type="button" data-view="color-data">Random</button>
-      </div>
-      <div class="row navigation">
-        <a href="#" data-view="picker-page">
-          <div class="container-icon">
-            <img src="images/eye-dropper-solid.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="scheme-page">
-          <div class="container-icon">
-            <img src="images/palette-solid.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="scheme-maker-page">
-          <div class="container-icon">
-            <img src="images/cauldron.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="saved-colors-page">
-          <div class="container-icon">
-            <img src="images/book-open-solid.svg" alt="">
-          </div>
-        </a>
       </div>
     </div>
 
     <div class="container color-data-page hidden" data-view="color-data">
-      <div class="row select-color">
-        <h3 class="color-name">ColorName</h3>
+      <div class="data-color">
+        <h2 class="color-name">ColorName</h2>
         <div class="data-color-box"></div>
         <p>RGB: <span class='rgb-text'>(0,0,0)</span></p>
         <p>HEX: <span class='hex-text'>#000000</span></p>
         <p>HSL: <span class='hsl-text'>(0,0,0)</span></p>
       </div>
+      <div class="row back-save-scheme-nav">
+        <div class="column">
+          <a href="#" data-view="picker-page">
+          <div class="container-icon" id="dropper-icon-container">
+            <i data-view="picker-page" class="back icons fas fa-eye-dropper fa-3x"></i>
+          </div>
+          </a>
+          <p>SELECT<br><span>a different<br>color</span></p>
+        </div>
+        <div class="column">
+          <a href="#" class="save">
+            <div class="container-icon save">
+              <i class="icons fas fa-heart fa-3x" id="save" type="submit"></i>
+            </div>
+          </a>
+          <p>SAVE<br><span>to color book</span></p>
+        </div>
+        <div class="column">
+          <a href="#" data-view="scheme-page">
+          <div class="container-icon" id="scheme-icon-container">
+            <i data-view="scheme-page" class="scheme icons fas fa-palette fa-3x"></i>
+          </div>
+          </a>
+          <p>EXPLORE<br><span>schemes with<br>this color</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden" id="footer">
       <div class="row navigation">
-        <a href="#" data-view="picker-page">
-          <div class="container-icon">
-            <img src="images/eye-dropper-solid.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="scheme-page">
-          <div class="container-icon">
-            <img src="images/palette-solid.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="scheme-maker-page">
-          <div class="container-icon">
-            <img src="images/cauldron.svg" alt="">
-          </div>
-        </a>
-        <a href="#" data-view="saved-colors-page">
-          <div class="container-icon">
-            <img src="images/book-open-solid.svg" alt="">
-          </div>
-        </a>
+          <a href="#" data-view="picker-page">
+            <div class="container-icon" >
+              <i data-view="picker-page" class="nav-icons fas fa-eye-dropper fa-3x"></i>
+            </div>
+          </a>
+          <a href="#" data-view="scheme-page">
+            <div class="container-icon">
+              <i data-view="scheme-page" class="nav-icons fas fa-palette fa-3x"></i>
+            </div>
+          </a>
+          <a href="#" data-view="scheme-maker-page">
+            <div class="container-icon">
+              <i data-view="scheme-maker-page" class="nav-icons fas fa-mortar-pestle fa-3x"></i>
+            </div>
+          </a>
+          <a href="#" data-view="saved-colors-page">
+            <div class="container-icon">
+              <i data-view="saved-colors-page" class="nav-icons fas fa-book-open fa-3x"></i>
+            </div>
+          </a>
       </div>
     </div>
   </main>
