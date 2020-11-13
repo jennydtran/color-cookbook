@@ -59,21 +59,7 @@ document.addEventListener('click', function (event) {
   if (event.target.className === 'random input-button') {
     getRandomColor();
   }
-
 });
-
-function getRandomColor() {
-  var randomColor = new XMLHttpRequest();
-  randomColor.open('GET', 'http://www.colr.org/json/color/random');
-  randomColor.responseType = 'json';
-  randomColor.addEventListener('load', function () {
-    console.log(randomColor.status);
-    console.log(randomColor.response);
-    getColorCode(randomColor.response.new_color);
-    upDateSelectColor();
-  });
-  randomColor.send();
-}
 
 function upDateSelectColor() {
   var colorName = document.querySelector('.color-name');
@@ -108,3 +94,53 @@ function getColorCode(hex) {
   });
   selectedColor.send();
 }
+
+function getRandomColor() {
+  var randomColor = new XMLHttpRequest();
+  randomColor.open('GET', 'http://www.colr.org/json/color/random');
+  randomColor.responseType = 'json';
+  randomColor.addEventListener('load', function () {
+    console.log(randomColor.status);
+    console.log(randomColor.response);
+    getColorCode(randomColor.response.new_color);
+    upDateSelectColor();
+  });
+  randomColor.send();
+}
+
+function getColorScheme(hex, scheme) {
+  var colorScheme = new XMLHttpRequest();
+  colorScheme.open('GET', 'http://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
+  colorScheme.responseType = 'json';
+  colorScheme.addEventListener('load', function () {
+    console.log(colorScheme.status);
+    console.log(colorScheme.response);
+  });
+  colorScheme.send();
+}
+
+function updateColorScheme() {
+  var colorName = document.querySelector('.scheme-color-name');
+  var schemeBox = document.querySelector('ol');
+  var schemeColorsList = schemeBox.children;
+  console.log(schemeColorsList);
+  colorName.textContent = data.color.name;
+
+  var nameText = document.querySelector('.scheme-name-text');
+  nameText.textContent = data.color.name;
+  var rgbText = document.querySelector('.scheme-rgb-text');
+  rgbText.textContent = data.color.rgb.slice(3);
+  var hexText = document.querySelector('.scheme-hex-text');
+  hexText.textContent = data.color.hex;
+  var hslText = document.querySelector('.scheme-hsl-text');
+  hslText.textContent = data.color.hsl.slice(3);
+
+  var dataColorBox = document.querySelector('.data-color-box');
+  dataColorBox.style.background = data.color.hex;
+
+  divDropperIcon.style.background = data.color.hex;
+  divSchemeIcon.style.background = data.color.hex;
+
+  getColorScheme(data.color.hex.slice(1), scheme);
+}
+updateColorScheme();

@@ -32,12 +32,12 @@ main {
   bottom: 0;
 }
 
-.container.color-data-page,
-.container.picker-page {
+.color-data-page,
+.picker-page {
   justify-content: space-around;
 }
 
-.container.home {
+.home {
   justify-content: space-around;
 }
 

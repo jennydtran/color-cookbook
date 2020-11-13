@@ -77,10 +77,40 @@
         <div class="column">
           <a href="#" data-view="scheme-page">
           <div class="container-icon" id="scheme-icon-container">
-            <i data-view="scheme-page" class="scheme icons fas fa-palette fa-3x"></i>
+            <i data-view="scheme-page" id="explore" class="scheme icons fas fa-palette fa-3x"></i>
           </div>
           </a>
           <p>EXPLORE<br><span>schemes with<br>this color</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container scheme-page hidden" data-view="scheme-page">
+      <div class="row scheme-div">
+        <label for="scheme-select">
+          <h2>Scheme for <span class="scheme-color-name">ColorName</span></h2>
+        </label>
+        <select names="schemes" id="scheme-select">
+          <option value="" selected disabled>Please select a scheme</option>
+          <option value="monochrome">Monochrome</option>
+          <option value="monochrome-dark">Monochrome dark</option>
+          <option value="monochrome-light">Monochrome light</option>
+          <option value="analogic">Analogic</option>
+          <option value="analogic-complement">Analogic-Complement</option>
+          <option value="quad">Quad</option>
+        </select>
+        <div class="schemebox"><ol>
+          <li><div class="schemecolor color1"></div></li>
+          <li><div class="schemecolor color2"></div></li>
+          <li><div class="schemecolor color3"></div></li>
+          <li><div class="schemecolor color4"></div></li>
+          <li><div class="schemecolor color5"></div></li>
+        </ol></div>
+        <div class="scheme-data-color">
+          <p>Name: <span class="scheme-name-text">(Name)</span></p>
+          <p>RGB: <span class="scheme-rgb-text">(0,0,0)</span></p>
+          <p>HEX: <span class="scheme-hex-text">#000000</span></p>
+          <p>HSL: <span class="scheme-hsl-text">(0,0,0)</span></p>
         </div>
       </div>
     </div>
