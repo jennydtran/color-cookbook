@@ -159,7 +159,7 @@ i {
 
 .back, .scheme,
 .currentIcon {
-  color: rgb(107, 107, 107);
+  color: rgb(65, 65, 65);
 }
 
 .navigation {
@@ -197,42 +197,42 @@ ol {
 .color-square {
   width: 40px;
   height: 40px;
-  border: 1px solid black;
   margin: 0;
   padding: 0;
 }
 
 .solo {
-  border-radius: 3px;
+  border-radius: 2px;
   margin: 0.15rem;
 }
 
 .row-saved-colors,
 .row-scheme-colors {
   display: flex;
-  flex-wrap: nowrap;
-  margin: 0 1rem;;
+  margin: 0 1rem;
 }
 
 section {
-  padding: 0 2rem;
+  padding: 0 1rem;
+}
+
+.saved-colors {
+  margin-bottom: 1.5rem;
 }
 
 .color-book-subtitle {
   text-align: left;
+  padding-left: 0.5rem;
 }
 
+.row-saved-colors,
 .schemes-list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .scheme-item {
-  align-items: center;
+  align-self: center;
   margin-bottom: 1rem;
-
-}
-
-.scheme-item > p {
-  padding-left: 1rem;
 }

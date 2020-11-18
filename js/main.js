@@ -1,7 +1,8 @@
 var footer = document.querySelector('#footer');
 var saveIcon = document.querySelectorAll('.fa-heart');
 var navIcon = document.querySelectorAll('.nav-icons');
-console.log(navIcon[0].getAttribute('data-view'))
+var colorSquareSolo = document.querySelector('.row-saved-colors');
+var schemesList = document.querySelector('.schemes-list');
 
 var colorData = {
   view: 'homepage',
@@ -63,12 +64,11 @@ schemeInput.addEventListener('input', function (event) {
     for (var i = 0; i < schemeDivColors.length; i++) {
       schemeDivColors[i].style.background = colorData.currentColor.hex;
     }
-  };
+  }
   colorData.currentScheme.color = colorData.currentColor.name;
   colorData.currentScheme.scheme = event.target.value;
   getColorScheme(colorData.currentColor.hex.slice(1), value);
 });
-
 
 document.addEventListener('click', function (event) {
   if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && !event.target.matches('.schemecolor')) {
@@ -79,7 +79,20 @@ document.addEventListener('click', function (event) {
     return false;
   }
 
-  if (colorData.currentColor.name === '') {
+  if (event.target.className === 'icons fas fa-heart fa-3x' || event.target.id === 'saveScheme') {
+    if (colorData.view === 'color-data') {
+      data.savedColors.push(colorData.currentColor);
+      saveIcon[0].classList.add('heart-it');
+      colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
+    } else if (colorData.view === 'scheme-page') {
+      data.savedSchemes.push(colorData.currentScheme);
+      saveIcon[1].classList.add('heart-it');
+      schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
+    }
+    return;
+  }
+
+  if (colorData.currentColor.name === '' && data.savedSchemes.length === [] && data.savedColors.length === []) {
     viewSwapDataViews('picker-page');
   } else {
     viewSwapDataViews(event.target.getAttribute('data-view'));
@@ -98,18 +111,6 @@ document.addEventListener('click', function (event) {
   if (event.target.className === 'random input-button') {
     getRandomColor();
     viewSwapDataViews('color-data');
-  }
-
-  if (event.target.className === 'icons fas fa-heart fa-3x' ||
-    event.target.id === 'saveScheme') {
-    if (colorData.view === 'color-data') {
-      colorData.savedColors.push(colorData.currentColor);
-      saveIcon[0].classList.add('heart-it');
-    } else if (colorData.view === 'scheme-page') {
-      colorData.savedSchemes.push(colorData.currentScheme);
-      saveIcon[1].classList.add('heart-it');
-    }
-    return;
   }
 
   if (event.target.id === 'explore' || event.target.matches('.fa-palette')) {
@@ -193,3 +194,76 @@ function updateColorScheme() {
     schemeNameTexts[i].textContent = colorData.currentScheme.colors[i].name.value;
   }
 }
+
+// functions to render a DOM tree for data model
+function colorSavedDOM(data) {
+  var li = document.createElement('li');
+
+  var div = document.createElement('div');
+  div.setAttribute('class', 'color-square solo');
+  li.appendChild(div);
+
+  div.style.background = data;
+
+  return li;
+}
+
+function schemeSavedDOM(scheme) {
+  var schemeItem = document.createElement('li');
+  schemeItem.setAttribute('class', 'row scheme-item');
+
+  var ol = document.createElement('ol');
+  ol.setAttribute('class', 'row-scheme-colors');
+  schemeItem.appendChild(ol);
+
+  var li1 = document.createElement('li');
+  li1.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li1);
+  var li2 = document.createElement('li');
+  li2.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li2);
+  var li3 = document.createElement('li');
+  li3.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li3);
+  var li4 = document.createElement('li');
+  li4.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li4);
+  var li5 = document.createElement('li');
+  li5.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li5);
+
+  var div1 = document.createElement('div');
+  div1.setAttribute('class', 'color-square');
+  li1.appendChild(div1);
+  var div2 = document.createElement('div');
+  div2.setAttribute('class', 'color-square');
+  li2.appendChild(div2);
+  var div3 = document.createElement('div');
+  div3.setAttribute('class', 'color-square');
+  li3.appendChild(div3);
+  var div4 = document.createElement('div');
+  div4.setAttribute('class', 'color-square');
+  li4.appendChild(div4);
+  var div5 = document.createElement('div');
+  div5.setAttribute('class', 'color-square');
+  li5.appendChild(div5);
+
+  div1.style.background = scheme.colors[0].hex.value;
+  div2.style.background = scheme.colors[1].hex.value;
+  div3.style.background = scheme.colors[2].hex.value;
+  div4.style.background = scheme.colors[3].hex.value;
+  div5.style.background = scheme.colors[4].hex.value;
+
+  return schemeItem;
+}
+
+// eventListener for DOMContentLoaded; append entry data model to page
+document.addEventListener('DOMContentLoaded', function (event) {
+  for (var i = 0; i < data.savedColors.length; i++) {
+    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+  }
+
+  for (var j = 0; j < data.savedSchemes.length; j++) {
+    schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+  }
+});
