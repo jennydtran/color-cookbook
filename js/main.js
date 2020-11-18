@@ -1,6 +1,7 @@
 var footer = document.querySelector('#footer');
 var saveIcon = document.querySelectorAll('.fa-heart');
 var navIcon = document.querySelectorAll('.nav-icons');
+console.log(navIcon[0].getAttribute('data-view'))
 
 var colorData = {
   view: 'homepage',
@@ -32,10 +33,10 @@ function viewSwapDataViews(dataView) {
     }
 
     for (var j = 0; j < navIcon.length; j++) {
-      if (dataView === navIcon[i].getAttribute('data-view')) {
-        navIcon[i].classList.add('currentIcon');
+      if (dataView === navIcon[j].getAttribute('data-view')) {
+        navIcon[j].classList.add('currentIcon');
       } else {
-        navIcon[i].classList.remove('currentIcon');
+        navIcon[j].classList.remove('currentIcon');
       }
     }
   }

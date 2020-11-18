@@ -32,6 +32,7 @@ main {
   bottom: 0;
 }
 
+.saved-colors-page,
 .color-data-page,
 .picker-page {
   justify-content: space-around;

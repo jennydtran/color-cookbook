@@ -193,3 +193,46 @@ ol {
   margin-bottom: 1em;
   padding: 0;
 }
+
+.color-square {
+  width: 40px;
+  height: 40px;
+  border: 1px solid black;
+  margin: 0;
+  padding: 0;
+}
+
+.solo {
+  border-radius: 3px;
+  margin: 0.15rem;
+}
+
+.row-saved-colors,
+.row-scheme-colors {
+  display: flex;
+  flex-wrap: nowrap;
+  margin: 0 1rem;;
+}
+
+section {
+  padding: 0 2rem;
+}
+
+.color-book-subtitle {
+  text-align: left;
+}
+
+.schemes-list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.scheme-item {
+  align-items: center;
+  margin-bottom: 1rem;
+
+}
+
+.scheme-item > p {
+  padding-left: 1rem;
+}
