@@ -100,7 +100,7 @@ document.addEventListener('click', function (event) {
   }
 
   if (event.target.className === 'icons fas fa-heart fa-3x' ||
-  event.target.id === 'saveScheme') {
+    event.target.id === 'saveScheme') {
     if (colorData.view === 'color-data') {
       colorData.savedColors.push(colorData.currentColor);
       saveIcon[0].classList.add('heart-it');
@@ -153,7 +153,7 @@ function getColorCode(hex) {
 
 function getRandomColor() {
   var randomColor = new XMLHttpRequest();
-  randomColor.open('GET', 'http://www.colr.org/json/color/random');
+  randomColor.open('GET', 'http://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
   randomColor.addEventListener('load', function () {
     console.log(randomColor.status);
