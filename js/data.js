@@ -1,14 +1,7 @@
 /* exported data */
 var data = {
-  view: 'homepage',
-  color: {
-    name: '',
-    rgb: '',
-    hex: '',
-    hsl: ''
-  },
-  colors: [],
-  schemes: []
+  savedColors: [],
+  savedSchemes: []
 };
 
 var userColorData = localStorage.getItem('javascript-local-storage2');

@@ -22,6 +22,7 @@ main {
 
 .back-save-scheme-nav {
   align-items: flex-start;
+  margin-top: 1.5rem;
 }
 
 .column {
@@ -71,6 +72,7 @@ a:link {
   font-weight: 700;
 }
 
+.scheme-div,
 .data-color,
 .select-color,
 .select-random {
@@ -84,6 +86,15 @@ a:link {
   padding: 1.25rem 0;
 }
 
+.schemebox {
+  width: 60%;
+}
+
+.schemecolor {
+  height: 30px;
+  background-color: rgb(87, 87, 87);
+  border: none;
+}
 
 h2, .select-color {
   text-align: center;
@@ -111,6 +122,7 @@ form {
   border: none;
 }
 
+.scheme-div,
 .data-color {
   display: flex;
   flex-direction: column;
@@ -127,6 +139,7 @@ form {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
 }
 
+.scheme-data-color > p,
 .data-color > p {
   padding-top: 1rem;
   font-weight: 700;
@@ -145,14 +158,14 @@ i {
 }
 
 .back, .scheme,
-.current {
-  color: rgb(24, 24, 24);
+.currentIcon {
+  color: rgb(107, 107, 107);
 }
 
 .navigation {
   align-items: center;
   width: 100%;
-  background-color: rgb(24, 24, 24);
+  background-color: rgb(19, 19, 19);
   padding: 0 2rem;
 }
 
@@ -164,4 +177,19 @@ i {
   border-radius: 6px;
   padding: 0.5rem;
   margin: 1rem 0.5rem;
+}
+
+select {
+  margin-top: 1rem;
+  padding: 0.5rem 0.25rem;
+  border: 1px solid lightgray;
+  border-radius: 7px;
+  color: grey;
+}
+
+ol {
+  list-style-type: none;
+  margin-top: 2em;
+  margin-bottom: 1em;
+  padding: 0;
 }

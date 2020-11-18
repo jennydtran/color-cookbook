@@ -37,7 +37,7 @@
         <form class="form-color-picker">
           <label name="colorBox"><h2>Select a color</h2></label>
           <input name="colorBox" class="select-color-box" type="color" value="#000000">
-          <button class="row input-button" type="submit" data-view="color-data">Select</button>
+          <button class="row select input-button" type="button" data-view="color-data">Select</button>
         </form>
       </div>
       <div class="row or">
@@ -77,10 +77,49 @@
         <div class="column">
           <a href="#" data-view="scheme-page">
           <div class="container-icon" id="scheme-icon-container">
-            <i data-view="scheme-page" class="scheme icons fas fa-palette fa-3x"></i>
+            <i data-view="scheme-page" id="explore" class="scheme icons fas fa-palette fa-3x"></i>
           </div>
           </a>
           <p>EXPLORE<br><span>schemes with<br>this color</span></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="container scheme-page hidden" data-view="scheme-page">
+      <div class="row scheme-div">
+        <form class="scheme-form" action="">
+          <label for="schemes">
+            <h2>Scheme for <span class="scheme-color-name">ColorName</span></h2>
+          </label>
+          <select names="schemes" id="scheme-select">
+            <option value="monochrome">Monochrome</option>
+            <option value="monochrome-dark">Monochrome dark</option>
+            <option value="monochrome-light">Monochrome light</option>
+            <option value="analogic">Analogic</option>
+            <option value="analogic-complement">Analogic-Complement</option>
+            <option value="quad">Quad</option>
+          </select>
+        </form>
+        <div class="schemebox"><ol>
+          <li><a href="#"><div class="schemecolor color1"></div></a></li>
+          <li><a href="#"><div class="schemecolor color2"></div></a></li>
+          <li><a href="#"><div class="schemecolor color3"></div></a></li>
+          <li><a href="#"><div class="schemecolor color4"></div></a></li>
+          <li><a href="#"><div class="schemecolor color5"></div></a></li>
+        </ol></div>
+        <div class="scheme-data-color"><ol>
+          <li><p>Name: <span class="scheme-name text1">Name</span></p></li>
+          <li><p>Name: <span class="scheme-name text2">Name</span></p></li>
+          <li><p>Name: <span class="scheme-name text3">Name</span></p></li>
+          <li><p>Name: <span class="scheme-name text4">Name</span></p></li>
+          <li><p>Name: <span class="scheme-name text5">Name</span></p></li>
+        </ol></div>
+        <div class="column">
+          <a href="#" class="save">
+            <div class="container-icon save">
+              <i class="icons fas fa-heart fa-3x" id="saveScheme" type="submit"></i>
+            </div>
+          </a>
         </div>
       </div>
     </div>
