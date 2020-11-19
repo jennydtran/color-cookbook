@@ -17,7 +17,7 @@ main {
   width: 100%;
   height: 100%;
   padding-top: 2rem;
-  padding-bottom: 8rem;
+  padding-bottom: 7rem;
 }
 
 .column {
@@ -26,16 +26,24 @@ main {
 }
 
 #footer {
-  position: absolute;
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
 }
 
-.saved-colors-page,
+.row.or {
+  margin: 1rem 0;
+}
+
+.saved-colors-page {
+  justify-content: flex-start;
+  margin-bottom: 6rem;
+}
+
 .color-data-page,
 .picker-page {
-  justify-content: space-around;
+  justify-content: center;
 }
 
 .home {
@@ -48,23 +56,20 @@ main {
   justify-content: center;
 }
 
-@media screen and (min-width: 550px) {
-  main {
-    max-width: 550px;
+@media screen and (orientation: landscape) {
+  .saved-colors-page,
+  .color-data-page,
+  .picker-page {
+    justify-content: space-between;
+    margin-bottom: 13.5rem;
   }
+}
 
-  .container {
-    max-width: 550px;
+@media screen and (min-width: 1000px) {
+  .saved-colors-page,
+  .color-data-page,
+  .picker-page {
+    justify-content: center;
+    margin-bottom: 0;
   }
-
-  .container-icon {
-    padding: 0.5rem;
-    margin: 1rem 0.75rem;
-  }
-
-  .footer {
-    max-width: 700px;
-    padding: 0 5rem;
-  }
-
 }

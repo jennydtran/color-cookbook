@@ -3,6 +3,9 @@ var saveIcon = document.querySelectorAll('.fa-heart');
 var navIcon = document.querySelectorAll('.nav-icons');
 var colorSquareSolo = document.querySelector('.row-saved-colors');
 var schemesList = document.querySelector('.schemes-list');
+var error = document.querySelector('.div-error');
+var loading = document.querySelector('.div-loading');
+var main = document.querySelector('main');
 
 var colorData = {
   view: 'homepage',
@@ -101,6 +104,7 @@ document.addEventListener('click', function (event) {
     data.savedSchemes.push(newScheme);
     return;
   } else {
+    error.classList.add('hidden');
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
@@ -143,18 +147,35 @@ function upDateSelectColor() {
   }
 }
 
+function handleLoading(event) {
+  error.classList.add('hidden');
+  loading.classList.remove('hidden');
+  main.classList.add('avoid-clicks');
+}
+
+function handleError() {
+  loading.classList.add('hidden');
+  error.classList.remove('hidden');
+}
+
 function getColorCode(hex) {
   var selectedColor = new XMLHttpRequest();
   selectedColor.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
   selectedColor.responseType = 'json';
+  selectedColor.addEventListener('error', handleError);
+  selectedColor.addEventListener('loadstart', handleLoading);
   selectedColor.addEventListener('load', function () {
-    // console.log(selectedColor.status);
-    // console.log(selectedColor.response);
-    colorData.currentColor.name = selectedColor.response.name.value;
-    colorData.currentColor.rgb = selectedColor.response.rgb.value;
-    colorData.currentColor.hex = selectedColor.response.hex.value;
-    colorData.currentColor.hsl = selectedColor.response.hsl.value;
-    upDateSelectColor();
+    main.classList.remove('avoid-clicks');
+    loading.classList.add('hidden');
+    if (selectedColor.response.code === 400) {
+      handleError();
+    } else {
+      colorData.currentColor.name = selectedColor.response.name.value;
+      colorData.currentColor.rgb = selectedColor.response.rgb.value;
+      colorData.currentColor.hex = selectedColor.response.hex.value;
+      colorData.currentColor.hsl = selectedColor.response.hsl.value;
+      upDateSelectColor();
+    }
   });
   selectedColor.send();
 }
@@ -163,9 +184,11 @@ function getRandomColor() {
   var randomColor = new XMLHttpRequest();
   randomColor.open('GET', 'http://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
+  randomColor.addEventListener('error', handleError);
+  randomColor.addEventListener('loadstart', handleLoading);
   randomColor.addEventListener('load', function () {
-    // console.log(randomColor.status);
-    // console.log(randomColor.response);
+    main.classList.remove('avoid-clicks');
+    loading.classList.add('hidden');
     getColorCode(randomColor.response.new_color);
     upDateSelectColor();
   });
@@ -176,9 +199,11 @@ function getColorScheme(hex, scheme) {
   var colorScheme = new XMLHttpRequest();
   colorScheme.open('GET', 'http://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
+  colorScheme.addEventListener('error', handleError);
+  colorScheme.addEventListener('loadstart', handleLoading);
   colorScheme.addEventListener('load', function () {
-    // console.log(colorScheme.status);
-    // console.log(colorScheme.response);
+    main.classList.remove('avoid-clicks');
+    loading.classList.add('hidden');
     colorData.currentScheme.color = colorScheme.response.seed.name.value;
     colorData.currentScheme.scheme = colorScheme.response.mode;
     colorData.currentScheme.colors = colorScheme.response.colors;
