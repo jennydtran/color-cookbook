@@ -1,6 +1,8 @@
 var footer = document.querySelector('#footer');
 var saveIcon = document.querySelectorAll('.fa-heart');
 var navIcon = document.querySelectorAll('.nav-icons');
+var colorSquareSolo = document.querySelector('.row-saved-colors');
+var schemesList = document.querySelector('.schemes-list');
 
 var colorData = {
   view: 'homepage',
@@ -17,7 +19,6 @@ var colorData = {
   }
 };
 
-// ViewSwap function
 function viewSwapDataViews(dataView) {
   var divPageList = document.querySelectorAll('div[data-view]');
   colorData.view = dataView;
@@ -32,10 +33,10 @@ function viewSwapDataViews(dataView) {
     }
 
     for (var j = 0; j < navIcon.length; j++) {
-      if (dataView === navIcon[i].getAttribute('data-view')) {
-        navIcon[i].classList.add('currentIcon');
+      if (dataView === navIcon[j].getAttribute('data-view')) {
+        navIcon[j].classList.add('currentIcon');
       } else {
-        navIcon[i].classList.remove('currentIcon');
+        navIcon[j].classList.remove('currentIcon');
       }
     }
   }
@@ -43,43 +44,62 @@ function viewSwapDataViews(dataView) {
   if (dataView === 'homepage') {
     footer.classList.add('hidden');
   }
+
 }
 
-// eventListener for input color select
-var selectColorInput = document.forms[0].colorBox;
+var selectColorInput = document.querySelector('.form-color-picker');
 selectColorInput.addEventListener('input', function (event) {
-  var value = event.target.value;
-  colorData.currentColor.hex = value;
-  getColorCode(value.slice(1));
+  colorData.currentColor.hex = event.target.value.toUpperCase();
+  getColorCode(event.target.value.slice(1));
 });
 
-// eventListener for dropdown list for schemes
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
-  var value = event.target.value;
   var schemeDivColors = document.querySelectorAll('.schemecolor');
   if (event.target.value === undefined) {
     for (var i = 0; i < schemeDivColors.length; i++) {
       schemeDivColors[i].style.background = colorData.currentColor.hex;
     }
-  };
+  }
   colorData.currentScheme.color = colorData.currentColor.name;
   colorData.currentScheme.scheme = event.target.value;
-  getColorScheme(colorData.currentColor.hex.slice(1), value);
+  getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
-
 
 document.addEventListener('click', function (event) {
   if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && !event.target.matches('.schemecolor')) {
     return;
   }
 
-  if (event.target.matches('.schemecolor')) {
-    return false;
-  }
+  var newColor = {
+    name: colorData.currentColor.name,
+    rgb: colorData.currentColor.rgb,
+    hex: colorData.currentColor.hex,
+    hsl: colorData.currentColor.hsl
+  };
 
-  if (colorData.currentColor.name === '') {
+  var newScheme = {
+    color: colorData.currentScheme.color,
+    scheme: colorData.currentScheme.scheme,
+    colors: colorData.currentScheme.colors
+  };
+
+  if ((event.target.matches('.fa-palette') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
+  } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
+    getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
+    updateColorScheme();
+    viewSwapDataViews(event.target.getAttribute('data-view'));
+  } else if (event.target.id === 'saveColor') {
+    saveIcon[0].classList.add('heart-it');
+    colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
+    data.savedColors.push(newColor);
+    return;
+  } else if (event.target.id === 'saveScheme') {
+    saveIcon[1].classList.add('heart-it');
+    schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
+    data.savedSchemes.push(newScheme);
+    return;
   } else {
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
@@ -98,24 +118,6 @@ document.addEventListener('click', function (event) {
     getRandomColor();
     viewSwapDataViews('color-data');
   }
-
-  if (event.target.className === 'icons fas fa-heart fa-3x' ||
-  event.target.id === 'saveScheme') {
-    if (colorData.view === 'color-data') {
-      colorData.savedColors.push(colorData.currentColor);
-      saveIcon[0].classList.add('heart-it');
-    } else if (colorData.view === 'scheme-page') {
-      colorData.savedSchemes.push(colorData.currentScheme);
-      saveIcon[1].classList.add('heart-it');
-    }
-    return;
-  }
-
-  if (event.target.id === 'explore' || event.target.matches('.fa-palette')) {
-    updateColorScheme();
-    getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
-  }
-
 });
 
 function upDateSelectColor() {
@@ -132,6 +134,13 @@ function upDateSelectColor() {
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
 
+  if (data.savedColors.length !== 0) {
+    if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
+      saveIcon[0].classList.remove('heart-it');
+    } else {
+      saveIcon[0].classList.add('heart-it');
+    }
+  }
 }
 
 function getColorCode(hex) {
@@ -139,25 +148,24 @@ function getColorCode(hex) {
   selectedColor.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
   selectedColor.responseType = 'json';
   selectedColor.addEventListener('load', function () {
-    console.log(selectedColor.status);
-    console.log(selectedColor.response);
+    // console.log(selectedColor.status);
+    // console.log(selectedColor.response);
     colorData.currentColor.name = selectedColor.response.name.value;
     colorData.currentColor.rgb = selectedColor.response.rgb.value;
     colorData.currentColor.hex = selectedColor.response.hex.value;
     colorData.currentColor.hsl = selectedColor.response.hsl.value;
     upDateSelectColor();
-    updateColorScheme();
   });
   selectedColor.send();
 }
 
 function getRandomColor() {
   var randomColor = new XMLHttpRequest();
-  randomColor.open('GET', 'http://www.colr.org/json/color/random');
+  randomColor.open('GET', 'http://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
   randomColor.addEventListener('load', function () {
-    console.log(randomColor.status);
-    console.log(randomColor.response);
+    // console.log(randomColor.status);
+    // console.log(randomColor.response);
     getColorCode(randomColor.response.new_color);
     upDateSelectColor();
   });
@@ -169,8 +177,10 @@ function getColorScheme(hex, scheme) {
   colorScheme.open('GET', 'http://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
   colorScheme.addEventListener('load', function () {
-    console.log(colorScheme.status);
-    console.log(colorScheme.response.colors);
+    // console.log(colorScheme.status);
+    // console.log(colorScheme.response);
+    colorData.currentScheme.color = colorScheme.response.seed.name.value;
+    colorData.currentScheme.scheme = colorScheme.response.mode;
     colorData.currentScheme.colors = colorScheme.response.colors;
     updateColorScheme();
   });
@@ -191,4 +201,85 @@ function updateColorScheme() {
     schemeDivColors[i].style.background = colorData.currentScheme.colors[i].hex.value;
     schemeNameTexts[i].textContent = colorData.currentScheme.colors[i].name.value;
   }
+
+  if (data.savedSchemes.length !== 0) {
+    if (colorData.currentScheme.color !== data.savedSchemes[data.savedSchemes.length - 1].color || colorData.currentScheme.scheme !== data.savedSchemes[data.savedSchemes.length - 1].scheme) {
+      saveIcon[1].classList.remove('heart-it');
+    } else {
+      saveIcon[1].classList.add('heart-it');
+    }
+  }
 }
+
+function colorSavedDOM(data) {
+  var li = document.createElement('li');
+
+  var div = document.createElement('div');
+  div.setAttribute('class', 'color-square solo');
+  li.appendChild(div);
+
+  div.style.background = data;
+
+  return li;
+}
+
+function schemeSavedDOM(scheme) {
+  var schemeItem = document.createElement('li');
+  schemeItem.setAttribute('class', 'row scheme-item');
+
+  var ol = document.createElement('ol');
+  ol.setAttribute('class', 'row-scheme-colors');
+  schemeItem.appendChild(ol);
+
+  var li1 = document.createElement('li');
+  li1.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li1);
+  var li2 = document.createElement('li');
+  li2.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li2);
+  var li3 = document.createElement('li');
+  li3.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li3);
+  var li4 = document.createElement('li');
+  li4.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li4);
+  var li5 = document.createElement('li');
+  li5.setAttribute('class', 'colorbook-scheme-list');
+  ol.appendChild(li5);
+
+  var div1 = document.createElement('div');
+  div1.setAttribute('class', 'color-square');
+  li1.appendChild(div1);
+  var div2 = document.createElement('div');
+  div2.setAttribute('class', 'color-square');
+  li2.appendChild(div2);
+  var div3 = document.createElement('div');
+  div3.setAttribute('class', 'color-square');
+  li3.appendChild(div3);
+  var div4 = document.createElement('div');
+  div4.setAttribute('class', 'color-square');
+  li4.appendChild(div4);
+  var div5 = document.createElement('div');
+  div5.setAttribute('class', 'color-square');
+  li5.appendChild(div5);
+
+  if (data.savedSchemes.length !== 0) {
+    div1.style.background = scheme.colors[0].hex.value;
+    div2.style.background = scheme.colors[1].hex.value;
+    div3.style.background = scheme.colors[2].hex.value;
+    div4.style.background = scheme.colors[3].hex.value;
+    div5.style.background = scheme.colors[4].hex.value;
+  }
+  return schemeItem;
+}
+
+document.addEventListener('DOMContentLoaded', function (event) {
+  for (var i = 0; i < data.savedColors.length; i++) {
+    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+  }
+  if (data.savedSchemes.length !== 0) {
+    for (var j = 0; j < data.savedSchemes.length; j++) {
+      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+    }
+  }
+});

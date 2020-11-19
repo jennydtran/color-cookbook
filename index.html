@@ -53,9 +53,9 @@
       <div class="data-color">
         <h2 class="color-name">ColorName</h2>
         <div class="data-color-box"></div>
-        <p>RGB: <span class='rgb-text'>(0,0,0)</span></p>
-        <p>HEX: <span class='hex-text'>#000000</span></p>
-        <p>HSL: <span class='hsl-text'>(0,0,0)</span></p>
+        <p>RGB: <span class="rgb-text">(0,0,0)</span></p>
+        <p>HEX: <span class="hex-text">#000000</span></p>
+        <p>HSL: <span class="hsl-text">(0,0,0)</span></p>
       </div>
       <div class="row back-save-scheme-nav">
         <div class="column">
@@ -69,7 +69,7 @@
         <div class="column">
           <a href="#" class="save">
             <div class="container-icon save">
-              <i class="icons fas fa-heart fa-3x" id="save" type="submit"></i>
+              <i class="icons fas fa-heart fa-3x" id="saveColor" type="submit"></i>
             </div>
           </a>
           <p>SAVE<br><span>to color book</span></p>
@@ -92,7 +92,7 @@
             <h2>Scheme for <span class="scheme-color-name">ColorName</span></h2>
           </label>
           <select names="schemes" id="scheme-select">
-            <option value="monochrome">Monochrome</option>
+            <option value="monochrome" selected>Monochrome</option>
             <option value="monochrome-dark">Monochrome dark</option>
             <option value="monochrome-light">Monochrome light</option>
             <option value="analogic">Analogic</option>
@@ -121,6 +121,23 @@
             </div>
           </a>
         </div>
+      </div>
+    </div>
+
+    <div class="container saved-colors-page hidden" data-view="saved-colors-page">
+      <div class="select-color">
+        <div class="color-book-title">
+          <h2 class="color-book-title">Colorbook</h2>
+        </div>
+        <section class="saved-colors">
+          <h3 class="color-book-subtitle">Colors</h3>
+            <ol class="row-saved-colors"></ol>
+        </section>
+        <section class="saved-schemes">
+          <h3 class="color-book-subtitle">Schemes</h3>
+            <ol class="schemes-list">
+            </ol>
+        </section>
       </div>
     </div>
 

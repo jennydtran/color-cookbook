@@ -159,7 +159,7 @@ i {
 
 .back, .scheme,
 .currentIcon {
-  color: rgb(107, 107, 107);
+  color: rgb(65, 65, 65);
 }
 
 .navigation {
@@ -192,4 +192,47 @@ ol {
   margin-top: 2em;
   margin-bottom: 1em;
   padding: 0;
+}
+
+.color-square {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+}
+
+.solo {
+  border-radius: 2px;
+  margin: 0.15rem;
+}
+
+.row-saved-colors,
+.row-scheme-colors {
+  display: flex;
+  margin: 0 1rem;
+}
+
+section {
+  padding: 0 1rem;
+}
+
+.saved-colors {
+  margin-bottom: 1.5rem;
+}
+
+.color-book-subtitle {
+  text-align: left;
+  padding-left: 0.5rem;
+}
+
+.row-saved-colors,
+.schemes-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.scheme-item {
+  align-self: center;
+  margin-bottom: 1rem;
 }
