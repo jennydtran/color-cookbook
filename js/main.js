@@ -184,7 +184,7 @@ function getColorCode(hex) {
 
 function getRandomColor() {
   var randomColor = new XMLHttpRequest();
-  randomColor.open('GET', 'https://www.colr.org/json/color/random?time=' + Date.now());
+  randomColor.open('GET', 'https://api.codetabs.com/v1/proxy?quest=https://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
   randomColor.addEventListener('error', handleError);
   randomColor.addEventListener('loadstart', handleLoading);
