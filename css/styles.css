@@ -2,10 +2,25 @@ body {
   font-family: 'Raleway', sans-serif;
   font-size: 12px;
   font-weight: 400;
+  background: url("../images/Background.svg") repeat fixed center;
 }
 
-main {
-  background: url("../images/Background.svg") repeat fixed center;
+.avoid-clicks {
+  pointer-events: none;
+}
+
+.div-loading,
+.div-error {
+  position: absolute;
+  align-items: center;
+  color: rgb(134, 134, 134);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 7px;
+  padding: 0.75rem;
+  background-color: rgba(255, 255, 255, 0.664);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
 }
 
 .back-save-scheme-nav,
@@ -15,7 +30,7 @@ main {
   align-items: center;
   background-color: white;
   text-align: center;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 10px;
   padding: 1rem 3.5rem;
 }
@@ -29,8 +44,13 @@ main {
   margin: 0 1rem;
 }
 
-h1, p {
+h1,
+p {
   margin: 0;
+}
+
+.div-error > p {
+  color: rgb(228, 46, 46);
 }
 
 .home-color {
@@ -45,7 +65,7 @@ h1, p {
   font-size: 2.9rem;
   line-height: 1.5rem;
   text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
-  padding-bottom: 2rem
+  padding-bottom: 2rem;
 }
 
 .button-getcookin {
@@ -67,8 +87,10 @@ button,
 
 a:hover,
 a:focus,
-a:link {
+a:link,
+button:focus {
   text-decoration: none;
+  outline: none;
   font-weight: 700;
 }
 
@@ -80,7 +102,7 @@ a:link {
   display: flex;
   flex-direction: column;
   background-color: white;
-  border: 1px solid #dddddd;
+  border: 1px solid #ddd;
   border-radius: 10px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   padding: 1.25rem 0;
@@ -96,7 +118,8 @@ a:link {
   border: none;
 }
 
-h2, .select-color {
+h2,
+.select-color {
   text-align: center;
   margin: 0;
 }
@@ -157,7 +180,8 @@ i {
   color: rgb(230, 91, 91);
 }
 
-.back, .scheme,
+.back,
+.scheme,
 .currentIcon {
   color: rgb(65, 65, 65);
 }
@@ -235,4 +259,18 @@ section {
 .scheme-item {
   align-self: center;
   margin-bottom: 1rem;
+}
+
+a:hover,
+i:hover,
+.button-getcookin:hover,
+button:hover {
+  transition: transform 0.3s;
+  transform: scale(1.02);
+}
+
+i:active,
+.button-getcookin:active,
+button:active {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.733);
 }
