@@ -70,7 +70,7 @@ schemeInput.addEventListener('input', function (event) {
 });
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && !event.target.matches('.schemecolor')) {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I') {
     return;
   }
 
@@ -105,6 +105,7 @@ document.addEventListener('click', function (event) {
     return;
   } else {
     error.classList.add('hidden');
+    main.classList.remove('avoid-clicks');
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
@@ -154,9 +155,9 @@ function handleLoading(event) {
 }
 
 function handleError() {
+  main.classList.remove('avoid-clicks');
   loading.classList.add('hidden');
   error.classList.remove('hidden');
-  main.classList.remove('avoid-clicks');
 }
 
 function getColorCode(hex) {
