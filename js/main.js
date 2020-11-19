@@ -19,7 +19,6 @@ var colorData = {
   }
 };
 
-// ViewSwap function
 function viewSwapDataViews(dataView) {
   var divPageList = document.querySelectorAll('div[data-view]');
   colorData.view = dataView;
@@ -45,20 +44,17 @@ function viewSwapDataViews(dataView) {
   if (dataView === 'homepage') {
     footer.classList.add('hidden');
   }
+
 }
 
-// eventListener for input color select
-var selectColorInput = document.forms[0].colorBox;
+var selectColorInput = document.querySelector('.form-color-picker');
 selectColorInput.addEventListener('input', function (event) {
-  var value = event.target.value;
-  colorData.currentColor.hex = value;
-  getColorCode(value.slice(1));
+  colorData.currentColor.hex = event.target.value.toUpperCase();
+  getColorCode(event.target.value.slice(1));
 });
 
-// eventListener for dropdown list for schemes
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
-  var value = event.target.value;
   var schemeDivColors = document.querySelectorAll('.schemecolor');
   if (event.target.value === undefined) {
     for (var i = 0; i < schemeDivColors.length; i++) {
@@ -67,7 +63,7 @@ schemeInput.addEventListener('input', function (event) {
   }
   colorData.currentScheme.color = colorData.currentColor.name;
   colorData.currentScheme.scheme = event.target.value;
-  getColorScheme(colorData.currentColor.hex.slice(1), value);
+  getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
 
 document.addEventListener('click', function (event) {
@@ -75,25 +71,35 @@ document.addEventListener('click', function (event) {
     return;
   }
 
-  if (event.target.matches('.schemecolor')) {
-    return false;
-  }
+  var newColor = {
+    name: colorData.currentColor.name,
+    rgb: colorData.currentColor.rgb,
+    hex: colorData.currentColor.hex,
+    hsl: colorData.currentColor.hsl
+  };
 
-  if (event.target.className === 'icons fas fa-heart fa-3x' || event.target.id === 'saveScheme') {
-    if (colorData.view === 'color-data') {
-      data.savedColors.push(colorData.currentColor);
-      saveIcon[0].classList.add('heart-it');
-      colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
-    } else if (colorData.view === 'scheme-page') {
-      data.savedSchemes.push(colorData.currentScheme);
-      saveIcon[1].classList.add('heart-it');
-      schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
-    }
-    return;
-  }
+  var newScheme = {
+    color: colorData.currentScheme.color,
+    scheme: colorData.currentScheme.scheme,
+    colors: colorData.currentScheme.colors
+  };
 
-  if (colorData.currentColor.name === '' && data.savedSchemes.length === [] && data.savedColors.length === []) {
+  if ((event.target.matches('.fa-palette') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
+  } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
+    getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
+    updateColorScheme();
+    viewSwapDataViews(event.target.getAttribute('data-view'));
+  } else if (event.target.id === 'saveColor') {
+    saveIcon[0].classList.add('heart-it');
+    colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
+    data.savedColors.push(newColor);
+    return;
+  } else if (event.target.id === 'saveScheme') {
+    saveIcon[1].classList.add('heart-it');
+    schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
+    data.savedSchemes.push(newScheme);
+    return;
   } else {
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
@@ -112,12 +118,6 @@ document.addEventListener('click', function (event) {
     getRandomColor();
     viewSwapDataViews('color-data');
   }
-
-  if (event.target.id === 'explore' || event.target.matches('.fa-palette')) {
-    updateColorScheme();
-    getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
-  }
-
 });
 
 function upDateSelectColor() {
@@ -134,6 +134,13 @@ function upDateSelectColor() {
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
 
+  if (data.savedColors.length !== 0) {
+    if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
+      saveIcon[0].classList.remove('heart-it');
+    } else {
+      saveIcon[0].classList.add('heart-it');
+    }
+  }
 }
 
 function getColorCode(hex) {
@@ -141,14 +148,13 @@ function getColorCode(hex) {
   selectedColor.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
   selectedColor.responseType = 'json';
   selectedColor.addEventListener('load', function () {
-    console.log(selectedColor.status);
-    console.log(selectedColor.response);
+    // console.log(selectedColor.status);
+    // console.log(selectedColor.response);
     colorData.currentColor.name = selectedColor.response.name.value;
     colorData.currentColor.rgb = selectedColor.response.rgb.value;
     colorData.currentColor.hex = selectedColor.response.hex.value;
     colorData.currentColor.hsl = selectedColor.response.hsl.value;
     upDateSelectColor();
-    updateColorScheme();
   });
   selectedColor.send();
 }
@@ -158,8 +164,8 @@ function getRandomColor() {
   randomColor.open('GET', 'http://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
   randomColor.addEventListener('load', function () {
-    console.log(randomColor.status);
-    console.log(randomColor.response);
+    // console.log(randomColor.status);
+    // console.log(randomColor.response);
     getColorCode(randomColor.response.new_color);
     upDateSelectColor();
   });
@@ -171,8 +177,10 @@ function getColorScheme(hex, scheme) {
   colorScheme.open('GET', 'http://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
   colorScheme.addEventListener('load', function () {
-    console.log(colorScheme.status);
-    console.log(colorScheme.response.colors);
+    // console.log(colorScheme.status);
+    // console.log(colorScheme.response);
+    colorData.currentScheme.color = colorScheme.response.seed.name.value;
+    colorData.currentScheme.scheme = colorScheme.response.mode;
     colorData.currentScheme.colors = colorScheme.response.colors;
     updateColorScheme();
   });
@@ -193,9 +201,16 @@ function updateColorScheme() {
     schemeDivColors[i].style.background = colorData.currentScheme.colors[i].hex.value;
     schemeNameTexts[i].textContent = colorData.currentScheme.colors[i].name.value;
   }
+
+  if (data.savedSchemes.length !== 0) {
+    if (colorData.currentScheme.color !== data.savedSchemes[data.savedSchemes.length - 1].color || colorData.currentScheme.scheme !== data.savedSchemes[data.savedSchemes.length - 1].scheme) {
+      saveIcon[1].classList.remove('heart-it');
+    } else {
+      saveIcon[1].classList.add('heart-it');
+    }
+  }
 }
 
-// functions to render a DOM tree for data model
 function colorSavedDOM(data) {
   var li = document.createElement('li');
 
@@ -248,22 +263,23 @@ function schemeSavedDOM(scheme) {
   div5.setAttribute('class', 'color-square');
   li5.appendChild(div5);
 
-  div1.style.background = scheme.colors[0].hex.value;
-  div2.style.background = scheme.colors[1].hex.value;
-  div3.style.background = scheme.colors[2].hex.value;
-  div4.style.background = scheme.colors[3].hex.value;
-  div5.style.background = scheme.colors[4].hex.value;
-
+  if (data.savedSchemes.length !== 0) {
+    div1.style.background = scheme.colors[0].hex.value;
+    div2.style.background = scheme.colors[1].hex.value;
+    div3.style.background = scheme.colors[2].hex.value;
+    div4.style.background = scheme.colors[3].hex.value;
+    div5.style.background = scheme.colors[4].hex.value;
+  }
   return schemeItem;
 }
 
-// eventListener for DOMContentLoaded; append entry data model to page
 document.addEventListener('DOMContentLoaded', function (event) {
   for (var i = 0; i < data.savedColors.length; i++) {
     colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
   }
-
-  for (var j = 0; j < data.savedSchemes.length; j++) {
-    schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+  if (data.savedSchemes.length !== 0) {
+    for (var j = 0; j < data.savedSchemes.length; j++) {
+      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+    }
   }
 });
