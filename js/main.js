@@ -156,6 +156,7 @@ function handleLoading(event) {
 function handleError() {
   loading.classList.add('hidden');
   error.classList.remove('hidden');
+  main.classList.remove('avoid-clicks');
 }
 
 function getColorCode(hex) {
@@ -182,7 +183,7 @@ function getColorCode(hex) {
 
 function getRandomColor() {
   var randomColor = new XMLHttpRequest();
-  randomColor.open('GET', 'https://www.colr.org/json/color/random?time=' + Date.now());
+  randomColor.open('GET', 'http://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
   randomColor.addEventListener('error', handleError);
   randomColor.addEventListener('loadstart', handleLoading);
@@ -197,7 +198,7 @@ function getRandomColor() {
 
 function getColorScheme(hex, scheme) {
   var colorScheme = new XMLHttpRequest();
-  colorScheme.open('GET', 'https://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
+  colorScheme.open('GET', 'http://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
   colorScheme.addEventListener('error', handleError);
   colorScheme.addEventListener('loadstart', handleLoading);
