@@ -1,7 +1,7 @@
-# Color Cookbook
+# COLOR Cookbook
 
 ## About the App
-Color Cookbook is an application for anyone who wants to be able to save colors, color schemes, or create custom color schemes for a project to reference later on.
+COLOR Cookbook is an application for anyone who wants to be able to save colors, color schemes, or create custom color schemes for a project to reference later on.
 
 ## Demo
 Try the application here: https://jennydtran.github.io/ajax-project/
