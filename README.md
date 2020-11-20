@@ -12,8 +12,10 @@ Color Cookbook is an application for anyone who wants to be able to save colors,
 
 ## Preview
 <img src="images/preview1.png" width="250">
-<img src="images/preview2.png" width="250"><img src="images/preview3.png" width="250">
-<img src="images/preview4.png" width="250"><img src="images/preview5.png" width="250">
+<img src="images/preview2.png" width="250">
+<img src="images/preview3.png" width="250">
+<img src="images/preview4.png" width="250">
+<img src="images/preview5.png" width="250">
 
 ## Planned Additions
 * Users should be able to click on saved colors and schemes to access the information of the colors.
