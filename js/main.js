@@ -6,6 +6,7 @@ var schemesList = document.querySelector('.schemes-list');
 var error = document.querySelector('.div-error');
 var loading = document.querySelector('.div-loading');
 var main = document.querySelector('main');
+var palette = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
 var colorData = {
   view: 'homepage',
@@ -87,7 +88,7 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  if ((event.target.matches('.fa-palette') || event.target.id === 'explore') && colorData.currentColor.name === '') {
+  if ((event.target.matches('.fa-palette') || event.target === palette.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
   } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
