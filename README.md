@@ -3,7 +3,8 @@
 ## About the App
 Color Cookbook is an application for anyone who wants to be able to save colors, color schemes, or create custom color schemes for a project to reference later on.
 
-
+## Demo
+Try the application here: https://jennydtran.github.io/ajax-project/
 ## Current Features
 1. Users can select a color of choice and useful information about the colored will be displayed (information such as the name, HEX, RGB or HSL value of hte color). Let's just say, what if the user doesn't have a color in mind? The app will display a random color for the user if they choose to select a randomly.
 2. Users can view different color schemes of the color of their choice. Color schemes include monochrome, monochrome dark/light, analogic, analogic-complement, and quad.
