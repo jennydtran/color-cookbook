@@ -22,10 +22,18 @@ var colorData = {
     colors: []
   }
 };
+console.log(colorData)
+window.onhashchange = viewSwapDataViews;
 
 function viewSwapDataViews(dataView) {
-  var divPageList = document.querySelectorAll('div[data-view]');
+  var theHash = window.location.hash;
+  if (theHash === '' || theHash === '#') {
+    dataView = 'homepage';
+  } else {
+    dataView = theHash.slice(1);
+  }
   colorData.view = dataView;
+  var divPageList = document.querySelectorAll('div[data-view]');
 
   for (var i = 0; i < divPageList.length; i++) {
     var divPage = divPageList[i];
