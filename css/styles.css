@@ -74,15 +74,17 @@ p {
   right: 1rem;
 }
 
-button,
-.button {
-  color: white;
-  font-weight: 700;
+button {
   background-color: #ff7878;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   padding: 0.75rem 1rem;
   border: 0;
+}
+
+.link {
+  color: white;
+  font-weight: 700;
 }
 
 a:hover,
@@ -106,6 +108,10 @@ button:focus {
   border-radius: 10px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   padding: 1.25rem 0;
+}
+
+.select-random {
+  align-items: center;
 }
 
 .schemebox {
