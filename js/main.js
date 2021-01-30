@@ -79,7 +79,7 @@ schemeInput.addEventListener('input', function (event) {
 });
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I') {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN') {
     return;
   }
 
