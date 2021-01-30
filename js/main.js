@@ -9,7 +9,7 @@ var main = document.querySelector('main');
 var palette = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
 var colorData = {
-  view: 'homepage',
+  view: window.location.hash.slice(1),
   currentColor: {
     name: '',
     rgb: '',
@@ -118,7 +118,7 @@ document.addEventListener('click', function (event) {
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
-  if (event.target.className === 'row select input-button') {
+  if (event.target.className.includes('select')) {
     var colorValue = colorData.currentColor.hex.slice(1, 7);
     if (colorData.currentColor.name === '') {
       getColorCode('000000');
@@ -128,7 +128,7 @@ document.addEventListener('click', function (event) {
     viewSwapDataViews('color-data');
   }
 
-  if (event.target.className === 'random input-button') {
+  if (event.target.className.includes('random')) {
     getRandomColor();
     viewSwapDataViews('color-data');
   }
@@ -310,6 +310,7 @@ function schemeSavedDOM(scheme) {
 }
 
 document.addEventListener('DOMContentLoaded', function (event) {
+  viewSwapDataViews();
   for (var i = 0; i < data.savedColors.length; i++) {
     colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
   }

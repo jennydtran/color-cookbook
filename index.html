@@ -49,7 +49,11 @@
           <label name="colorBox"><h2>Select a color</h2></label>
           <p>from the box below</p>
           <input name="colorBox" class="select-color-box" type="color" value="#000000">
-          <button class="row select input-button" type="button" data-view="color-data">Select</button>
+          <a href="#color-data">
+            <button class="row select input-button" type="button" data-view="color-data">
+              <span class="select link">Select</span>
+            </button>
+          </a>
         </form>
       </div>
       <div class="row or">
@@ -57,7 +61,11 @@
       </div>
       <div class="row select-random">
         <h2>Get inspired with<br />a random color!</h2>
-        <button class="random input-button" type="button" data-view="color-data">Random</button>
+        <a href="#color-data">
+          <button class="random input-button" type="button" data-view="color-data">
+            <span class="random link">Random</span>
+          </button>
+        </a>
       </div>
     </div>
 
@@ -155,17 +163,17 @@
 
     <div class="hidden" id="footer">
       <div class="row navigation">
-          <a href="#" data-view="picker-page">
+          <a href="#picker-page" data-view="picker-page">
             <div class="container-icon" >
               <i data-view="picker-page" class="nav-icons fas fa-eye-dropper fa-3x"></i>
             </div>
           </a>
-          <a href="#" data-view="scheme-page">
+          <a href="#scheme-page" data-view="scheme-page">
             <div class="container-icon">
               <i data-view="scheme-page" class="nav-icons fas fa-palette fa-3x"></i>
             </div>
           </a>
-          <a href="#" data-view="saved-colors-page">
+          <a href="#saved-colors-page" data-view="saved-colors-page">
             <div class="container-icon">
               <i data-view="saved-colors-page" class="nav-icons fas fa-book-open fa-3x"></i>
             </div>

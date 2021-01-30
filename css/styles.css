@@ -110,6 +110,10 @@ button:focus {
   padding: 1.25rem 0;
 }
 
+.select-random {
+  align-items: center;
+}
+
 .schemebox {
   width: 60%;
 }
