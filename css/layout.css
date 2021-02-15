@@ -57,6 +57,11 @@ main {
 }
 
 @media screen and (orientation: landscape) {
+  .container.home {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+
   .saved-colors-page,
   .color-data-page,
   .picker-page {
@@ -69,7 +74,7 @@ main {
   .saved-colors-page,
   .color-data-page,
   .picker-page {
-    justify-content: center;
+    justify-content: space-between;
     margin-bottom: 0;
   }
 }
