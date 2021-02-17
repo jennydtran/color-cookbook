@@ -44,12 +44,14 @@ main {
 }
 
 .color-data-page,
-.picker-page {
+.picker-page,
+.home {
   justify-content: center;
 }
 
 .home {
-  justify-content: space-around;
+  height: 100vh;
+  justify-content: center;
 }
 
 .row {
