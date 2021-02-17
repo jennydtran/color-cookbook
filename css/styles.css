@@ -35,6 +35,11 @@ body {
   padding: 1rem 3.5rem;
 }
 
+.home > div,
+.button-getcookin {
+  margin: 1rem 0;
+}
+
 .back-save-scheme-nav {
   align-items: flex-start;
   margin-top: 1.5rem;
@@ -69,7 +74,7 @@ p {
 }
 
 button {
-  background-color: #ff7878;
+  background-color: #1a1a1a;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
   border-radius: 6px;
   padding: 0.75rem 1rem;
@@ -104,8 +109,13 @@ button:focus {
   padding: 1.25rem 0;
 }
 
+.select-color,
 .select-random {
   align-items: center;
+}
+
+.IroSlider {
+  margin: 0 auto;
 }
 
 .schemebox {
@@ -118,7 +128,7 @@ button:focus {
   border: none;
 }
 
-h2,
+
 .select-color {
   text-align: center;
   margin: 0;

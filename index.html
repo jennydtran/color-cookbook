@@ -27,7 +27,7 @@
     <div class="row div-error hidden">
       <p>Poor connection. Try again.</p>
     </div>
-    
+
     <div class="container home" data-view="homepage">
       <div class="row app-title">
         <div class="title">
@@ -47,16 +47,13 @@
 
     <div class="container picker-page hidden" data-view="picker-page">
       <div class="row select-color">
-        <form class="form-color-picker">
-          <label name="colorBox"><h2>Select a color</h2></label>
-          <p>from the box below</p>
-          <input name="colorBox" class="select-color-box" type="color" value="#000000">
-          <a href="#color-data">
-            <button class="row select input-button" type="button" data-view="color-data">
-              <span class="select link">Select</span>
-            </button>
-          </a>
-        </form>
+        <label name="colorBox"><h2>Select a color</h2></label>
+        <div id="picker"></div>
+        <a href="#color-data">
+          <button class="row select input-button" type="button" data-view="color-data">
+            <span class="select link">Select</span>
+          </button>
+        </a>
       </div>
       <div class="row or">
         <h2>OR</h2>
@@ -183,6 +180,7 @@
       </div>
     </div>
   </main>
+  <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
