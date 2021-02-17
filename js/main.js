@@ -8,6 +8,33 @@ var loading = document.querySelector('.div-loading');
 var main = document.querySelector('main');
 var palette = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
+var colorPicker = new iro.ColorPicker('#picker', {
+  color: '#f00',
+  borderWidth: 1.5,
+  margin: 10,
+  layout: [
+    {
+      component: iro.ui.Wheel,
+      options: {
+        borderColor: '#bbb',
+        width: 250
+      }
+    },
+    {
+      component: iro.ui.Slider,
+      options: {
+        borderColor: '',
+        width: 200
+      }
+    }
+  ]
+});
+
+colorPicker.on('input:end', function (color) {
+  colorData.currentColor.hex = color.hexString.toUpperCase();
+  getColorCode(color.hexString.slice(1));
+});
+
 var colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
@@ -22,7 +49,7 @@ var colorData = {
     colors: []
   }
 };
-console.log(colorData)
+
 window.onhashchange = viewSwapDataViews;
 
 function viewSwapDataViews(dataView) {
@@ -58,12 +85,6 @@ function viewSwapDataViews(dataView) {
   }
 
 }
-
-var selectColorInput = document.querySelector('.form-color-picker');
-selectColorInput.addEventListener('input', function (event) {
-  colorData.currentColor.hex = event.target.value.toUpperCase();
-  getColorCode(event.target.value.slice(1));
-});
 
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
