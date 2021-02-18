@@ -52,11 +52,21 @@ body {
 .options-wrapper {
   width: 90%;
   height: 80%;
+  overflow-x: hidden;
 }
 
 .options {
   position: relative;
+  margin: 0 auto;
+  width: 70%;
 }
+
+.options,
+.options-item-container,
+.option-item {
+  height:300px;
+}
+
 .options .options-item-container {
     background-size:cover;
     display:none;
@@ -66,11 +76,7 @@ body {
     width:100%;
     position:inherit;
 }
-.options,
-.options-item-container,
-.option-item {
-    height:300px;
-}
+
 .options .options-item-container.active {
     display:block;
     z-index:3;
@@ -78,9 +84,9 @@ body {
 
 .options .options-item-container.left,
 .options .options-item-container.right {
-    display:block;
+    display: block;
     z-index:1;
-    position:absolute;
+    position: absolute;
     opacity:0.3;
     -ms-transform:scale(.75); /* IE 9 */
     -webkit-transform:scale(.75); /* Chrome, Safari, Opera */
