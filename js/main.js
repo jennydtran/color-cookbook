@@ -1,41 +1,19 @@
-var footer = document.querySelector('#footer');
-var saveIcon = document.querySelectorAll('.fa-heart');
-var navIcon = document.querySelectorAll('.nav-icons');
-var colorSquareSolo = document.querySelector('.row-saved-colors');
-var schemesList = document.querySelector('.schemes-list');
-var error = document.querySelector('.div-error');
-var loading = document.querySelector('.div-loading');
-var main = document.querySelector('main');
-var palette = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
-var colorPicker = new iro.ColorPicker('#picker', {
-  color: '#f00',
-  borderWidth: 1.5,
-  margin: 10,
-  layout: [
-    {
-      component: iro.ui.Wheel,
-      options: {
-        borderColor: '#bbb',
-        width: 250
-      }
-    },
-    {
-      component: iro.ui.Slider,
-      options: {
-        borderColor: '',
-        width: 200
-      }
-    }
-  ]
-});
+const error = document.querySelector('.div-error');
+const loading = document.querySelector('.div-loading');
 
-colorPicker.on('input:end', function (color) {
-  colorData.currentColor.hex = color.hexString.toUpperCase();
-  getColorCode(color.hexString.slice(1));
-});
+const saveIcon = document.querySelectorAll('.fa-heart');
+const navIcon = document.querySelectorAll('.nav-icons');
+const paletteIcon = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
-var colorData = {
+const main = document.querySelector('main');
+const footer = document.querySelector('#footer');
+
+const colorSquareSolo = document.querySelector('.row-saved-colors');
+const schemesList = document.querySelector('.schemes-list');
+const currentColorField = document.querySelector('#current-color-field');
+
+const colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
     name: '',
@@ -49,6 +27,24 @@ var colorData = {
     colors: []
   }
 };
+
+document.addEventListener('DOMContentLoaded', function (event) {
+  viewSwapDataViews();
+
+  if (!colorData.currentColor.name) {
+    currentColorField.style.background = '#f00';
+  }
+
+  for (var i = 0; i < data.savedColors.length; i++) {
+    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+  }
+  if (data.savedSchemes.length !== 0) {
+    for (var j = 0; j < data.savedSchemes.length; j++) {
+      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+    }
+  }
+
+});
 
 window.onhashchange = viewSwapDataViews;
 
@@ -83,8 +79,35 @@ function viewSwapDataViews(dataView) {
   if (dataView === 'homepage') {
     footer.classList.add('hidden');
   }
-
 }
+
+const colorPicker = new iro.ColorPicker('#picker', {
+  color: '#f00',
+  borderWidth: 1.5,
+  margin: 10,
+  layout: [
+    {
+      component: iro.ui.Wheel,
+      options: {
+        borderColor: '#bbb',
+        width: 225
+      }
+    },
+    {
+      component: iro.ui.Slider,
+      options: {
+        borderColor: '',
+        width: 200
+      }
+    }
+  ]
+});
+
+colorPicker.on('input:end', function (color) {
+  colorData.currentColor.hex = color.hexString.toUpperCase();
+  currentColorField.style.background = color.hexString;
+  getColorCode(color.hexString.slice(1));
+});
 
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
@@ -117,7 +140,7 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  if ((event.target.matches('.fa-palette') || event.target === palette.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
+  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
   } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
@@ -168,6 +191,7 @@ function upDateSelectColor() {
 
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
+  currentColorField.style.background = colorData.currentColor.hex;
 
   if (data.savedColors.length !== 0) {
     if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
@@ -329,15 +353,3 @@ function schemeSavedDOM(scheme) {
   }
   return schemeItem;
 }
-
-document.addEventListener('DOMContentLoaded', function (event) {
-  viewSwapDataViews();
-  for (var i = 0; i < data.savedColors.length; i++) {
-    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
-  }
-  if (data.savedSchemes.length !== 0) {
-    for (var j = 0; j < data.savedSchemes.length; j++) {
-      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
-    }
-  }
-});

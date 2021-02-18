@@ -15,11 +15,14 @@
   <link rel="stylesheet" crossorigin="anonymous"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
+  <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
   <main>
     <div class="row div-loading hidden">
       <i class="fas fa-spinner fa-lg" id="loading"></i>
@@ -46,25 +49,50 @@
     </div>
 
     <div class="container picker-page hidden" data-view="picker-page">
+      <div class="row current-color">
+        <h2>Current color</h2>
+        <div id="current-color-field"></div>
+      </div>
       <div class="row select-color">
-        <label name="colorBox"><h2>Select a color</h2></label>
-        <div id="picker"></div>
-        <a href="#color-data">
-          <button class="row select input-button" type="button" data-view="color-data">
-            <span class="select link">Select</span>
-          </button>
-        </a>
-      </div>
-      <div class="row or">
-        <h2>OR</h2>
-      </div>
-      <div class="row select-random">
-        <h2>Get inspired with<br />a random color!</h2>
-        <a href="#color-data">
-          <button class="random input-button" type="button" data-view="color-data">
-            <span class="random link">Random</span>
-          </button>
-        </a>
+        <h2>SELECT A COLOR</h2>
+        <p>by using any of the 3 options.</p>
+        <section class="options-wrapper">
+          <div class="options" id="options">
+            <div class="options-item-container active">
+              <div class="option-item">
+                <h3>Color Wheel</h3>
+                  <div id="picker"></div>
+                  <a href="#color-data">
+                    <button class="row select input-button" type="button" data-view="color-data">
+                      <span class="select link">Select</span>
+                    </button>
+                  </a>
+              </div>
+            </div>
+            <div class="options-item-container right">
+              <div class="option-item">
+                <h3>Color Values</h3>
+                <form>
+                  <select></select>
+                </form>
+              </div>
+            </div>
+            <div class="options-item-container left">
+              <div class="option-item">
+                <h3>Get inspired with<br />a random color!</h3>
+                <a href="#color-data">
+                  <button class="random input-button" type="button" data-view="color-data">
+                    <span class="random link">Random</span>
+                  </button>
+                </a>
+              </div>
+            </div>
+          </div>
+              <div class="slide-navigation">
+        <button id="left" class="btn btn-success left">Left</button>
+        <button id="right" class="btn btn-success right">Right</button>
+    </div>
+        </section>
       </div>
     </div>
 
@@ -180,7 +208,6 @@
       </div>
     </div>
   </main>
-  <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>

@@ -34,10 +34,6 @@ main {
   bottom: 0;
 }
 
-.row.or {
-  margin: 1rem 0;
-}
-
 .saved-colors-page {
   justify-content: flex-start;
   margin-bottom: 6rem;
