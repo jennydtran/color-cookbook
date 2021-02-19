@@ -11,8 +11,6 @@ const footer = document.querySelector('#footer');
 const colorSquareSolo = document.querySelector('.row-saved-colors');
 const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
-
-const colorSelectActive = document.querySelector('.active > .option-item');
 const colorSelectOption = document.querySelectorAll('.option-item');
 
 const colorData = {
@@ -37,7 +35,7 @@ let tallest;
 
 document.addEventListener('DOMContentLoaded', function (event) {
   viewSwapDataViews();
-  optionItemWidth = colorSelectActive.clientWidth;
+  optionItemWidth = colorSelectOption[1].clientWidth;
   colorPickerSize = optionItemWidth * 0.7;
 
   colorPicker = new window.iro.ColorPicker('#picker', {
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
     ]
   });
 
-  tallest = colorSelectActive.clientHeight;
+  tallest = colorSelectOption[1].clientHeight;
   colorSelectOption[0].style.height = tallest + 'px';
   colorSelectOption[2].style.height = tallest + 'px';
   colorPicker.on('input:end', function (color) {
@@ -85,8 +83,18 @@ document.addEventListener('DOMContentLoaded', function (event) {
 });
 
 window.addEventListener('resize', function (event) {
+  if (colorSelectOption[1].classList.contains('active')) {
+    tallest = document.querySelectorAll('.option-item')[1].clientHeight;
+  } else if (colorSelectOption[0].classList.contains('active')) {
+    tallest = (document.querySelectorAll('.option-item')[1].clientHeight / 0.75);
+    colorSelectOption[0].style.height = tallest + 'px';
+  } else if (colorSelectOption[2].classList.contains('active')) {
+    tallest = (document.querySelectorAll('.option-item')[1].clientHeight / 0.75);
+    colorSelectOption[2].style.height = tallest + 'px';
+  }
+
   optionItemWidth = document.querySelector('.active').clientWidth;
-  colorPickerSize = optionItemWidth * 0.7;
+  colorPickerSize = optionItemWidth * 0.65;
   colorPicker.resize(colorPickerSize);
 });
 

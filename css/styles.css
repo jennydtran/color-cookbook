@@ -59,14 +59,14 @@ body {
 .options {
   position: relative;
   margin: 2rem auto;
-  width: 60%;
+  width: 70%;
 }
 
 .options-item-container {
   background-color: white;
   border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 1rem 0 3rem 0;
+  padding: 1rem 0.5rem 3rem 0.5rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.466);
 }
 
@@ -102,16 +102,15 @@ body {
   transform: scale(0.75);
 }
 
-.options .options-item-container.left {
-  margin-left: -10rem;
-}
-
-.options .options-item-container.right {
-  margin-left: 10rem;
-}
+.options .options-item-container.left { margin-left: -8rem; }
+.options .options-item-container.right { margin-left: 8rem; }
 
 .options .options-item-container .option-item {
-  border-radius: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
   height: 100%;
 }
 
