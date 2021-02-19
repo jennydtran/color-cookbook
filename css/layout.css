@@ -32,10 +32,7 @@ main {
   left: 0;
   right: 0;
   bottom: 0;
-}
-
-.row.or {
-  margin: 1rem 0;
+  z-index: 5;
 }
 
 .saved-colors-page {

@@ -1,41 +1,19 @@
-var footer = document.querySelector('#footer');
-var saveIcon = document.querySelectorAll('.fa-heart');
-var navIcon = document.querySelectorAll('.nav-icons');
-var colorSquareSolo = document.querySelector('.row-saved-colors');
-var schemesList = document.querySelector('.schemes-list');
-var error = document.querySelector('.div-error');
-var loading = document.querySelector('.div-loading');
-var main = document.querySelector('main');
-var palette = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
+const error = document.querySelector('.div-error');
+const loading = document.querySelector('.div-loading');
 
-var colorPicker = new iro.ColorPicker('#picker', {
-  color: '#f00',
-  borderWidth: 1.5,
-  margin: 10,
-  layout: [
-    {
-      component: iro.ui.Wheel,
-      options: {
-        borderColor: '#bbb',
-        width: 250
-      }
-    },
-    {
-      component: iro.ui.Slider,
-      options: {
-        borderColor: '',
-        width: 200
-      }
-    }
-  ]
-});
+const saveIcon = document.querySelectorAll('.fa-heart');
+const navIcon = document.querySelectorAll('.nav-icons');
+const paletteIcon = document.querySelector('.nav-icons.fas.fa-palette.fa-3x');
 
-colorPicker.on('input:end', function (color) {
-  colorData.currentColor.hex = color.hexString.toUpperCase();
-  getColorCode(color.hexString.slice(1));
-});
+const main = document.querySelector('main');
+const footer = document.querySelector('#footer');
 
-var colorData = {
+const colorSquareSolo = document.querySelector('.row-saved-colors');
+const schemesList = document.querySelector('.schemes-list');
+const currentColorField = document.querySelector('#current-color-field');
+const colorSelectOption = document.querySelectorAll('.option-item');
+
+const colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
     name: '',
@@ -49,6 +27,76 @@ var colorData = {
     colors: []
   }
 };
+
+let optionItemWidth;
+let colorPickerSize;
+let colorPicker;
+let tallest;
+
+document.addEventListener('DOMContentLoaded', function (event) {
+  viewSwapDataViews();
+  optionItemWidth = colorSelectOption[1].clientWidth;
+  colorPickerSize = optionItemWidth * 0.7;
+
+  colorPicker = new window.iro.ColorPicker('#picker', {
+    color: '#f00',
+    borderWidth: 1.5,
+    margin: 10,
+    width: colorPickerSize,
+    layout: [
+      {
+        component: window.iro.ui.Wheel,
+        options: {
+          borderColor: '#bbb'
+        }
+      },
+      {
+        component: window.iro.ui.Slider,
+        options: {
+          borderColor: '#ddd'
+        }
+      }
+    ]
+  });
+
+  tallest = colorSelectOption[1].clientHeight;
+  colorSelectOption[0].style.height = tallest + 'px';
+  colorSelectOption[2].style.height = tallest + 'px';
+  colorPicker.on('input:end', function (color) {
+    colorData.currentColor.hex = color.hexString.toUpperCase();
+    currentColorField.style.background = color.hexString;
+    getColorCode(color.hexString.slice(1));
+  });
+
+  if (!colorData.currentColor.name) {
+    currentColorField.style.background = '#f00';
+  }
+
+  for (var i = 0; i < data.savedColors.length; i++) {
+    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+  }
+  if (data.savedSchemes.length !== 0) {
+    for (var j = 0; j < data.savedSchemes.length; j++) {
+      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+    }
+  }
+});
+
+window.addEventListener('resize', function (event) {
+  if (colorSelectOption[1].classList.contains('active')) {
+    tallest = document.querySelectorAll('.option-item')[1].clientHeight;
+  } else if (colorSelectOption[0].classList.contains('active')) {
+    tallest = (document.querySelectorAll('.option-item')[1].clientHeight / 0.75);
+    colorSelectOption[0].style.height = tallest + 'px';
+  } else if (colorSelectOption[2].classList.contains('active')) {
+    tallest = (document.querySelectorAll('.option-item')[1].clientHeight / 0.75);
+    colorSelectOption[2].style.height = tallest + 'px';
+  }
+
+  optionItemWidth = document.querySelector('.active').clientWidth;
+  colorPickerSize = optionItemWidth * 0.65;
+  colorPicker.resize(colorPickerSize);
+});
 
 window.onhashchange = viewSwapDataViews;
 
@@ -83,7 +131,6 @@ function viewSwapDataViews(dataView) {
   if (dataView === 'homepage') {
     footer.classList.add('hidden');
   }
-
 }
 
 var schemeInput = document.querySelector('#scheme-select');
@@ -117,7 +164,7 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  if ((event.target.matches('.fa-palette') || event.target === palette.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
+  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
   } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
@@ -168,6 +215,7 @@ function upDateSelectColor() {
 
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
+  currentColorField.style.background = colorData.currentColor.hex;
 
   if (data.savedColors.length !== 0) {
     if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
@@ -330,14 +378,49 @@ function schemeSavedDOM(scheme) {
   return schemeItem;
 }
 
-document.addEventListener('DOMContentLoaded', function (event) {
-  viewSwapDataViews();
-  for (var i = 0; i < data.savedColors.length; i++) {
-    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+// DOM queries and other variables
+var optionsList = document.querySelectorAll('.options-item-container');
+var left = document.querySelector('#left');
+var right = document.querySelector('#right');
+var activeIndex = 1;
+
+function displayOption(index) {
+  activeIndex = index;
+  optionsList[activeIndex].classList.add('active');
+  optionsList[activeIndex].classList.remove('left');
+  optionsList[activeIndex].classList.remove('right');
+
+  optionsList[getNextIndex()].classList.add('right');
+  optionsList[getNextIndex()].classList.remove('active');
+  optionsList[getNextIndex()].classList.remove('left');
+
+  optionsList[getPreviousIndex()].classList.add('left');
+  optionsList[getPreviousIndex()].classList.remove('active');
+  optionsList[getPreviousIndex()].classList.remove('right');
+}
+
+function getNextIndex() {
+  if (activeIndex === 2) {
+    return 0;
   }
-  if (data.savedSchemes.length !== 0) {
-    for (var j = 0; j < data.savedSchemes.length; j++) {
-      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
-    }
+  return activeIndex + 1;
+}
+
+function getPreviousIndex() {
+  if (activeIndex === 0) {
+    return 2;
   }
-});
+  return activeIndex - 1;
+}
+
+// click right arrow moves image reel forward
+function clickRight(event) {
+  displayOption(getNextIndex());
+}
+right.addEventListener('click', clickRight);
+
+// click left arrow moves image backward
+function clickLeft(event) {
+  displayOption(getPreviousIndex());
+}
+left.addEventListener('click', clickLeft);
