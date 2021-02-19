@@ -15,7 +15,6 @@
   <link rel="stylesheet" crossorigin="anonymous"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
     integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==">
-  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -73,8 +72,8 @@
               <div class="option-item">
                 <h3>1. Color Wheel</h3>
                   <div id="picker"></div>
-                  <a href="#color-data">
-                    <button class="row select input-button" type="button" data-view="color-data">
+                  <a href="#color-data-page">
+                    <button class="row select input-button" type="button" data-view="color-data-page">
                       <span class="select link">Select</span>
                     </button>
                   </a>
@@ -84,8 +83,8 @@
               <div class="option-item">
                 <h3>2. Choose Randomly</h3>
                 <p>Get inspired with a random color!</p>
-                <a href="#color-data">
-                  <button class="random input-button" type="button" data-view="color-data">
+                <a href="#color-data-page">
+                  <button class="random input-button" type="button" data-view="color-data-page">
                     <span class="random link">Randomize</span>
                   </button>
                 </a>
@@ -99,7 +98,7 @@
       </div>
     </div>
 
-    <div class="container color-data-page hidden" data-view="color-data">
+    <div class="container color-data-page hidden" data-view="color-data-page">
       <div class="data-color">
         <h2 class="color-name">ColorName</h2>
         <div class="data-color-box"></div>
@@ -196,6 +195,11 @@
           <a href="#picker-page" data-view="picker-page">
             <div class="container-icon" >
               <i data-view="picker-page" class="nav-icons fas fa-eye-dropper fa-3x"></i>
+            </div>
+          </a>
+          <a href="#color-data-page" data-view="color-data-page">
+            <div class="container-icon">
+              <i data-view="color-data" class="nav-icons fas fa-glasses fa-3x"></i>
             </div>
           </a>
           <a href="#scheme-page" data-view="scheme-page">
