@@ -193,12 +193,10 @@ document.addEventListener('click', function (event) {
     } else {
       getColorCode(colorValue);
     }
-    viewSwapDataViews('color-data');
   }
 
   if (event.target.className.includes('random')) {
     getRandomColor();
-    viewSwapDataViews('color-data');
   }
 });
 
