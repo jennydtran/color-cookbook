@@ -12,6 +12,9 @@ const colorSquareSolo = document.querySelector('.row-saved-colors');
 const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
 
+const colorSelectActive = document.querySelector('.active > .option-item');
+const colorSelectOption = document.querySelectorAll('.option-item');
+
 const colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
@@ -27,8 +30,45 @@ const colorData = {
   }
 };
 
+let optionItemWidth;
+let colorPickerSize;
+let colorPicker;
+let tallest;
+
 document.addEventListener('DOMContentLoaded', function (event) {
   viewSwapDataViews();
+  optionItemWidth = colorSelectActive.clientWidth;
+  colorPickerSize = optionItemWidth * 0.7;
+
+  colorPicker = new window.iro.ColorPicker('#picker', {
+    color: '#f00',
+    borderWidth: 1.5,
+    margin: 10,
+    width: colorPickerSize,
+    layout: [
+      {
+        component: window.iro.ui.Wheel,
+        options: {
+          borderColor: '#bbb'
+        }
+      },
+      {
+        component: window.iro.ui.Slider,
+        options: {
+          borderColor: '#ddd'
+        }
+      }
+    ]
+  });
+
+  tallest = colorSelectActive.clientHeight;
+  colorSelectOption[0].style.height = tallest + 'px';
+  colorSelectOption[2].style.height = tallest + 'px';
+  colorPicker.on('input:end', function (color) {
+    colorData.currentColor.hex = color.hexString.toUpperCase();
+    currentColorField.style.background = color.hexString;
+    getColorCode(color.hexString.slice(1));
+  });
 
   if (!colorData.currentColor.name) {
     currentColorField.style.background = '#f00';
@@ -42,7 +82,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
       schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
     }
   }
+});
 
+window.addEventListener('resize', function (event) {
+  optionItemWidth = document.querySelector('.active').clientWidth;
+  colorPickerSize = optionItemWidth * 0.7;
+  colorPicker.resize(colorPickerSize);
 });
 
 window.onhashchange = viewSwapDataViews;
@@ -79,34 +124,6 @@ function viewSwapDataViews(dataView) {
     footer.classList.add('hidden');
   }
 }
-
-const colorPicker = new iro.ColorPicker('#picker', {
-  color: '#f00',
-  borderWidth: 1.5,
-  margin: 10,
-  layout: [
-    {
-      component: iro.ui.Wheel,
-      options: {
-        borderColor: '#bbb',
-        width: 225
-      }
-    },
-    {
-      component: iro.ui.Slider,
-      options: {
-        borderColor: '',
-        width: 200
-      }
-    }
-  ]
-});
-
-colorPicker.on('input:end', function (color) {
-  colorData.currentColor.hex = color.hexString.toUpperCase();
-  currentColorField.style.background = color.hexString;
-  getColorCode(color.hexString.slice(1));
-});
 
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
