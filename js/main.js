@@ -29,16 +29,9 @@ let colorPicker;
 let tallest;
 
 document.addEventListener('DOMContentLoaded', function (event) {
-  viewSwapDataViews();
-
   colorData.saved = {
     colors: data.savedColors,
     schemes: data.savedSchemes
-  }
-
-  if (!colorData.currentColor.name) {
-    currentColorField.style.background = '#f00000';
-    getColorCode('f00000');
   }
 
   colorPicker = new window.iro.ColorPicker('#picker', {
@@ -61,6 +54,17 @@ document.addEventListener('DOMContentLoaded', function (event) {
     ]
   });
 
+  colorPicker.on('input:end', function (color) {
+    colorData.currentColor.hex = color.hexString.toUpperCase();
+    currentColorField.style.background = color.hexString;
+    getColorCode(color.hexString.slice(1));
+  });
+
+  if (!colorData.currentColor.name) {
+    currentColorField.style.background = '#f00000';
+    getColorCode('f00000');
+  }
+
   for (var i = 0; i < data.savedColors.length; i++) {
     colorSquareSolo.appendChild(colorSavedDOM(colorData.saved.colors[i].hex));
   }
@@ -73,11 +77,9 @@ document.addEventListener('DOMContentLoaded', function (event) {
 });
 
 document.addEventListener('load', function(event) {
-  colorPicker.on('input:end', function (color) {
-    colorData.currentColor.hex = color.hexString.toUpperCase();
-    currentColorField.style.background = color.hexString;
-    getColorCode(color.hexString.slice(1));
-  });
+  viewSwapDataViews();
+
+
 });
 
 window.addEventListener('resize', function (event) {
@@ -141,21 +143,6 @@ function viewSwapDataViews(dataView) {
     colorSelectOption[2].style.height = tallest + 'px';
 
     colorPicker.resize(colorPickerSize)
-
-    if (!colorData.currentColor.name) {
-      currentColorField.style.background = '#f00';
-    } else {
-      currentColorField.style.background = colorData.currentColor.hex;
-    }
-
-    for (var i = 0; i < data.savedColors.length; i++) {
-      colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
-    }
-    if (data.savedSchemes.length !== 0) {
-      for (var j = 0; j < data.savedSchemes.length; j++) {
-        schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
-      }
-    }
   }
 
 }
