@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   if (!colorData.currentColor.name) {
     currentColorField.style.background = '#f00000';
     getColorCode('f00000');
+    getColorScheme('f000000', 'monochrome')
   }
 
   for (var i = 0; i < data.savedColors.length; i++) {
@@ -74,12 +75,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
       schemesList.appendChild(schemeSavedDOM(colorData.saved.schemes[j]));
     }
   }
-});
-
-document.addEventListener('load', function(event) {
   viewSwapDataViews();
-
-
 });
 
 window.addEventListener('resize', function (event) {
@@ -134,7 +130,6 @@ function viewSwapDataViews(dataView) {
   }
 
   if (dataView === 'picker-page') {
-
     optionItemWidth = colorSelectOption[1].clientWidth;
     colorPickerSize = optionItemWidth * 0.7;
 
