@@ -142,7 +142,10 @@ function viewSwapDataViews(dataView) {
     colorSelectOption[0].style.height = tallest + 'px';
     colorSelectOption[2].style.height = tallest + 'px';
 
-    colorPicker.resize(colorPickerSize)
+    colorPicker.resize(colorPickerSize);
+    colorPicker.forceUpdate(function() {
+      colorPicker.color.hexString = colorData.currentColor.hex
+    });
   }
 
 }
