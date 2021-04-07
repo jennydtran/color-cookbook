@@ -13,36 +13,38 @@ const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
 const colorSelectOption = document.querySelectorAll('.option-item');
 
-const colorData = {
+let colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
-    name: '',
-    rgb: '',
-    hex: '',
-    hsl: ''
+    name: '', rgb: '', hex: '', hsl: ''
   },
   currentScheme: {
-    color: '',
-    scheme: '',
-    colors: []
+    color: '', scheme: '', colors: []
   }
 };
 
-let optionItemWidth;
-let colorPickerSize;
+let optionItemWidth = colorSelectOption[1].clientWidth;
+let colorPickerSize = optionItemWidth * 0.7;
 let colorPicker;
 let tallest;
 
 document.addEventListener('DOMContentLoaded', function (event) {
   viewSwapDataViews();
-  optionItemWidth = colorSelectOption[1].clientWidth;
-  colorPickerSize = optionItemWidth * 0.7;
+
+  colorData.saved = {
+    colors: data.savedColors,
+    schemes: data.savedSchemes
+  }
+
+  if (!colorData.currentColor.name) {
+    currentColorField.style.background = '#f00000';
+    getColorCode('f00000');
+  }
 
   colorPicker = new window.iro.ColorPicker('#picker', {
     color: '#f00',
     borderWidth: 1.5,
     margin: 10,
-    width: colorPickerSize,
     layout: [
       {
         component: window.iro.ui.Wheel,
@@ -59,27 +61,23 @@ document.addEventListener('DOMContentLoaded', function (event) {
     ]
   });
 
-  tallest = colorSelectOption[1].clientHeight;
-  colorSelectOption[0].style.height = tallest + 'px';
-  colorSelectOption[2].style.height = tallest + 'px';
+  for (var i = 0; i < data.savedColors.length; i++) {
+    colorSquareSolo.appendChild(colorSavedDOM(colorData.saved.colors[i].hex));
+  }
+
+  for (var j = 0; j < data.savedSchemes.length; j++) {
+    for (var j = 0; j < data.savedSchemes.length; j++) {
+      schemesList.appendChild(schemeSavedDOM(colorData.saved.schemes[j]));
+    }
+  }
+});
+
+document.addEventListener('load', function(event) {
   colorPicker.on('input:end', function (color) {
     colorData.currentColor.hex = color.hexString.toUpperCase();
     currentColorField.style.background = color.hexString;
     getColorCode(color.hexString.slice(1));
   });
-
-  if (!colorData.currentColor.name) {
-    currentColorField.style.background = '#f00';
-  }
-
-  for (var i = 0; i < data.savedColors.length; i++) {
-    colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
-  }
-  if (data.savedSchemes.length !== 0) {
-    for (var j = 0; j < data.savedSchemes.length; j++) {
-      schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
-    }
-  }
 });
 
 window.addEventListener('resize', function (event) {
@@ -96,10 +94,11 @@ window.addEventListener('resize', function (event) {
   optionItemWidth = document.querySelector('.active').clientWidth;
   colorPickerSize = optionItemWidth * 0.65;
   colorPicker.resize(colorPickerSize);
+
 });
 
+// ViewSwap
 window.onhashchange = viewSwapDataViews;
-
 function viewSwapDataViews(dataView) {
   var theHash = window.location.hash;
   if (theHash === '' || theHash === '#') {
@@ -131,8 +130,37 @@ function viewSwapDataViews(dataView) {
   if (dataView === 'homepage') {
     footer.classList.add('hidden');
   }
+
+  if (dataView === 'picker-page') {
+
+    optionItemWidth = colorSelectOption[1].clientWidth;
+    colorPickerSize = optionItemWidth * 0.7;
+
+    tallest = colorSelectOption[1].clientHeight;
+    colorSelectOption[0].style.height = tallest + 'px';
+    colorSelectOption[2].style.height = tallest + 'px';
+
+    colorPicker.resize(colorPickerSize)
+
+    if (!colorData.currentColor.name) {
+      currentColorField.style.background = '#f00';
+    } else {
+      currentColorField.style.background = colorData.currentColor.hex;
+    }
+
+    for (var i = 0; i < data.savedColors.length; i++) {
+      colorSquareSolo.appendChild(colorSavedDOM(data.savedColors[i].hex));
+    }
+    if (data.savedSchemes.length !== 0) {
+      for (var j = 0; j < data.savedSchemes.length; j++) {
+        schemesList.appendChild(schemeSavedDOM(data.savedSchemes[j]));
+      }
+    }
+  }
+
 }
 
+// Scheme
 var schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
   var schemeDivColors = document.querySelectorAll('.schemecolor');
@@ -222,18 +250,6 @@ function upDateSelectColor() {
       saveIcon[0].classList.add('heart-it');
     }
   }
-}
-
-function handleLoading(event) {
-  error.classList.add('hidden');
-  loading.classList.remove('hidden');
-  main.classList.add('avoid-clicks');
-}
-
-function handleError() {
-  main.classList.remove('avoid-clicks');
-  loading.classList.add('hidden');
-  error.classList.remove('hidden');
 }
 
 function getColorCode(hex) {
@@ -327,53 +343,66 @@ function colorSavedDOM(data) {
 }
 
 function schemeSavedDOM(scheme) {
-  var schemeItem = document.createElement('li');
+  const schemeItem = document.createElement('li');
   schemeItem.setAttribute('class', 'row scheme-item');
 
-  var ol = document.createElement('ol');
+  const ol = document.createElement('ol');
   ol.setAttribute('class', 'row-scheme-colors');
   schemeItem.appendChild(ol);
 
-  var li1 = document.createElement('li');
+  const li1 = document.createElement('li');
   li1.setAttribute('class', 'colorbook-scheme-list');
   ol.appendChild(li1);
-  var li2 = document.createElement('li');
+  const li2 = document.createElement('li');
   li2.setAttribute('class', 'colorbook-scheme-list');
   ol.appendChild(li2);
-  var li3 = document.createElement('li');
+  const li3 = document.createElement('li');
   li3.setAttribute('class', 'colorbook-scheme-list');
   ol.appendChild(li3);
-  var li4 = document.createElement('li');
+  const li4 = document.createElement('li');
   li4.setAttribute('class', 'colorbook-scheme-list');
   ol.appendChild(li4);
-  var li5 = document.createElement('li');
+  const li5 = document.createElement('li');
   li5.setAttribute('class', 'colorbook-scheme-list');
   ol.appendChild(li5);
 
-  var div1 = document.createElement('div');
+  const div1 = document.createElement('div');
   div1.setAttribute('class', 'color-square');
   li1.appendChild(div1);
-  var div2 = document.createElement('div');
+  const div2 = document.createElement('div');
   div2.setAttribute('class', 'color-square');
   li2.appendChild(div2);
-  var div3 = document.createElement('div');
+  const div3 = document.createElement('div');
   div3.setAttribute('class', 'color-square');
   li3.appendChild(div3);
-  var div4 = document.createElement('div');
+  const div4 = document.createElement('div');
   div4.setAttribute('class', 'color-square');
   li4.appendChild(div4);
-  var div5 = document.createElement('div');
+  const div5 = document.createElement('div');
   div5.setAttribute('class', 'color-square');
   li5.appendChild(div5);
 
-  if (data.savedSchemes.length !== 0) {
-    div1.style.background = scheme.colors[0].hex.value;
-    div2.style.background = scheme.colors[1].hex.value;
-    div3.style.background = scheme.colors[2].hex.value;
-    div4.style.background = scheme.colors[3].hex.value;
-    div5.style.background = scheme.colors[4].hex.value;
+  if (schemesList.length !== 0) {
+    div1.style.background = scheme.colors[0].rgb.value;
+    div2.style.background = scheme.colors[1].rgb.value;
+    div3.style.background = scheme.colors[2].rgb.value;
+    div4.style.background = scheme.colors[3].rgb.value;
+    div5.style.background = scheme.colors[4].rgb.value;
   }
   return schemeItem;
+}
+
+// Error Handling
+function handleLoading(event) {
+  error.classList.add('hidden');
+  loading.classList.remove('hidden');
+  main.classList.add('avoid-clicks');
+}
+
+function handleError() {
+  main.classList.remove('avoid-clicks');
+  loading.classList.add('hidden');
+  error.classList.remove('hidden');
 }
 
 // DOM queries and other variables
