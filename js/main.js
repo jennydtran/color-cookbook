@@ -17,7 +17,7 @@ const colorSelectOption = document.querySelectorAll('.option-item');
 let colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
-    name: '', rgb: '', hex: '', hsl: ''
+    name: '', rgb: '', hex: '', hsl: '', cmyk: ''
   },
   currentScheme: {
     color: '', scheme: '', colors: []
@@ -163,7 +163,8 @@ document.addEventListener('click', function (event) {
     name: colorData.currentColor.name,
     rgb: colorData.currentColor.rgb,
     hex: colorData.currentColor.hex,
-    hsl: colorData.currentColor.hsl
+    hsl: colorData.currentColor.hsl,
+    cmyk: colorData.currentColor.cmyk
   };
 
   var newScheme = {
@@ -195,12 +196,7 @@ document.addEventListener('click', function (event) {
   }
 
   if (event.target.className.includes('select')) {
-    var colorValue = colorData.currentColor.hex.slice(1, 7);
-    if (colorData.currentColor.name === '') {
-      getColorCode('000000');
-    } else {
-      getColorCode(colorValue);
-    }
+    getColorCode(colorData.currentColor.hex.slice(1, 7));
   }
 
   if (event.target.className.includes('random')) {
@@ -218,6 +214,8 @@ function upDateSelectColor() {
   hexText.textContent = colorData.currentColor.hex;
   var hslText = document.querySelector('.hsl-text');
   hslText.textContent = colorData.currentColor.hsl.slice(3);
+  var cmykText = document.querySelector('.cmyk-text');
+  cmykText.textContent = colorData.currentColor.cmyk.slice(3);
 
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
@@ -249,6 +247,7 @@ function getColorCode(hex) {
       colorData.currentColor.rgb = selectedColor.response.rgb.value;
       colorData.currentColor.hex = selectedColor.response.hex.value;
       colorData.currentColor.hsl = selectedColor.response.hsl.value;
+      colorData.currentColor.cmyk = selectedColor.response.cmyk.value;
       upDateSelectColor();
     }
   });

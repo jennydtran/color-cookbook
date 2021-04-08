@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,7 +9,8 @@
   <meta property="og:url" content="https://jennydtran.github.io/ajax-project/" />
   <meta property="og:description"
     content="COLOR Cookbook is an application for anyone who wants to be able to save colors, color schemes, or create custom color schemes for a project to reference later on." />
-  <meta property="og:image" content="https://raw.githubusercontent.com/jennydtran/ajax-project/master/images/color-cookbook.png" />
+  <meta property="og:image"
+    content="https://raw.githubusercontent.com/jennydtran/ajax-project/master/images/color-cookbook.png" />
   <title>COLOR Cookbook</title>
   <link href="https://fonts.googleapis.com/css2?family=Paytone+One&family=Raleway:wght@400;700&display=swap"
     rel="stylesheet">
@@ -19,6 +21,7 @@
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
@@ -40,10 +43,10 @@
       <div class="row home-descr">
         <p class="p-description">Get some color inspirations<br />for your next project!</p>
       </div>
-      <a class="button-getcookin" href="#picker-page" >
-      <button>
-        <span class="link" data-view="picker-page">Let's get cookin'!</span>
-      </button>
+      <a class="button-getcookin" href="#picker-page">
+        <button>
+          <span class="link" data-view="picker-page">Let's get cookin'!</span>
+        </button>
       </a>
     </div>
 
@@ -64,37 +67,52 @@
             <div class="options-item-container left">
               <div class="option-item">
                 <h3>3. Color Values</h3>
-                <form>
-                  <select></select>
+                <form id="select-color-value">
+                  <div class="select-color-value">
+                    <label for="hex">HEX: </label>
+                    <input type="text" name="hex" value="" placeholder="#000000">
+                  </div>
+                  <div class="select-color-value">
+                    <label for="rgb">RGB: </label>
+                    <input type="text" name="rgb" value="" placeholder="rgb(0, 0, 0)">
+                  </div>
+                  <div class="select-color-value">
+                    <label for="hsl">HSL: </label>
+                    <input type="text" name="hsl" value="" placeholder="hsl(0, 0%, 0%)">
+                  </div>
+                  <div class="select-color-value">
+                    <label for="cmyk">CMYK: </label>
+                    <input type="text" name="cmyk" value="" placeholder="cmyk(100%, 100%, 100%, 100%)">
+                  </div>
                 </form>
               </div>
             </div>
-            <div class="options-item-container active">
-              <div class="option-item">
-                <h3>1. Color Wheel</h3>
-                  <div id="picker"></div>
-                  <a href="#color-data-page">
-                    <button class="row select input-button" type="button" data-view="color-data-page">
-                      <span class="select link">Select</span>
-                    </button>
-                  </a>
+            <div class=" options-item-container active">
+                    <div class="option-item">
+                      <h3>1. Color Wheel</h3>
+                      <div id="picker"></div>
+                      <a href="#color-data-page">
+                        <button class="row select input-button" type="button" data-view="color-data-page">
+                          <span class="select link">Select</span>
+                        </button>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="options-item-container right">
+                    <div class="option-item">
+                      <h3>2. Choose Randomly</h3>
+                      <p>Get inspired with a random color!</p>
+                      <a href="#color-data-page">
+                        <button class="random input-button" type="button" data-view="color-data-page">
+                          <span class="random link">Randomize</span>
+                        </button>
+                      </a>
+                    </div>
+                  </div>
               </div>
-            </div>
-            <div class="options-item-container right">
-              <div class="option-item">
-                <h3>2. Choose Randomly</h3>
-                <p>Get inspired with a random color!</p>
-                <a href="#color-data-page">
-                  <button class="random input-button" type="button" data-view="color-data-page">
-                    <span class="random link">Randomize</span>
-                  </button>
-                </a>
+              <div class="slide-navigation right">
+                <div id="right" class="right"><i class="fas fa-chevron-right fa-2x"></i></div>
               </div>
-            </div>
-          </div>
-          <div class="slide-navigation right">
-            <div id="right" class="right"><i class="fas fa-chevron-right fa-2x"></i></div>
-          </div>
         </section>
       </div>
     </div>
@@ -106,13 +124,14 @@
         <p>RGB: <span class="rgb-text">(0,0,0)</span></p>
         <p>HEX: <span class="hex-text">#000000</span></p>
         <p>HSL: <span class="hsl-text">(0,0,0)</span></p>
+        <p>CMYK: <span class="cmyk-text">(0,0,0,0)</span></p>
       </div>
       <div class="row back-save-scheme-nav">
         <div class="column">
           <a href="#picker-page" data-view="picker-page">
-          <div class="container-icon" id="dropper-icon-container">
-            <i data-view="picker-page" class="back icons fas fa-eye-dropper fa-3x"></i>
-          </div>
+            <div class="container-icon" id="dropper-icon-container">
+              <i data-view="picker-page" class="back icons fas fa-eye-dropper fa-3x"></i>
+            </div>
           </a>
           <p>SELECT<br><span>a different<br>color</span></p>
         </div>
@@ -126,9 +145,9 @@
         </div>
         <div class="column">
           <a href="#scheme-page" data-view="scheme-page">
-          <div class="container-icon" id="scheme-icon-container">
-            <i data-view="scheme-page" id="explore" class="scheme icons fas fa-palette fa-3x"></i>
-          </div>
+            <div class="container-icon" id="scheme-icon-container">
+              <i data-view="scheme-page" id="explore" class="scheme icons fas fa-palette fa-3x"></i>
+            </div>
           </a>
           <p>EXPLORE<br><span>schemes with<br>this color</span></p>
         </div>
@@ -150,20 +169,44 @@
             <option value="quad">Quad</option>
           </select>
         </form>
-        <div class="schemebox"><ol>
-          <li><div class="schemecolor color1"></div></li>
-          <li><div class="schemecolor color2"></div></li>
-          <li><div class="schemecolor color3"></div></li>
-          <li><div class="schemecolor color4"></div></li>
-          <li><div class="schemecolor color5"></div></li>
-        </ol></div>
-        <div class="scheme-data-color"><ol>
-          <li><p>Name: <span class="scheme-name text1">Name</span></p></li>
-          <li><p>Name: <span class="scheme-name text2">Name</span></p></li>
-          <li><p>Name: <span class="scheme-name text3">Name</span></p></li>
-          <li><p>Name: <span class="scheme-name text4">Name</span></p></li>
-          <li><p>Name: <span class="scheme-name text5">Name</span></p></li>
-        </ol></div>
+        <div class="schemebox">
+          <ol>
+            <li>
+              <div class="schemecolor color1"></div>
+            </li>
+            <li>
+              <div class="schemecolor color2"></div>
+            </li>
+            <li>
+              <div class="schemecolor color3"></div>
+            </li>
+            <li>
+              <div class="schemecolor color4"></div>
+            </li>
+            <li>
+              <div class="schemecolor color5"></div>
+            </li>
+          </ol>
+        </div>
+        <div class="scheme-data-color">
+          <ol>
+            <li>
+              <p>Name: <span class="scheme-name text1">Name</span></p>
+            </li>
+            <li>
+              <p>Name: <span class="scheme-name text2">Name</span></p>
+            </li>
+            <li>
+              <p>Name: <span class="scheme-name text3">Name</span></p>
+            </li>
+            <li>
+              <p>Name: <span class="scheme-name text4">Name</span></p>
+            </li>
+            <li>
+              <p>Name: <span class="scheme-name text5">Name</span></p>
+            </li>
+          </ol>
+        </div>
         <div class="column">
           <a class="save">
             <div class="container-icon save">
@@ -181,42 +224,43 @@
         </div>
         <section class="saved-colors">
           <h3 class="color-book-subtitle">Colors</h3>
-            <ol class="row-saved-colors"></ol>
+          <ol class="row-saved-colors"></ol>
         </section>
         <section class="saved-schemes">
           <h3 class="color-book-subtitle">Schemes</h3>
-            <ol class="schemes-list">
-            </ol>
+          <ol class="schemes-list">
+          </ol>
         </section>
       </div>
     </div>
 
     <div class="hidden" id="footer">
       <div class="row navigation">
-          <a href="#picker-page" data-view="picker-page">
-            <div class="container-icon" >
-              <i data-view="picker-page" class="nav-icons fas fa-eye-dropper fa-3x"></i>
-            </div>
-          </a>
-          <a href="#color-data-page" data-view="color-data-page">
-            <div class="container-icon">
-              <i data-view="color-data" class="nav-icons fas fa-glasses fa-3x"></i>
-            </div>
-          </a>
-          <a href="#scheme-page" data-view="scheme-page">
-            <div class="container-icon">
-              <i data-view="scheme-page" class="nav-icons fas fa-palette fa-3x"></i>
-            </div>
-          </a>
-          <a href="#saved-colors-page" data-view="saved-colors-page">
-            <div class="container-icon">
-              <i data-view="saved-colors-page" class="nav-icons fas fa-book-open fa-3x"></i>
-            </div>
-          </a>
+        <a href="#picker-page" data-view="picker-page">
+          <div class="container-icon">
+            <i data-view="picker-page" class="nav-icons fas fa-eye-dropper fa-3x"></i>
+          </div>
+        </a>
+        <a href="#color-data-page" data-view="color-data-page">
+          <div class="container-icon">
+            <i data-view="color-data" class="nav-icons fas fa-glasses fa-3x"></i>
+          </div>
+        </a>
+        <a href="#scheme-page" data-view="scheme-page">
+          <div class="container-icon">
+            <i data-view="scheme-page" class="nav-icons fas fa-palette fa-3x"></i>
+          </div>
+        </a>
+        <a href="#saved-colors-page" data-view="saved-colors-page">
+          <div class="container-icon">
+            <i data-view="saved-colors-page" class="nav-icons fas fa-book-open fa-3x"></i>
+          </div>
+        </a>
       </div>
     </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
+
 </html>
