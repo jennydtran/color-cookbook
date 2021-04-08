@@ -45,8 +45,12 @@ body {
 #current-color-field {
   height: 100px;
   width: 225px;
-  margin-bottom: 1rem;
+  margin: 1rem auto;
   border-radius: 5px;
+}
+
+#current-color {
+  font-size: 1rem;
 }
 
 .options-wrapper {

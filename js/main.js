@@ -11,6 +11,7 @@ const footer = document.querySelector('#footer');
 const colorSquareSolo = document.querySelector('.row-saved-colors');
 const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
+const currentColorText = document.querySelector('#current-color')
 const colorSelectOption = document.querySelectorAll('.option-item');
 
 let colorData = {
@@ -221,6 +222,7 @@ function upDateSelectColor() {
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
   currentColorField.style.background = colorData.currentColor.hex;
+  currentColorText.textContent = colorData.currentColor.name;
 
   if (data.savedColors.length !== 0) {
     if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
