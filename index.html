@@ -68,22 +68,20 @@
               <div class="option-item">
                 <h3>3. Color Values</h3>
                 <form id="select-color-value">
-                  <div class="select-color-value">
-                    <label for="hex">HEX: </label>
-                    <input type="text" name="hex" value="" placeholder="#000000">
-                  </div>
-                  <div class="select-color-value">
-                    <label for="rgb">RGB: </label>
-                    <input type="text" name="rgb" value="" placeholder="rgb(0, 0, 0)">
-                  </div>
-                  <div class="select-color-value">
-                    <label for="hsl">HSL: </label>
-                    <input type="text" name="hsl" value="" placeholder="hsl(0, 0%, 0%)">
-                  </div>
-                  <div class="select-color-value">
-                    <label for="cmyk">CMYK: </label>
-                    <input type="text" name="cmyk" value="" placeholder="cmyk(100%, 100%, 100%, 100%)">
-                  </div>
+                  <fieldset class="select-color-value">
+                    <select names="color-modes" id="select-color-value-opts">
+                      <option value="hex" selected>HEX</option>
+                      <option value="rgb">RGB</option>
+                      <option value="hsl">HSL</option>
+                      <option value="cmyk">CMYK</option>
+                    </select>
+                    <input id="selected-color-mode" type="text" name="" value="">
+                  </fieldset>
+                  <a href="#color-data-page">
+                    <button class="row select input-button" type="button" data-view="color-data-page">
+                      <span class="select link">Select</span>
+                    </button>
+                  </a>
                 </form>
               </div>
             </div>

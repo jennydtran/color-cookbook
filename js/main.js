@@ -14,6 +14,9 @@ const currentColorField = document.querySelector('#current-color-field');
 const currentColorText = document.querySelector('#current-color')
 const colorSelectOption = document.querySelectorAll('.option-item');
 
+const colorModeInput = document.querySelector('#select-color-value-opts');
+const colorModeValueField = document.querySelector('#selected-color-mode');
+
 let colorData = {
   view: window.location.hash.slice(1),
   currentColor: {
@@ -64,7 +67,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   if (!colorData.currentColor.name) {
     currentColorField.style.background = '#f00000';
     getColorCode('f00000');
-    getColorScheme('f00000', 'monochrome')
+    getColorScheme('f00000', 'monochrome');
   }
 
   for (var i = 0; i < data.savedColors.length; i++) {
@@ -76,6 +79,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       schemesList.appendChild(schemeSavedDOM(colorData.saved.schemes[j]));
     }
   }
+
+  updateColorModeValues();
   viewSwapDataViews();
 });
 
@@ -141,11 +146,11 @@ function viewSwapDataViews(dataView) {
     colorPicker.forceUpdate(function() {
       colorPicker.color.hexString = colorData.currentColor.hex
     });
+    updateColorModeValues();
   }
 
 }
 
-// Scheme
 const schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
   const schemeDivColors = document.querySelectorAll('.schemecolor');
@@ -153,6 +158,26 @@ schemeInput.addEventListener('input', function (event) {
   colorData.currentScheme.scheme = event.target.value;
   getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
+
+function updateColorModeValues () {
+  const colorMode = colorModeInput.value;
+  let value;
+  if (colorMode === 'hex') {
+    value = colorData.currentColor.hex;
+  } else if (colorMode === 'rgb') {
+    value = colorData.currentColor.rgb.slice(3)
+  } else if (colorMode === 'hsl') {
+    value = colorData.currentColor.hsl.slice(3)
+  } else if (colorMode === 'cmyk') {
+    value = colorData.currentColor.cmyk.slice(4)
+  }
+  colorModeValueField.setAttribute('name', colorMode);
+  colorModeValueField.setAttribute('value', value);
+}
+
+colorModeInput.addEventListener('input', function (event) {
+  updateColorModeValues(event.target.value);
+})
 
 document.addEventListener('click', function (event) {
   if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN') {
@@ -215,7 +240,7 @@ function upDateSelectColor() {
   var hslText = document.querySelector('.hsl-text');
   hslText.textContent = colorData.currentColor.hsl.slice(3);
   var cmykText = document.querySelector('.cmyk-text');
-  cmykText.textContent = colorData.currentColor.cmyk.slice(3);
+  cmykText.textContent = colorData.currentColor.cmyk.slice(4);
 
   var dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
