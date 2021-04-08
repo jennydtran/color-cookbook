@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function (event) {
   if (!colorData.currentColor.name) {
     currentColorField.style.background = '#f00000';
     getColorCode('f00000');
-    getColorScheme('f000000', 'monochrome')
+    getColorScheme('f00000', 'monochrome')
   }
 
   for (var i = 0; i < data.savedColors.length; i++) {
@@ -95,7 +95,6 @@ window.addEventListener('resize', function (event) {
 
 });
 
-// ViewSwap
 window.onhashchange = viewSwapDataViews;
 function viewSwapDataViews(dataView) {
   var theHash = window.location.hash;
@@ -146,15 +145,10 @@ function viewSwapDataViews(dataView) {
 }
 
 // Scheme
-var schemeInput = document.querySelector('#scheme-select');
+const schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
-  var schemeDivColors = document.querySelectorAll('.schemecolor');
-  if (event.target.value === undefined) {
-    for (var i = 0; i < schemeDivColors.length; i++) {
-      schemeDivColors[i].style.background = colorData.currentColor.hex;
-    }
-  }
-  colorData.currentScheme.color = colorData.currentColor.name;
+  const schemeDivColors = document.querySelectorAll('.schemecolor');
+  console.log('event', event.target.value)
   colorData.currentScheme.scheme = event.target.value;
   getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
@@ -180,7 +174,7 @@ document.addEventListener('click', function (event) {
   if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
     viewSwapDataViews('picker-page');
   } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
-    getColorScheme(colorData.currentColor.hex.slice(1), 'monochrome');
+    getColorScheme(colorData.currentColor.hex.slice(1), colorData.currentScheme.scheme);
     updateColorScheme();
     viewSwapDataViews(event.target.getAttribute('data-view'));
   } else if (event.target.id === 'saveColor') {
