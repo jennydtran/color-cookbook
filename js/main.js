@@ -159,8 +159,8 @@ schemeInput.addEventListener('input', function (event) {
   getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
 
-function updateColorModeValues () {
-  const colorMode = colorModeInput.value;
+function updateColorModeValues (mode) {
+  const colorMode = mode;
   let value;
   if (colorMode === 'hex') {
     value = colorData.currentColor.hex;
@@ -173,10 +173,45 @@ function updateColorModeValues () {
   }
   colorModeValueField.setAttribute('name', colorMode);
   colorModeValueField.setAttribute('value', value);
+  colorModeValueField.value = value;
 }
 
 colorModeInput.addEventListener('input', function (event) {
   updateColorModeValues(event.target.value);
+})
+
+colorModeValueField.addEventListener('input', function (event) {
+  let regex1;
+  let regex2;
+  let value;
+  const colorModeSelectBtn = document.querySelector('#color-mode-submit-btn');
+  const colorModeSelectLink = document.querySelector('#color-mode-submit-link');
+
+  if (colorModeInput.value === 'hex') {
+    regex1 = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+    regex2 = "^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+    if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+    } else {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      if (event.target.value.match(regex1)) {
+        value = event.target.value.slice(1);
+        colorModeValueField.setAttribute('value', value);
+        console.log('regex1', event.target.value)
+      } else if (event.target.value.match(regex2)) {
+        value = event.target.value;
+        colorModeValueField.setAttribute('value', value);
+        console.log('regex2', event.target.value)
+      }
+      getColorCode(value);
+    }
+  } else if (colorModeInput.value === 'rgb') {
+
+  } else {
+    console.log('not hex option')
+  }
 })
 
 document.addEventListener('click', function (event) {
@@ -410,7 +445,7 @@ function handleError() {
   error.classList.remove('hidden');
 }
 
-// DOM queries and other variables
+// Toggle left/right between the 3 options of color selecting
 var optionsList = document.querySelectorAll('.options-item-container');
 var left = document.querySelector('#left');
 var right = document.querySelector('#right');
@@ -432,27 +467,17 @@ function displayOption(index) {
 }
 
 function getNextIndex() {
-  if (activeIndex === 2) {
-    return 0;
-  }
+  if (activeIndex === 2) { return 0; }
   return activeIndex + 1;
 }
 
 function getPreviousIndex() {
-  if (activeIndex === 0) {
-    return 2;
-  }
+  if (activeIndex === 0) { return 2; }
   return activeIndex - 1;
 }
 
-// click right arrow moves image reel forward
-function clickRight(event) {
-  displayOption(getNextIndex());
-}
+function clickRight(event) { displayOption(getNextIndex()); }
 right.addEventListener('click', clickRight);
 
-// click left arrow moves image backward
-function clickLeft(event) {
-  displayOption(getPreviousIndex());
-}
+function clickLeft(event) { displayOption(getPreviousIndex()); }
 left.addEventListener('click', clickLeft);
