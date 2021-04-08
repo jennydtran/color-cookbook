@@ -179,6 +179,26 @@ colorModeInput.addEventListener('input', function (event) {
   updateColorModeValues(event.target.value);
 })
 
+colorModeValueField.addEventListener('input', function (event) {
+  let regex1;
+  let regex2;
+  if (colorModeInput.value === 'hex') {
+    regex1 = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+    regex2 = "^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+    if (event.target.value.match(regex1)) {
+      event.target.value === regex1;
+      console.log('regex1', event.target.value)
+    } else if (event.target.value.match(regex2)) {
+      event.target.value === '#' + regex2;
+      console.log('regex2', event.target.value)
+    } else {
+      console.log('Not a valid hex code', event.target.value)
+    }
+  } else {
+    console.log('not hex option')
+  }
+})
+
 document.addEventListener('click', function (event) {
   if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN') {
     return;
@@ -410,7 +430,7 @@ function handleError() {
   error.classList.remove('hidden');
 }
 
-// DOM queries and other variables
+// Toggle left/right between the 3 options of color selecting
 var optionsList = document.querySelectorAll('.options-item-container');
 var left = document.querySelector('#left');
 var right = document.querySelector('#right');
@@ -432,27 +452,17 @@ function displayOption(index) {
 }
 
 function getNextIndex() {
-  if (activeIndex === 2) {
-    return 0;
-  }
+  if (activeIndex === 2) { return 0; }
   return activeIndex + 1;
 }
 
 function getPreviousIndex() {
-  if (activeIndex === 0) {
-    return 2;
-  }
+  if (activeIndex === 0) { return 2; }
   return activeIndex - 1;
 }
 
-// click right arrow moves image reel forward
-function clickRight(event) {
-  displayOption(getNextIndex());
-}
+function clickRight(event) { displayOption(getNextIndex()); }
 right.addEventListener('click', clickRight);
 
-// click left arrow moves image backward
-function clickLeft(event) {
-  displayOption(getPreviousIndex());
-}
+function clickLeft(event) { displayOption(getPreviousIndex()); }
 left.addEventListener('click', clickLeft);
