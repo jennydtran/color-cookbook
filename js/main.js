@@ -159,8 +159,8 @@ schemeInput.addEventListener('input', function (event) {
   getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
 
-function updateColorModeValues () {
-  const colorMode = colorModeInput.value;
+function updateColorModeValues (mode) {
+  const colorMode = mode;
   let value;
   if (colorMode === 'hex') {
     value = colorData.currentColor.hex;
@@ -173,6 +173,7 @@ function updateColorModeValues () {
   }
   colorModeValueField.setAttribute('name', colorMode);
   colorModeValueField.setAttribute('value', value);
+  colorModeValueField.value = value;
 }
 
 colorModeInput.addEventListener('input', function (event) {
@@ -182,18 +183,32 @@ colorModeInput.addEventListener('input', function (event) {
 colorModeValueField.addEventListener('input', function (event) {
   let regex1;
   let regex2;
+  let value;
+  const colorModeSelectBtn = document.querySelector('#color-mode-submit-btn');
+  const colorModeSelectLink = document.querySelector('#color-mode-submit-link');
+
   if (colorModeInput.value === 'hex') {
     regex1 = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
     regex2 = "^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-    if (event.target.value.match(regex1)) {
-      event.target.value === regex1;
-      console.log('regex1', event.target.value)
-    } else if (event.target.value.match(regex2)) {
-      event.target.value === '#' + regex2;
-      console.log('regex2', event.target.value)
+    if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
     } else {
-      console.log('Not a valid hex code', event.target.value)
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      if (event.target.value.match(regex1)) {
+        value = event.target.value.slice(1);
+        colorModeValueField.setAttribute('value', value);
+        console.log('regex1', event.target.value)
+      } else if (event.target.value.match(regex2)) {
+        value = event.target.value;
+        colorModeValueField.setAttribute('value', value);
+        console.log('regex2', event.target.value)
+      }
+      getColorCode(value);
     }
+  } else if (colorModeInput.value === 'rgb') {
+
   } else {
     console.log('not hex option')
   }
