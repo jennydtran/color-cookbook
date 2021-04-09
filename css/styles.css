@@ -104,6 +104,7 @@ body {
   -ms-transform: scale(0.75); /* IE 9 */
   -webkit-transform: scale(0.75); /* Chrome, Safari, Opera */
   transform: scale(0.75);
+  pointer-events: none;
 }
 
 .options .options-item-container.left { margin-left: -8rem; }
@@ -380,8 +381,8 @@ a:hover,
 i:hover,
 .button-getcookin:hover,
 button:hover {
-  transition: transform 0.3s;
-  transform: scale(0.92);
+  transition: transform 0.5s;
+  transform: scale(0.97);
   cursor: pointer;
 }
 
@@ -389,4 +390,16 @@ i:active,
 .button-getcookin:active,
 button:active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.733);
+}
+
+a.disabled {
+  color: grey;
+  pointer-events: none;
+  transform: none;
+}
+
+button.disabled {
+  background-color: grey;
+  pointer-events: none;
+  transform: scale(1);
 }

@@ -187,36 +187,39 @@ colorModeValueField.addEventListener('input', function (event) {
   const colorModeSelectBtn = document.querySelector('#color-mode-submit-btn');
   const colorModeSelectLink = document.querySelector('#color-mode-submit-link');
 
+  function disableBtnLink () {
+    colorModeSelectBtn.classList.replace('enable', 'disabled');
+    colorModeSelectLink.classList.replace('enable', 'disabled');
+  }
+  function enableBtnLink() {
+    colorModeSelectBtn.classList.replace('disabled', 'enable');
+    colorModeSelectLink.classList.replace('disabled', 'enable');
+  }
+
   if (colorModeInput.value === 'hex') {
     regex1 = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     regex2 = new RegExp('^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
-      colorModeSelectBtn.setAttribute('disabled', '');
-      colorModeSelectLink.removeAttribute('href');
+      disableBtnLink();
       handleHexError();
     } else {
-      colorModeSelectBtn.removeAttribute('disabled');
-      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      enableBtnLink()
       if (event.target.value.match(regex1)) {
         value = event.target.value.slice(1);
         colorModeValueField.setAttribute('value', value);
-        console.log('regex1', event.target.value)
       } else if (event.target.value.match(regex2)) {
         value = event.target.value;
         colorModeValueField.setAttribute('value', value);
-        console.log('regex2', event.target.value)
       }
       getColorCode('hex', value);
     }
   } else if (colorModeInput.value === 'rgb') {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
-      colorModeSelectBtn.setAttribute('disabled', '');
-      colorModeSelectLink.removeAttribute('href');
+      disableBtnLink();
       handleRgbError();
     } else if (event.target.value.match(regex1)) {
-      colorModeSelectBtn.removeAttribute('disabled');
-      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
       colorModeValueField.setAttribute('value', value);
       getColorCode('rgb', value)
@@ -224,12 +227,10 @@ colorModeValueField.addEventListener('input', function (event) {
   } else if (colorModeInput.value === 'hsl') {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*([0-9]{1,2}|100)%\\s*,\\s*([0-9]{1,2}|100)%\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
-      colorModeSelectBtn.setAttribute('disabled', '');
-      colorModeSelectLink.removeAttribute('href');
+      disableBtnLink();
       handleHslError();
     } else if (event.target.value.match(regex1)) {
-      colorModeSelectBtn.removeAttribute('disabled');
-      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
       colorModeValueField.setAttribute('value', value);
       getColorCode('hsl', value)
@@ -237,12 +238,10 @@ colorModeValueField.addEventListener('input', function (event) {
   } else if (colorModeInput.value === 'cmyk') {
     regex1 = new RegExp(`^\\(\\s*([0-9]{1,2}|100),\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
-      colorModeSelectBtn.setAttribute('disabled', '');
-      colorModeSelectLink.removeAttribute('href');
+      disableBtnLink();
       handleCmykError();
     } else if (event.target.value.match(regex1)) {
-      colorModeSelectBtn.removeAttribute('disabled');
-      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
       colorModeValueField.setAttribute('value', value);
       getColorCode('cmyk', value)
