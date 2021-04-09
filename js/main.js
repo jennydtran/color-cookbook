@@ -151,10 +151,8 @@ function viewSwapDataViews(dataView) {
         colorPicker.color.hexString = colorData.currentColor.hex
       }
     });
-    updateColorModeValues('hex');
-    updateColorModeValues('rgb');
-    updateColorModeValues('hsl');
-    updateColorModeValues('cmyk');
+
+    updateColorModeValues(colorModeInput.value);
   }
 
 }
