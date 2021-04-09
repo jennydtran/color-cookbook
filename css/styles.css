@@ -43,14 +43,15 @@ body {
 }
 
 #current-color-field {
-  height: 100px;
-  width: 225px;
-  margin: 1rem auto;
+  height: 80px;
+  width: 50%;
+  margin: 0.5rem auto;
   border-radius: 5px;
 }
 
 #current-color {
   font-size: 1rem;
+  margin-left: 0.5rem;
 }
 
 .options-wrapper {
