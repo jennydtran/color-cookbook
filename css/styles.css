@@ -104,6 +104,7 @@ body {
   -ms-transform: scale(0.75); /* IE 9 */
   -webkit-transform: scale(0.75); /* Chrome, Safari, Opera */
   transform: scale(0.75);
+  pointer-events: none;
 }
 
 .options .options-item-container.left { margin-left: -8rem; }
