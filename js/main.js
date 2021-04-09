@@ -209,7 +209,7 @@ colorModeValueField.addEventListener('input', function (event) {
       getColorCode('hex', value);
     }
   } else if (colorModeInput.value === 'rgb') {
-    regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5]),\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
+    regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       colorModeSelectBtn.setAttribute('disabled', '');
       colorModeSelectLink.removeAttribute('href');
@@ -221,9 +221,20 @@ colorModeValueField.addEventListener('input', function (event) {
       colorModeValueField.setAttribute('value', value);
       getColorCode('rgb', value)
     }
-  } else {
-    console.log('not hex or rgb option')
-  }
+  } else if (colorModeInput.value === 'hsl') {
+    regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*([0-9]{1,2}|100)%\\s*,\\s*([0-9]{1,2}|100)%\\s*\\)$`);
+    if (!event.target.value.match(regex1)) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+      handleHslError();
+    } else if (event.target.value.match(regex1)) {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      value = event.target.value.replaceAll(/\s/g, '');
+      colorModeValueField.setAttribute('value', value);
+      getColorCode('hsl', value)
+    }
+  } 
 })
 
 document.addEventListener('click', function (event) {
