@@ -61,12 +61,12 @@ document.addEventListener('DOMContentLoaded', function (event) {
   colorPicker.on('input:end', function (color) {
     colorData.currentColor.hex = color.hexString.toUpperCase();
     currentColorField.style.background = color.hexString;
-    getColorCode(color.hexString.slice(1));
+    getColorCode('hex', color.hexString.slice(1));
   });
 
   if (!colorData.currentColor.name) {
     currentColorField.style.background = '#f00000';
-    getColorCode('f00000');
+    getColorCode('hex', 'f00000');
     getColorScheme('f00000', 'monochrome');
   }
 
@@ -188,11 +188,12 @@ colorModeValueField.addEventListener('input', function (event) {
   const colorModeSelectLink = document.querySelector('#color-mode-submit-link');
 
   if (colorModeInput.value === 'hex') {
-    regex1 = "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
-    regex2 = "^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$";
+    regex1 = new RegExp('^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
+    regex2 = new RegExp('^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
       colorModeSelectBtn.setAttribute('disabled', '');
       colorModeSelectLink.removeAttribute('href');
+      handleHexError();
     } else {
       colorModeSelectBtn.removeAttribute('disabled');
       colorModeSelectLink.setAttribute('href', '#color-data-page');
@@ -205,12 +206,47 @@ colorModeValueField.addEventListener('input', function (event) {
         colorModeValueField.setAttribute('value', value);
         console.log('regex2', event.target.value)
       }
-      getColorCode(value);
+      getColorCode('hex', value);
     }
   } else if (colorModeInput.value === 'rgb') {
-
-  } else {
-    console.log('not hex option')
+    regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
+    if (!event.target.value.match(regex1)) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+      handleRgbError();
+    } else if (event.target.value.match(regex1)) {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      value = event.target.value.replaceAll(/\s/g, '');
+      colorModeValueField.setAttribute('value', value);
+      getColorCode('rgb', value)
+    }
+  } else if (colorModeInput.value === 'hsl') {
+    regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*([0-9]{1,2}|100)%\\s*,\\s*([0-9]{1,2}|100)%\\s*\\)$`);
+    if (!event.target.value.match(regex1)) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+      handleHslError();
+    } else if (event.target.value.match(regex1)) {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      value = event.target.value.replaceAll(/\s/g, '');
+      colorModeValueField.setAttribute('value', value);
+      getColorCode('hsl', value)
+    }
+  } else if (colorModeInput.value === 'cmyk') {
+    regex1 = new RegExp(`^\\(\\s*([0-9]{1,2}|100),\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*\\)$`);
+    if (!event.target.value.match(regex1)) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+      handleCmykError();
+    } else if (event.target.value.match(regex1)) {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      value = event.target.value.replaceAll(/\s/g, '');
+      colorModeValueField.setAttribute('value', value);
+      getColorCode('cmyk', value)
+    }
   }
 })
 
@@ -256,7 +292,7 @@ document.addEventListener('click', function (event) {
   }
 
   if (event.target.className.includes('select')) {
-    getColorCode(colorData.currentColor.hex.slice(1, 7));
+    getColorCode('hex', colorData.currentColor.hex.slice(1, 7));
   }
 
   if (event.target.className.includes('random')) {
@@ -291,9 +327,20 @@ function upDateSelectColor() {
   }
 }
 
-function getColorCode(hex) {
+function getColorCode(mode, y) {
+  let value;
+  if (mode === 'hex') {
+    value = y;
+  } else if (mode === 'rgb') {
+    value = 'rgb' + y
+  } else if (mode === 'hsl') {
+    value = 'hsl' + y
+  } else if (mode === 'cmyk') {
+    value = 'cmyk' + y
+  }
+
   var selectedColor = new XMLHttpRequest();
-  selectedColor.open('GET', 'https://www.thecolorapi.com/id?hex=' + hex);
+  selectedColor.open('GET', `https://www.thecolorapi.com/id?${mode}=` + value);
   selectedColor.responseType = 'json';
   selectedColor.addEventListener('error', handleError);
   selectedColor.addEventListener('loadstart', handleLoading);
@@ -323,7 +370,7 @@ function getRandomColor() {
   randomColor.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
     loading.classList.add('hidden');
-    getColorCode(randomColor.response.new_color);
+    getColorCode('hex', randomColor.response.new_color);
     upDateSelectColor();
   });
   randomColor.send();
@@ -443,6 +490,22 @@ function handleError() {
   main.classList.remove('avoid-clicks');
   loading.classList.add('hidden');
   error.classList.remove('hidden');
+}
+
+function handleHexError () {
+  console.log("Invalid color HEX code.")
+}
+
+function handleRgbError() {
+  console.log("Invalid color RGB code.")
+}
+
+function handleHslError() {
+  console.log("Invalid color HSL code.")
+}
+
+function handleCmykError() {
+  console.log("Invalid color CMYK code.")
 }
 
 // Toggle left/right between the 3 options of color selecting
