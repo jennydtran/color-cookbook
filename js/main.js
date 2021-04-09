@@ -28,7 +28,7 @@ let colorData = {
 };
 
 let optionItemWidth = colorSelectOption[1].clientWidth;
-let colorPickerSize = optionItemWidth * 0.7;
+let colorPickerSize = optionItemWidth * 0.5;
 let colorPicker;
 let tallest;
 
@@ -40,13 +40,13 @@ document.addEventListener('DOMContentLoaded', function (event) {
 
   colorPicker = new window.iro.ColorPicker('#picker', {
     color: '#f00',
-    borderWidth: 1.5,
+    borderWidth: 1,
     margin: 10,
     layout: [
       {
         component: window.iro.ui.Wheel,
         options: {
-          borderColor: '#bbb'
+          borderColor: '#ddd'
         }
       },
       {
@@ -65,6 +65,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
   });
 
   if (!colorData.currentColor.name) {
+    window.location.hash = ''
+    viewSwapDataViews('homepage');
     currentColorField.style.background = '#f00000';
     getColorCode('hex', 'f00000');
     getColorScheme('f00000', 'monochrome');
@@ -79,9 +81,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
       schemesList.appendChild(schemeSavedDOM(colorData.saved.schemes[j]));
     }
   }
-
-  updateColorModeValues();
-  viewSwapDataViews();
 });
 
 window.addEventListener('resize', function (event) {
@@ -96,14 +95,14 @@ window.addEventListener('resize', function (event) {
   }
 
   optionItemWidth = document.querySelector('.active').clientWidth;
-  colorPickerSize = optionItemWidth * 0.65;
+  colorPickerSize = optionItemWidth * 0.45;
   colorPicker.resize(colorPickerSize);
 
 });
 
 window.onhashchange = viewSwapDataViews;
 function viewSwapDataViews(dataView) {
-  var theHash = window.location.hash;
+  const theHash = window.location.hash;
   if (theHash === '' || theHash === '#') {
     dataView = 'homepage';
   } else {
@@ -136,7 +135,7 @@ function viewSwapDataViews(dataView) {
 
   if (dataView === 'picker-page') {
     optionItemWidth = colorSelectOption[1].clientWidth;
-    colorPickerSize = optionItemWidth * 0.7;
+    colorPickerSize = optionItemWidth * 0.5;
 
     tallest = colorSelectOption[1].clientHeight;
     colorSelectOption[0].style.height = tallest + 'px';
@@ -146,7 +145,10 @@ function viewSwapDataViews(dataView) {
     colorPicker.forceUpdate(function() {
       colorPicker.color.hexString = colorData.currentColor.hex
     });
-    updateColorModeValues();
+    updateColorModeValues('hex');
+    updateColorModeValues('rgb');
+    updateColorModeValues('hsl');
+    updateColorModeValues('cmyk');
   }
 
 }
