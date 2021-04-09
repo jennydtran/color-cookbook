@@ -234,7 +234,20 @@ colorModeValueField.addEventListener('input', function (event) {
       colorModeValueField.setAttribute('value', value);
       getColorCode('hsl', value)
     }
-  } 
+  } else if (colorModeInput.value === 'cmyk') {
+    regex1 = new RegExp(`^\\(\\s*([0-9]{1,2}|100),\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*\\)$`);
+    if (!event.target.value.match(regex1)) {
+      colorModeSelectBtn.setAttribute('disabled', '');
+      colorModeSelectLink.removeAttribute('href');
+      handleCmykError();
+    } else if (event.target.value.match(regex1)) {
+      colorModeSelectBtn.removeAttribute('disabled');
+      colorModeSelectLink.setAttribute('href', '#color-data-page');
+      value = event.target.value.replaceAll(/\s/g, '');
+      colorModeValueField.setAttribute('value', value);
+      getColorCode('cmyk', value)
+    }
+  }
 })
 
 document.addEventListener('click', function (event) {
