@@ -65,11 +65,10 @@ document.addEventListener('DOMContentLoaded', function (event) {
   });
 
   if (!colorData.currentColor.name) {
-    window.location.hash = ''
-    viewSwapDataViews('homepage');
     currentColorField.style.background = '#f00000';
     getColorCode('hex', 'f00000');
     getColorScheme('f00000', 'monochrome');
+    viewSwapDataViews();
   }
 
   for (var i = 0; i < data.savedColors.length; i++) {
@@ -81,6 +80,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
       schemesList.appendChild(schemeSavedDOM(colorData.saved.schemes[j]));
     }
   }
+
+
 });
 
 window.addEventListener('resize', function (event) {
@@ -103,6 +104,7 @@ window.addEventListener('resize', function (event) {
 window.onhashchange = viewSwapDataViews;
 function viewSwapDataViews(dataView) {
   const theHash = window.location.hash;
+
   if (theHash === '' || theHash === '#') {
     dataView = 'homepage';
   } else {
@@ -143,7 +145,11 @@ function viewSwapDataViews(dataView) {
 
     colorPicker.resize(colorPickerSize);
     colorPicker.forceUpdate(function() {
-      colorPicker.color.hexString = colorData.currentColor.hex
+      if (!colorData.currentColor.hex) {
+        colorPicker.color.hexString = 'F00000'
+      } else {
+        colorPicker.color.hexString = colorData.currentColor.hex
+      }
     });
     updateColorModeValues('hex');
     updateColorModeValues('rgb');
