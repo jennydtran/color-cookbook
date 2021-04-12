@@ -296,10 +296,6 @@ document.addEventListener('click', function (event) {
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
-  if (event.target.className.includes('select')) {
-    getColorCode('hex', colorData.currentColor.hex.slice(1, 7));
-  }
-
   if (event.target.className.includes('random')) {
     getRandomColor();
   }
@@ -522,16 +518,13 @@ var activeIndex = 1;
 function displayOption(index) {
   activeIndex = index;
   optionsList[activeIndex].classList.add('active');
-  optionsList[activeIndex].classList.remove('left');
-  optionsList[activeIndex].classList.remove('right');
+  optionsList[activeIndex].classList.remove('left', 'right');
 
   optionsList[getNextIndex()].classList.add('right');
-  optionsList[getNextIndex()].classList.remove('active');
-  optionsList[getNextIndex()].classList.remove('left');
+  optionsList[getNextIndex()].classList.remove('active', 'left');
 
   optionsList[getPreviousIndex()].classList.add('left');
-  optionsList[getPreviousIndex()].classList.remove('active');
-  optionsList[getPreviousIndex()].classList.remove('right');
+  optionsList[getPreviousIndex()].classList.remove('active', 'right');
 }
 
 function getNextIndex() {
