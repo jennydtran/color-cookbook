@@ -27,6 +27,15 @@ let colorData = {
   }
 };
 
+function colorIncludedInSaved() {
+  for (let i = 0; i < colorData.saved.colors.length; i++) {
+    if (colorData.saved.colors[i].hex === colorData.currentColor.hex) {
+      return true;
+    }
+  }
+  return false;
+}
+
 let optionItemWidth = colorSelectOption[1].clientWidth;
 let colorPickerSize = optionItemWidth * 0.5;
 let colorPicker;
@@ -154,13 +163,11 @@ function viewSwapDataViews(dataView) {
 
     updateColorModeValues(colorModeInput.value);
   }
-
 }
 
 const schemeInput = document.querySelector('#scheme-select');
 schemeInput.addEventListener('input', function (event) {
   const schemeDivColors = document.querySelectorAll('.schemecolor');
-  console.log('event', event.target.value)
   colorData.currentScheme.scheme = event.target.value;
   getColorScheme(colorData.currentColor.hex.slice(1), event.target.value);
 });
@@ -319,10 +326,10 @@ function upDateSelectColor() {
   currentColorField.style.background = colorData.currentColor.hex;
   currentColorText.textContent = colorData.currentColor.name;
 
-  if (data.savedColors.length !== 0) {
-    if (colorData.currentColor.hex !== data.savedColors[data.savedColors.length - 1].hex) {
+  if (colorData.saved.colors.length !== 0) {
+    if (colorIncludedInSaved() === false) {
       saveIcon[0].classList.remove('heart-it');
-    } else {
+    } else if (colorIncludedInSaved() === true) {
       saveIcon[0].classList.add('heart-it');
     }
   }
