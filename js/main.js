@@ -288,10 +288,14 @@ document.addEventListener('click', function (event) {
     updateColorScheme();
     viewSwapDataViews(event.target.getAttribute('data-view'));
   } else if (event.target.id === 'saveColor') {
-    saveIcon[0].classList.add('heart-it');
-    colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
-    data.savedColors.push(newColor);
-    return;
+    if (event.target.classList.contains('heart-it')) {
+      return;
+    } else {
+      saveIcon[0].classList.add('heart-it');
+      colorSquareSolo.appendChild(colorSavedDOM(colorData.currentColor.hex));
+      data.savedColors.push(newColor);
+      return;
+    }
   } else if (event.target.id === 'saveScheme') {
     saveIcon[1].classList.add('heart-it');
     schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
