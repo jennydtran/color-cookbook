@@ -317,10 +317,14 @@ document.addEventListener('click', function (event) {
       return;
     }
   } else if (event.target.id === 'saveScheme') {
-    saveIcon[1].classList.add('heart-it');
-    schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
-    data.savedSchemes.push(newScheme);
-    return;
+    if (event.target.classList.contains('heart-it')) {
+      return;
+    } else {
+      saveIcon[1].classList.add('heart-it');
+      schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
+      data.savedSchemes.push(newScheme);
+      return;
+    }
   } else {
     error.classList.add('hidden');
     main.classList.remove('avoid-clicks');
