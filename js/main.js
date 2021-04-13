@@ -27,6 +27,11 @@ let colorData = {
   }
 };
 
+let optionItemWidth = colorSelectOption[1].clientWidth;
+let colorPickerSize = optionItemWidth * 0.5;
+let colorPicker;
+let tallest;
+
 function colorIncludedInSaved() {
   for (let i = 0; i < colorData.saved.colors.length; i++) {
     if (colorData.saved.colors[i].hex === colorData.currentColor.hex) {
@@ -36,10 +41,25 @@ function colorIncludedInSaved() {
   return false;
 }
 
-let optionItemWidth = colorSelectOption[1].clientWidth;
-let colorPickerSize = optionItemWidth * 0.5;
-let colorPicker;
-let tallest;
+function schemeIncludedInSaved() {
+  function arraysAreEqual (array1, array2) {
+    for (let i = 0; i < array1.length; i++) {
+      if (array1[i].hex.value !== array2[i].hex.value) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  let match = false;
+  for (let i = 0; i < colorData.saved.schemes.length; i++) {
+    match = arraysAreEqual (colorData.saved.schemes[i].colors, colorData.currentScheme.colors);
+    if (match === true) {
+      break;
+    }
+  }
+  return match;
+}
 
 document.addEventListener('DOMContentLoaded', function (event) {
   colorData.saved = {
@@ -297,10 +317,14 @@ document.addEventListener('click', function (event) {
       return;
     }
   } else if (event.target.id === 'saveScheme') {
-    saveIcon[1].classList.add('heart-it');
-    schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
-    data.savedSchemes.push(newScheme);
-    return;
+    if (event.target.classList.contains('heart-it')) {
+      return;
+    } else {
+      saveIcon[1].classList.add('heart-it');
+      schemesList.appendChild(schemeSavedDOM(colorData.currentScheme));
+      data.savedSchemes.push(newScheme);
+      return;
+    }
   } else {
     error.classList.add('hidden');
     main.classList.remove('avoid-clicks');
@@ -421,9 +445,9 @@ function updateColorScheme() {
   }
 
   if (data.savedSchemes.length !== 0) {
-    if (colorData.currentScheme.color !== data.savedSchemes[data.savedSchemes.length - 1].color || colorData.currentScheme.scheme !== data.savedSchemes[data.savedSchemes.length - 1].scheme) {
+    if (schemeIncludedInSaved() === false) {
       saveIcon[1].classList.remove('heart-it');
-    } else {
+    } else if (schemeIncludedInSaved() === true){
       saveIcon[1].classList.add('heart-it');
     }
   }
