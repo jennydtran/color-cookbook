@@ -23,7 +23,7 @@ let colorData = {
     name: '', rgb: '', hex: '', hsl: '', cmyk: ''
   },
   currentScheme: {
-    color: '', scheme: '', colors: []
+    color: '', hex:'', scheme: '', colors: []
   }
 };
 
@@ -140,10 +140,10 @@ function viewSwapDataViews(dataView) {
     dataView = theHash.slice(1);
   }
   colorData.view = dataView;
-  var divPageList = document.querySelectorAll('div[data-view]');
+  const divPageList = document.querySelectorAll('div[data-view]');
 
-  for (var i = 0; i < divPageList.length; i++) {
-    var divPage = divPageList[i];
+  for (let i = 0; i < divPageList.length; i++) {
+    const divPage = divPageList[i];
     if (dataView !== divPage.getAttribute('data-view')) {
       divPage.classList.add('hidden');
     } else if (dataView === divPage.getAttribute('data-view')) {
@@ -151,7 +151,7 @@ function viewSwapDataViews(dataView) {
       footer.classList.remove('hidden');
     }
 
-    for (var j = 0; j < navIcon.length; j++) {
+    for (let j = 0; j < navIcon.length; j++) {
       if (dataView === navIcon[j].getAttribute('data-view')) {
         navIcon[j].classList.add('currentIcon');
       } else {
@@ -283,11 +283,11 @@ colorModeValueField.addEventListener('input', function (event) {
 })
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN') {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.className.includes('solo') && event.target.className !== 'color-square') {
     return;
   }
 
-  var newColor = {
+  const newColor = {
     name: colorData.currentColor.name,
     rgb: colorData.currentColor.rgb,
     hex: colorData.currentColor.hex,
@@ -295,18 +295,28 @@ document.addEventListener('click', function (event) {
     cmyk: colorData.currentColor.cmyk
   };
 
-  var newScheme = {
+  const newScheme = {
     color: colorData.currentScheme.color,
+    hex: colorData.currentScheme.hex,
     scheme: colorData.currentScheme.scheme,
     colors: colorData.currentScheme.colors
   };
 
-  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
+  if (event.target.className === 'color-square') {
+    const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
+    const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
+    getColorCode('hex', hex);
+    getColorScheme(hex, scheme);
+    window.location.hash = '#scheme-page';
+  }
+
+  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
     viewSwapDataViews('picker-page');
-  } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
+    if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), colorData.currentScheme.scheme);
     updateColorScheme();
     viewSwapDataViews(event.target.getAttribute('data-view'));
+    }
   } else if (event.target.id === 'saveColor') {
     if (event.target.classList.contains('heart-it')) {
       return;
@@ -329,6 +339,12 @@ document.addEventListener('click', function (event) {
     error.classList.add('hidden');
     main.classList.remove('avoid-clicks');
     viewSwapDataViews(event.target.getAttribute('data-view'));
+  }
+
+  if (event.target.className.includes('solo')) {
+    const color = event.target.style.background.slice(3);
+    getColorCode('rgb', color);
+    window.location.hash = '#color-data-page';
   }
 
   if (event.target.className.includes('random')) {
@@ -375,7 +391,7 @@ function getColorCode(mode, y) {
     value = 'cmyk' + y
   }
 
-  var selectedColor = new XMLHttpRequest();
+  const selectedColor = new XMLHttpRequest();
   selectedColor.open('GET', `https://www.thecolorapi.com/id?${mode}=` + value);
   selectedColor.responseType = 'json';
   selectedColor.addEventListener('error', handleError);
@@ -424,6 +440,7 @@ function getColorScheme(hex, scheme) {
     colorData.currentScheme.color = colorScheme.response.seed.name.value;
     colorData.currentScheme.scheme = colorScheme.response.mode;
     colorData.currentScheme.colors = colorScheme.response.colors;
+    colorData.currentScheme.hex = hex;
     updateColorScheme();
   });
   colorScheme.send();
@@ -454,9 +471,9 @@ function updateColorScheme() {
 }
 
 function colorSavedDOM(data) {
-  var li = document.createElement('li');
+  const li = document.createElement('li');
+  const div = document.createElement('div');
 
-  var div = document.createElement('div');
   div.setAttribute('class', 'color-square solo');
   li.appendChild(div);
 
@@ -471,6 +488,8 @@ function schemeSavedDOM(scheme) {
 
   const ol = document.createElement('ol');
   ol.setAttribute('class', 'row-scheme-colors');
+  ol.setAttribute('data-scheme', scheme.scheme);
+  ol.setAttribute('data-hex', scheme.hex);
   schemeItem.appendChild(ol);
 
   const li1 = document.createElement('li');
