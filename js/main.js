@@ -140,10 +140,10 @@ function viewSwapDataViews(dataView) {
     dataView = theHash.slice(1);
   }
   colorData.view = dataView;
-  var divPageList = document.querySelectorAll('div[data-view]');
+  const divPageList = document.querySelectorAll('div[data-view]');
 
-  for (var i = 0; i < divPageList.length; i++) {
-    var divPage = divPageList[i];
+  for (let i = 0; i < divPageList.length; i++) {
+    const divPage = divPageList[i];
     if (dataView !== divPage.getAttribute('data-view')) {
       divPage.classList.add('hidden');
     } else if (dataView === divPage.getAttribute('data-view')) {
@@ -151,7 +151,7 @@ function viewSwapDataViews(dataView) {
       footer.classList.remove('hidden');
     }
 
-    for (var j = 0; j < navIcon.length; j++) {
+    for (let j = 0; j < navIcon.length; j++) {
       if (dataView === navIcon[j].getAttribute('data-view')) {
         navIcon[j].classList.add('currentIcon');
       } else {
@@ -283,7 +283,7 @@ colorModeValueField.addEventListener('input', function (event) {
 })
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN') {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.className.includes('solo')) {
     return;
   }
 
@@ -303,10 +303,15 @@ document.addEventListener('click', function (event) {
 
   if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
     viewSwapDataViews('picker-page');
-  } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
+    if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), colorData.currentScheme.scheme);
     updateColorScheme();
     viewSwapDataViews(event.target.getAttribute('data-view'));
+    }
+  } else if (event.target.className.includes('solo')) {
+    const color = event.target.style.background.slice(3);
+    getColorCode('rgb', color);
+    window.location.hash = '#color-data-page';
   } else if (event.target.id === 'saveColor') {
     if (event.target.classList.contains('heart-it')) {
       return;
@@ -375,7 +380,7 @@ function getColorCode(mode, y) {
     value = 'cmyk' + y
   }
 
-  var selectedColor = new XMLHttpRequest();
+  const selectedColor = new XMLHttpRequest();
   selectedColor.open('GET', `https://www.thecolorapi.com/id?${mode}=` + value);
   selectedColor.responseType = 'json';
   selectedColor.addEventListener('error', handleError);
@@ -454,14 +459,11 @@ function updateColorScheme() {
 }
 
 function colorSavedDOM(data) {
-  const a = document.createElement('a')
   const li = document.createElement('li');
   const div = document.createElement('div');
 
   div.setAttribute('class', 'color-square solo');
-  a.setAttribute('href', '#color-data-page')
-  a.appendChild(div)
-  li.appendChild(a);
+  li.appendChild(div);
 
   div.style.background = data;
 
