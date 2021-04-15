@@ -308,10 +308,6 @@ document.addEventListener('click', function (event) {
     updateColorScheme();
     viewSwapDataViews(event.target.getAttribute('data-view'));
     }
-  } else if (event.target.className.includes('solo')) {
-    const color = event.target.style.background.slice(3);
-    getColorCode('rgb', color);
-    window.location.hash = '#color-data-page';
   } else if (event.target.id === 'saveColor') {
     if (event.target.classList.contains('heart-it')) {
       return;
@@ -334,6 +330,12 @@ document.addEventListener('click', function (event) {
     error.classList.add('hidden');
     main.classList.remove('avoid-clicks');
     viewSwapDataViews(event.target.getAttribute('data-view'));
+  }
+
+  if (event.target.className.includes('solo')) {
+    const color = event.target.style.background.slice(3);
+    getColorCode('rgb', color);
+    window.location.hash = '#color-data-page';
   }
 
   if (event.target.className.includes('random')) {
@@ -476,6 +478,7 @@ function schemeSavedDOM(scheme) {
 
   const ol = document.createElement('ol');
   ol.setAttribute('class', 'row-scheme-colors');
+  ol.setAttribute('data-scheme', scheme.scheme);
   schemeItem.appendChild(ol);
 
   const li1 = document.createElement('li');
