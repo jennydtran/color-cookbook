@@ -23,7 +23,7 @@ let colorData = {
     name: '', rgb: '', hex: '', hsl: '', cmyk: ''
   },
   currentScheme: {
-    color: '', scheme: '', colors: []
+    color: '', hex:'', scheme: '', colors: []
   }
 };
 
@@ -283,11 +283,11 @@ colorModeValueField.addEventListener('input', function (event) {
 })
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.className.includes('solo')) {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.className.includes('solo') && event.target.className !== 'color-square') {
     return;
   }
 
-  var newColor = {
+  const newColor = {
     name: colorData.currentColor.name,
     rgb: colorData.currentColor.rgb,
     hex: colorData.currentColor.hex,
@@ -295,11 +295,20 @@ document.addEventListener('click', function (event) {
     cmyk: colorData.currentColor.cmyk
   };
 
-  var newScheme = {
+  const newScheme = {
     color: colorData.currentScheme.color,
+    hex: colorData.currentScheme.hex,
     scheme: colorData.currentScheme.scheme,
     colors: colorData.currentScheme.colors
   };
+
+  if (event.target.className === 'color-square') {
+    const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
+    const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
+    getColorCode('hex', hex);
+    getColorScheme(hex, scheme);
+    window.location.hash = '#scheme-page';
+  }
 
   if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
     viewSwapDataViews('picker-page');
@@ -431,6 +440,7 @@ function getColorScheme(hex, scheme) {
     colorData.currentScheme.color = colorScheme.response.seed.name.value;
     colorData.currentScheme.scheme = colorScheme.response.mode;
     colorData.currentScheme.colors = colorScheme.response.colors;
+    colorData.currentScheme.hex = hex;
     updateColorScheme();
   });
   colorScheme.send();
@@ -479,6 +489,7 @@ function schemeSavedDOM(scheme) {
   const ol = document.createElement('ol');
   ol.setAttribute('class', 'row-scheme-colors');
   ol.setAttribute('data-scheme', scheme.scheme);
+  ol.setAttribute('data-hex', scheme.hex);
   schemeItem.appendChild(ol);
 
   const li1 = document.createElement('li');
