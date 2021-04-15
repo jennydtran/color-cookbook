@@ -28,10 +28,7 @@ Try the application here: https://jennydtran.github.io/color-cookbook/
 * The Color API | https://www.thecolorapi.com/
 * colr.org | http://www.colr.org/about.html
 
-## Last Updated 02/19/2021
-* Currently working on enhancing on the page where user selects a color to obtain color data.
-* Refer to the issues page of this project to see what else I want to work on.
-* Current bugs: There are many (and I mean MANY) bugs that I am aware of. I am trying currently trying to work out a solution to have certain resources load on the page. For example, color wheel only shows up when window is resized upon first load of the page.
+## Last Updated 04/15/2021
 
 ## Other Notes
 COLOR Cookbook originally started off as a project created when I was at the halfway mark in a 14-week full immersion coding bootcamp. The requirement was to come up with an application and use any APIs in the project. It is now a project on the side that I work on for fun to practice coding.
