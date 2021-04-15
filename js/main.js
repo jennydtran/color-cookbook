@@ -301,7 +301,7 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore') && colorData.currentColor.name === '') {
+  if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
     viewSwapDataViews('picker-page');
   } else if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
     getColorScheme(colorData.currentColor.hex.slice(1), colorData.currentScheme.scheme);
@@ -454,11 +454,14 @@ function updateColorScheme() {
 }
 
 function colorSavedDOM(data) {
-  var li = document.createElement('li');
+  const a = document.createElement('a')
+  const li = document.createElement('li');
+  const div = document.createElement('div');
 
-  var div = document.createElement('div');
   div.setAttribute('class', 'color-square solo');
-  li.appendChild(div);
+  a.setAttribute('href', '#color-data-page')
+  a.appendChild(div)
+  li.appendChild(a);
 
   div.style.background = data;
 
