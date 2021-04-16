@@ -459,8 +459,7 @@ function updateColorScheme() {
       return;
     }
     schemeDivColors[i].style.background = colorData.currentScheme.colors[i].hex.value;
-    schemeDivText[i].textContent = colorData.currentScheme.colors[i].hex.value;
-    schemeNameTexts[i].textContent = colorData.currentScheme.colors[i].name.value;
+    schemeDivText[i].textContent = colorData.currentScheme.colors[i].name.value;
   }
 
   if (data.savedSchemes.length !== 0) {
