@@ -235,9 +235,12 @@ button:focus {
 }
 
 .schemecolor {
-  height: 30px;
+  height: 45px;
   background-color: rgb(87, 87, 87);
   border: none;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .select-color {
@@ -279,7 +282,6 @@ fieldset {
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
 }
 
-.scheme-data-color > p,
 .data-color > p {
   padding-top: 1rem;
   font-weight: 700;
