@@ -283,7 +283,7 @@ colorModeValueField.addEventListener('input', function (event) {
 })
 
 document.addEventListener('click', function (event) {
-  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.classList.contains('solo') && event.target.className !== 'color-square') {
+  if (event.target.tagName !== 'A' && event.target.tagName !== 'BUTTON' && event.target.tagName !== 'I' && event.target.tagName !== 'SPAN' && !event.target.classList.contains('solo') && !event.target.classList.contains('schemecolor') && event.target.className !== 'color-square') {
     return;
   }
 
@@ -308,6 +308,17 @@ document.addEventListener('click', function (event) {
     getColorCode('hex', hex);
     getColorScheme(hex, scheme);
     window.location.hash = '#scheme-page';
+  }
+
+  if (event.target.classList.contains('schemecolor')) {
+    let rgb;
+    if (event.target.closest('p')) {
+      rgb = event.target.closest('div').style.background.replaceAll(/\s/g, '').slice(3);
+    } else if (event.target.closest('div')) {
+      rgb = event.target.style.background.replaceAll(/\s/g, '').slice(3);
+    }
+    getColorCode('rgb', rgb);
+    window.location.hash = '#picker-page';
   }
 
   if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
@@ -448,10 +459,9 @@ function getColorScheme(hex, scheme) {
 
 function updateColorScheme() {
   const colorName = document.querySelector('.scheme-color-name');
-  const schemeDivColors = document.querySelectorAll('.schemecolor');
-  const schemeDivText = document.querySelectorAll('.schemecolor-hex');
+  const schemeDivColors = document.querySelectorAll('div.schemecolor');
+  const schemeDivText = document.querySelectorAll('p.schemecolor');
   const schemeArrow = document.querySelectorAll('.scheme-arrow')
-  const schemeNameTexts = document.querySelectorAll('.scheme-name');
 
   colorName.textContent = colorData.currentColor.name;
 

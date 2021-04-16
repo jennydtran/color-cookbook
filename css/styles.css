@@ -236,11 +236,11 @@ button:focus {
 
 .schemecolor {
   height: 45px;
-  background-color: rgb(87, 87, 87);
   border: none;
   display:flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .select-color {
@@ -342,11 +342,13 @@ ol {
   height: 40px;
   margin: 0;
   padding: 0;
+  cursor: pointer;
 }
 
 .solo {
   border-radius: 2px;
   margin: 0.15rem;
+  cursor: pointer;
 }
 
 .row-saved-colors,
