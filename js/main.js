@@ -447,9 +447,10 @@ function getColorScheme(hex, scheme) {
 }
 
 function updateColorScheme() {
-  var colorName = document.querySelector('.scheme-color-name');
-  var schemeDivColors = document.querySelectorAll('.schemecolor');
-  var schemeNameTexts = document.querySelectorAll('.scheme-name');
+  const colorName = document.querySelector('.scheme-color-name');
+  const schemeDivColors = document.querySelectorAll('.schemecolor');
+  const schemeDivText = document.querySelectorAll('.schemecolor-hex')
+  const schemeNameTexts = document.querySelectorAll('.scheme-name');
 
   colorName.textContent = colorData.currentColor.name;
 
@@ -458,6 +459,7 @@ function updateColorScheme() {
       return;
     }
     schemeDivColors[i].style.background = colorData.currentScheme.colors[i].hex.value;
+    schemeDivText[i].textContent = colorData.currentScheme.colors[i].hex.value;
     schemeNameTexts[i].textContent = colorData.currentScheme.colors[i].name.value;
   }
 

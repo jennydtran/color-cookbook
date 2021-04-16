@@ -238,6 +238,9 @@ button:focus {
   height: 30px;
   background-color: rgb(87, 87, 87);
   border: none;
+  display:flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .select-color {
