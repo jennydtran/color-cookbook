@@ -144,7 +144,7 @@ body {
 }
 
 .fa-chevron-left { padding-right: 0.25rem; }
-.fa-chevron-right, .fa-angle-right { padding-left: 0.25rem; }
+.fa-chevron-right, .fa-angle-right, .delete-saved { padding-left: 0.25rem; }
 
 .fa-chevron-left,
 .fa-chevron-right {
