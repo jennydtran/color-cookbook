@@ -300,40 +300,6 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  let editColors = document.querySelector('i.delete-saved');
-  if (event.target.className.match('delete-saved colors')) {
-    let iconEditColors = editColors.classList;
-    if (iconEditColors.contains('fa-pen')) {
-      iconEditColors.replace('fa-pen', 'fa-minus')
-      deleteMode = true;
-    } else {
-      iconEditColors.replace('fa-minus', 'fa-pen')
-      deleteMode = false;
-    }
-    console.log(deleteMode);
-  }
-
-  if (event.target.className === 'color-square') {
-    if (!deleteMode) {
-      const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
-      const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
-      getColorCode('hex', hex);
-      getColorScheme(hex, scheme);
-      window.location.hash = '#scheme-page';
-    }
-  }
-
-  if (event.target.classList.contains('schemecolor')) {
-    let rgb;
-    if (event.target.closest('p')) {
-      rgb = event.target.closest('div').style.background.replaceAll(/\s/g, '').slice(3);
-    } else if (event.target.closest('div')) {
-      rgb = event.target.style.background.replaceAll(/\s/g, '').slice(3);
-    }
-    getColorCode('rgb', rgb);
-    window.location.hash = '#picker-page';
-  }
-
   if ((event.target.matches('.fa-palette') || event.target === paletteIcon.closest('a') || event.target.id === 'explore')) {
     viewSwapDataViews('picker-page');
     if (event.target.matches('.fa-palette') || event.target.id === 'explore') {
@@ -365,17 +331,72 @@ document.addEventListener('click', function (event) {
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
+  if (event.target.className.includes('random')) {
+    getRandomColor();
+  }
+
+  if (event.target.classList.contains('schemecolor')) {
+    let rgb;
+    if (event.target.closest('p')) {
+      rgb = event.target.closest('div').style.background.replaceAll(/\s/g, '').slice(3);
+    } else if (event.target.closest('div')) {
+      rgb = event.target.style.background.replaceAll(/\s/g, '').slice(3);
+    }
+    getColorCode('rgb', rgb);
+    window.location.hash = '#picker-page';
+  }
+
+  let editColors = document.querySelector('i.delete-saved');
+  const savedColors = document.querySelectorAll('.colorbook-color-list');
+  const savedSchemes = document.querySelectorAll('.row-scheme-colors');
+
+  if (event.target.className.match('delete-saved colors')) {
+    let iconEditColors = editColors.classList;
+    if (iconEditColors.contains('fa-pen')) {
+      iconEditColors.replace('fa-pen', 'fa-minus')
+      deleteMode = true;
+    } else {
+      iconEditColors.replace('fa-minus', 'fa-pen')
+      deleteMode = false;
+    }
+  }
+
+  if (event.target.className === 'color-square') {
+    if (!deleteMode) {
+      const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
+      const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
+      getColorCode('hex', hex);
+      getColorScheme(hex, scheme);
+      window.location.hash = '#scheme-page';
+    } else {
+      const ol = (event.target.closest('ol'));
+      let index;
+      for (let i = 0; i < savedSchemes.length; i++) {
+        if (savedSchemes[i] === ol) {
+          index = i
+        }
+      }
+      deleteColors('scheme', index)
+    }
+  }
+
   if (event.target.className.includes('solo')) {
     if (!deleteMode) {
       const color = event.target.style.background.slice(3);
       getColorCode('rgb', color);
       window.location.hash = '#color-data-page';
+    } else {
+      const li = (event.target.parentNode)
+      let index;
+      for (let i = 0; i < savedColors.length; i++) {
+        if (savedColors[i] === li) {
+          index = i;
+        }
+      }
+      deleteColors('color', index)
     }
   }
 
-  if (event.target.className.includes('random')) {
-    getRandomColor();
-  }
 });
 
 function upDateSelectColor() {
@@ -512,6 +533,7 @@ function colorSavedDOM(data) {
   const li = document.createElement('li');
   const div = document.createElement('div');
 
+  li.setAttribute('class', 'colorbook-color-list');
   div.setAttribute('class', 'color-square solo');
   li.appendChild(div);
 
@@ -572,12 +594,31 @@ function schemeSavedDOM(scheme) {
   return schemeItem;
 }
 
-function colorDelete () {
+function deleteColors (list, index) {
+  const savedColors = document.querySelectorAll('.colorbook-color-list');
+  const savedSchemes = document.querySelectorAll('.row-scheme-colors');
+  const modal = document.querySelector('.modal.overlay');
+  modal.classList.remove('hidden');
+  let parent;
 
-}
+  modal.addEventListener('click', function (e) {
+    if (e.target.className.match('modal overlay delete') || e.target.value === 'no') {
+      modal.classList.add('hidden');
+    } else if (e.target.value === 'yes') {
+      if (list === 'color') {
+        parent = savedColors;
+        parent[index].remove();
+        data.savedColors.splice(index, 1);
+      } else if (list === 'scheme') {
+        parent = savedSchemes;
+        parent[index].remove();
+        data.savedSchemes.splice(index, 1);
+      }
+      modal.classList.add('hidden');
+    }
+  });
 
-function schemeDelete() {
-
+  console.log(list, index)
 }
 
 // Load Handling

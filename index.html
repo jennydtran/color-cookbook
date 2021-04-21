@@ -25,14 +25,25 @@
 <body>
   <script src="https://cdn.jsdelivr.net/npm/@jaames/iro@5"></script>
   <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
-  <main>
-    <div class="row div-loading hidden">
-      <i class="fas fa-spinner fa-lg" id="loading"></i>
-    </div>
-    <div class="row div-error hidden">
-      <p>Poor connection. Try again.</p>
-    </div>
 
+  <div class="modal overlay delete hidden">
+    <div class="modal-content">
+      <p>Are you sure you want to delete the selected color/scheme?</p>
+      <div class="row">
+        <button type="button" value="yes">Yes</button>
+        <button type="button" value="no">No</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row div-loading hidden">
+    <i class="fas fa-spinner fa-lg" id="loading"></i>
+  </div>
+  <div class="row div-error hidden">
+    <p>Poor connection. Try again.</p>
+  </div>
+
+  <main>
     <div class="container home" data-view="homepage">
       <div class="row app-title">
         <div class="title">
@@ -251,6 +262,7 @@
       </div>
     </div>
   </main>
+
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
