@@ -1,4 +1,4 @@
-const error = document.querySelector('.div-error');
+const fetchError = document.querySelector('.div-error');
 const loading = document.querySelector('.div-loading');
 
 const saveIcon = document.querySelectorAll('.fa-heart');
@@ -11,9 +11,8 @@ const footer = document.querySelector('#footer');
 const colorSquareSolo = document.querySelector('.row-saved-colors');
 const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
-const currentColorText = document.querySelector('#current-color')
-const colorSelectOption = document.querySelectorAll('.option-item');
 
+const colorSelectOption = document.querySelectorAll('.option-item');
 const colorModeInput = document.querySelector('#select-color-value-opts');
 const colorModeValueField = document.querySelector('#selected-color-mode');
 
@@ -31,6 +30,7 @@ let optionItemWidth = colorSelectOption[1].clientWidth;
 let colorPickerSize = optionItemWidth * 0.5;
 let colorPicker;
 let tallest;
+let deleteMode;
 
 function colorIncludedInSaved() {
   for (let i = 0; i < colorData.saved.colors.length; i++) {
@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
   }
 
-
 });
 
 window.addEventListener('resize', function (event) {
@@ -127,7 +126,6 @@ window.addEventListener('resize', function (event) {
   optionItemWidth = document.querySelector('.active').clientWidth;
   colorPickerSize = optionItemWidth * 0.45;
   colorPicker.resize(colorPickerSize);
-
 });
 
 window.onhashchange = viewSwapDataViews;
@@ -234,7 +232,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex2 = new RegExp('^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
       disableBtnLink();
-      handleHexError();
+      handleError.hexError();
     } else {
       enableBtnLink()
       if (event.target.value.match(regex1)) {
@@ -250,7 +248,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleRgbError();
+      handleError.rgbError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -261,7 +259,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*([0-9]{1,2}|100)%\\s*,\\s*([0-9]{1,2}|100)%\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleHslError();
+      handleError.hslError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -272,7 +270,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*([0-9]{1,2}|100),\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleCmykError();
+      handleError.cmykError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -302,12 +300,27 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
+  let editColors = document.querySelector('i.delete-saved');
+  if (event.target.className.match('delete-saved colors')) {
+    let iconEditColors = editColors.classList;
+    if (iconEditColors.contains('fa-pen')) {
+      iconEditColors.replace('fa-pen', 'fa-minus')
+      deleteMode = true;
+    } else {
+      iconEditColors.replace('fa-minus', 'fa-pen')
+      deleteMode = false;
+    }
+    console.log(deleteMode);
+  }
+
   if (event.target.className === 'color-square') {
-    const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
-    const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
-    getColorCode('hex', hex);
-    getColorScheme(hex, scheme);
-    window.location.hash = '#scheme-page';
+    if (!deleteMode) {
+      const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
+      const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
+      getColorCode('hex', hex);
+      getColorScheme(hex, scheme);
+      window.location.hash = '#scheme-page';
+    }
   }
 
   if (event.target.classList.contains('schemecolor')) {
@@ -347,15 +360,17 @@ document.addEventListener('click', function (event) {
       return;
     }
   } else {
-    error.classList.add('hidden');
+    fetchError.classList.add('hidden');
     main.classList.remove('avoid-clicks');
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
 
   if (event.target.className.includes('solo')) {
-    const color = event.target.style.background.slice(3);
-    getColorCode('rgb', color);
-    window.location.hash = '#color-data-page';
+    if (!deleteMode) {
+      const color = event.target.style.background.slice(3);
+      getColorCode('rgb', color);
+      window.location.hash = '#color-data-page';
+    }
   }
 
   if (event.target.className.includes('random')) {
@@ -364,19 +379,21 @@ document.addEventListener('click', function (event) {
 });
 
 function upDateSelectColor() {
-  var colorName = document.querySelector('.color-name');
+  const currentColorText = document.querySelector('#current-color');
+
+  const colorName = document.querySelector('.color-name');
   colorName.textContent = colorData.currentColor.name;
 
-  var rgbText = document.querySelector('.rgb-text');
+  const rgbText = document.querySelector('.rgb-text');
   rgbText.textContent = colorData.currentColor.rgb.slice(3);
-  var hexText = document.querySelector('.hex-text');
+  const hexText = document.querySelector('.hex-text');
   hexText.textContent = colorData.currentColor.hex;
-  var hslText = document.querySelector('.hsl-text');
+  const hslText = document.querySelector('.hsl-text');
   hslText.textContent = colorData.currentColor.hsl.slice(3);
-  var cmykText = document.querySelector('.cmyk-text');
+  const cmykText = document.querySelector('.cmyk-text');
   cmykText.textContent = colorData.currentColor.cmyk.slice(4);
 
-  var dataColorBox = document.querySelector('.data-color-box');
+  const dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
   currentColorField.style.background = colorData.currentColor.hex;
   currentColorText.textContent = colorData.currentColor.name;
@@ -405,13 +422,13 @@ function getColorCode(mode, y) {
   const selectedColor = new XMLHttpRequest();
   selectedColor.open('GET', `https://www.thecolorapi.com/id?${mode}=` + value);
   selectedColor.responseType = 'json';
-  selectedColor.addEventListener('error', handleError);
+  selectedColor.addEventListener('error', handleError.fetchError);
   selectedColor.addEventListener('loadstart', handleLoading);
   selectedColor.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
     loading.classList.add('hidden');
     if (selectedColor.response.code === 400) {
-      handleError();
+      handleError.fetchError();
     } else {
       colorData.currentColor.name = selectedColor.response.name.value;
       colorData.currentColor.rgb = selectedColor.response.rgb.value;
@@ -428,7 +445,7 @@ function getRandomColor() {
   var randomColor = new XMLHttpRequest();
   randomColor.open('GET', 'https://api.codetabs.com/v1/proxy?quest=https://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
-  randomColor.addEventListener('error', handleError);
+  randomColor.addEventListener('error', handleError.fetchError);
   randomColor.addEventListener('loadstart', handleLoading);
   randomColor.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
@@ -443,7 +460,7 @@ function getColorScheme(hex, scheme) {
   var colorScheme = new XMLHttpRequest();
   colorScheme.open('GET', 'https://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
-  colorScheme.addEventListener('error', handleError);
+  colorScheme.addEventListener('error', handleError.fetchError);
   colorScheme.addEventListener('loadstart', handleLoading);
   colorScheme.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
@@ -555,33 +572,44 @@ function schemeSavedDOM(scheme) {
   return schemeItem;
 }
 
-// Error Handling
+function colorDelete () {
+
+}
+
+function schemeDelete() {
+
+}
+
+// Load Handling
 function handleLoading(event) {
-  error.classList.add('hidden');
+  fetchError.classList.add('hidden');
   loading.classList.remove('hidden');
   main.classList.add('avoid-clicks');
 }
 
-function handleError() {
-  main.classList.remove('avoid-clicks');
-  loading.classList.add('hidden');
-  error.classList.remove('hidden');
-}
+// Error Handling
+const handleError = {
+  fetchError : function () {
+    main.classList.remove('avoid-clicks');
+    loading.classList.add('hidden');
+    fetchError.classList.remove('hidden');
+  },
 
-function handleHexError () {
-  console.log("Invalid color HEX code.")
-}
+  hexError: function () {
+    return console.log("Invalid color HEX code.")
+  },
 
-function handleRgbError() {
-  console.log("Invalid color RGB code.")
-}
+  rgbError: function () {
+    return console.log("Invalid color RGB code.")
+  },
 
-function handleHslError() {
-  console.log("Invalid color HSL code.")
-}
+  hslError: function () {
+    return console.log("Invalid color HSL code.")
+  },
 
-function handleCmykError() {
-  console.log("Invalid color CMYK code.")
+  cmykError: function () {
+    return console.log("Invalid color CMYK code.")
+  }
 }
 
 // Toggle left/right between the 3 options of color selecting
