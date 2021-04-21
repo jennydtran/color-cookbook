@@ -412,7 +412,9 @@ section {
 a:hover,
 i:hover,
 .button-getcookin:hover,
-button:hover {
+button:hover,
+.colorbook-color-list .color-square:hover,
+.row-scheme-colors:hover {
   transition: transform 0.5s;
   transform: scale(0.97);
   cursor: pointer;
@@ -420,7 +422,9 @@ button:hover {
 
 i:active,
 .button-getcookin:active,
-button:active {
+button:active,
+.colorbook-color-list .color-square:active,
+.row-scheme-colors:active {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.733);
 }
 
