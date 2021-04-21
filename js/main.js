@@ -595,7 +595,15 @@ function schemeSavedDOM(scheme) {
 }
 
 function deleteColors (list, index) {
-  
+  const modal = document.querySelector('.modal.overlay');
+  modal.classList.remove('hidden');
+
+  modal.addEventListener('click', function (e) {
+    if (e.target.className.match('modal overlay delete') || e.target.value === 'no') {
+      modal.classList.add('hidden');
+    }
+  });
+
   console.log(list, index)
 }
 
