@@ -13,7 +13,6 @@ const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
 
 const colorSelectOption = document.querySelectorAll('.option-item');
-
 const colorModeInput = document.querySelector('#select-color-value-opts');
 const colorModeValueField = document.querySelector('#selected-color-mode');
 
@@ -299,6 +298,24 @@ document.addEventListener('click', function (event) {
     scheme: colorData.currentScheme.scheme,
     colors: colorData.currentScheme.colors
   };
+
+  let editColors = document.querySelector('i.delete-saved.colors');
+  let editSchemes = document.querySelector('i.delete-saved.schemes');
+
+  if (event.target.className.match('delete-saved colors') || event.target.className.match('delete-saved schemes')) {
+    let iconEditColors = editColors.classList;
+    let iconEditSchemes = editSchemes.classList;
+    if (event.target.className.match('delete-saved colors')) {
+      if (iconEditColors.contains('fa-pen')) {
+        iconEditColors.replace('fa-pen', 'fa-minus')
+      } else {
+        iconEditColors.replace('fa-minus', 'fa-pen')
+      }
+    } else if (event.target.className.match('delete-saved schemes')) {
+      let toggleIconScheme = iconEditSchemes.toggle('fa-pen')
+      console.log(iconEditSchemes)
+    }
+  }
 
   if (event.target.className === 'color-square') {
     const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
