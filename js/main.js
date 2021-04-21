@@ -343,7 +343,7 @@ document.addEventListener('click', function (event) {
       rgb = event.target.style.background.replaceAll(/\s/g, '').slice(3);
     }
     getColorCode('rgb', rgb);
-    window.location.hash = '#picker-page';
+    window.location.hash = '#color-data-page';
   }
 
   let editColors = document.querySelector('i.delete-saved');
