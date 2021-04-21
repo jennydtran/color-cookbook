@@ -30,6 +30,7 @@ let optionItemWidth = colorSelectOption[1].clientWidth;
 let colorPickerSize = optionItemWidth * 0.5;
 let colorPicker;
 let tallest;
+let deleteMode;
 
 function colorIncludedInSaved() {
   for (let i = 0; i < colorData.saved.colors.length; i++) {
@@ -299,30 +300,27 @@ document.addEventListener('click', function (event) {
     colors: colorData.currentScheme.colors
   };
 
-  let editColors = document.querySelector('i.delete-saved.colors');
-  let editSchemes = document.querySelector('i.delete-saved.schemes');
-
-  if (event.target.className.match('delete-saved colors') || event.target.className.match('delete-saved schemes')) {
+  let editColors = document.querySelector('i.delete-saved');
+  if (event.target.className.match('delete-saved colors')) {
     let iconEditColors = editColors.classList;
-    let iconEditSchemes = editSchemes.classList;
-    if (event.target.className.match('delete-saved colors')) {
-      if (iconEditColors.contains('fa-pen')) {
-        iconEditColors.replace('fa-pen', 'fa-minus')
-      } else {
-        iconEditColors.replace('fa-minus', 'fa-pen')
-      }
-    } else if (event.target.className.match('delete-saved schemes')) {
-      let toggleIconScheme = iconEditSchemes.toggle('fa-pen')
-      console.log(iconEditSchemes)
+    if (iconEditColors.contains('fa-pen')) {
+      iconEditColors.replace('fa-pen', 'fa-minus')
+      deleteMode = true;
+    } else {
+      iconEditColors.replace('fa-minus', 'fa-pen')
+      deleteMode = false;
     }
+    console.log(deleteMode);
   }
 
   if (event.target.className === 'color-square') {
-    const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
-    const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
-    getColorCode('hex', hex);
-    getColorScheme(hex, scheme);
-    window.location.hash = '#scheme-page';
+    if (!deleteMode) {
+      const scheme = event.target.closest('.row-scheme-colors').getAttribute('data-scheme');
+      const hex = event.target.closest('.row-scheme-colors').getAttribute('data-hex');
+      getColorCode('hex', hex);
+      getColorScheme(hex, scheme);
+      window.location.hash = '#scheme-page';
+    }
   }
 
   if (event.target.classList.contains('schemecolor')) {
@@ -368,9 +366,11 @@ document.addEventListener('click', function (event) {
   }
 
   if (event.target.className.includes('solo')) {
-    const color = event.target.style.background.slice(3);
-    getColorCode('rgb', color);
-    window.location.hash = '#color-data-page';
+    if (!deleteMode) {
+      const color = event.target.style.background.slice(3);
+      getColorCode('rgb', color);
+      window.location.hash = '#color-data-page';
+    }
   }
 
   if (event.target.className.includes('random')) {
@@ -570,6 +570,14 @@ function schemeSavedDOM(scheme) {
     div5.style.background = scheme.colors[4].rgb.value;
   }
   return schemeItem;
+}
+
+function colorDelete () {
+
+}
+
+function schemeDelete() {
+
 }
 
 // Load Handling
