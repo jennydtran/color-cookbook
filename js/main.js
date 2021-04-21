@@ -595,16 +595,23 @@ function schemeSavedDOM(scheme) {
 }
 
 function deleteColors (list, index) {
+  const savedColors = document.querySelectorAll('.colorbook-color-list');
+  const savedSchemes = document.querySelectorAll('.row-scheme-colors');
   const modal = document.querySelector('.modal.overlay');
   modal.classList.remove('hidden');
+  let parent;
 
   modal.addEventListener('click', function (e) {
     if (e.target.className.match('modal overlay delete') || e.target.value === 'no') {
       modal.classList.add('hidden');
     } else if (e.target.value === 'yes') {
       if (list === 'color') {
+        parent = savedColors;
+        parent[index].remove();
         data.savedColors.splice(index, 1);
       } else if (list === 'scheme') {
+        parent = savedSchemes;
+        parent[index].remove();
         data.savedSchemes.splice(index, 1);
       }
       modal.classList.add('hidden');
