@@ -601,6 +601,13 @@ function deleteColors (list, index) {
   modal.addEventListener('click', function (e) {
     if (e.target.className.match('modal overlay delete') || e.target.value === 'no') {
       modal.classList.add('hidden');
+    } else if (e.target.value === 'yes') {
+      if (list === 'color') {
+        data.savedColors.splice(index, 1);
+      } else if (list === 'scheme') {
+        data.savedSchemes.splice(index, 1);
+      }
+      modal.classList.add('hidden');
     }
   });
 
