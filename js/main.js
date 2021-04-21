@@ -1,4 +1,4 @@
-const error = document.querySelector('.div-error');
+const fetchError = document.querySelector('.div-error');
 const loading = document.querySelector('.div-loading');
 
 const saveIcon = document.querySelectorAll('.fa-heart');
@@ -11,7 +11,7 @@ const footer = document.querySelector('#footer');
 const colorSquareSolo = document.querySelector('.row-saved-colors');
 const schemesList = document.querySelector('.schemes-list');
 const currentColorField = document.querySelector('#current-color-field');
-const currentColorText = document.querySelector('#current-color')
+
 const colorSelectOption = document.querySelectorAll('.option-item');
 
 const colorModeInput = document.querySelector('#select-color-value-opts');
@@ -110,7 +110,6 @@ document.addEventListener('DOMContentLoaded', function (event) {
     }
   }
 
-
 });
 
 window.addEventListener('resize', function (event) {
@@ -127,7 +126,6 @@ window.addEventListener('resize', function (event) {
   optionItemWidth = document.querySelector('.active').clientWidth;
   colorPickerSize = optionItemWidth * 0.45;
   colorPicker.resize(colorPickerSize);
-
 });
 
 window.onhashchange = viewSwapDataViews;
@@ -347,7 +345,7 @@ document.addEventListener('click', function (event) {
       return;
     }
   } else {
-    error.classList.add('hidden');
+    fetchError.classList.add('hidden');
     main.classList.remove('avoid-clicks');
     viewSwapDataViews(event.target.getAttribute('data-view'));
   }
@@ -364,19 +362,21 @@ document.addEventListener('click', function (event) {
 });
 
 function upDateSelectColor() {
-  var colorName = document.querySelector('.color-name');
+  const currentColorText = document.querySelector('#current-color');
+
+  const colorName = document.querySelector('.color-name');
   colorName.textContent = colorData.currentColor.name;
 
-  var rgbText = document.querySelector('.rgb-text');
+  const rgbText = document.querySelector('.rgb-text');
   rgbText.textContent = colorData.currentColor.rgb.slice(3);
-  var hexText = document.querySelector('.hex-text');
+  const hexText = document.querySelector('.hex-text');
   hexText.textContent = colorData.currentColor.hex;
-  var hslText = document.querySelector('.hsl-text');
+  const hslText = document.querySelector('.hsl-text');
   hslText.textContent = colorData.currentColor.hsl.slice(3);
-  var cmykText = document.querySelector('.cmyk-text');
+  const cmykText = document.querySelector('.cmyk-text');
   cmykText.textContent = colorData.currentColor.cmyk.slice(4);
 
-  var dataColorBox = document.querySelector('.data-color-box');
+  const dataColorBox = document.querySelector('.data-color-box');
   dataColorBox.style.background = colorData.currentColor.hex;
   currentColorField.style.background = colorData.currentColor.hex;
   currentColorText.textContent = colorData.currentColor.name;
@@ -555,8 +555,9 @@ function schemeSavedDOM(scheme) {
   return schemeItem;
 }
 
+// Load Handling
 function handleLoading(event) {
-  error.classList.add('hidden');
+  fetchError.classList.add('hidden');
   loading.classList.remove('hidden');
   main.classList.add('avoid-clicks');
 }
@@ -566,7 +567,7 @@ const handleError = {
   fetchError : function () {
     main.classList.remove('avoid-clicks');
     loading.classList.add('hidden');
-    error.classList.remove('hidden');
+    fetchError.classList.remove('hidden');
   },
 
   hexError: function () {
