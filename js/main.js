@@ -234,7 +234,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex2 = new RegExp('^([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
     if (!event.target.value.match(regex1) && !event.target.value.match(regex2) ) {
       disableBtnLink();
-      handleHexError();
+      handleError.hexError();
     } else {
       enableBtnLink()
       if (event.target.value.match(regex1)) {
@@ -250,7 +250,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleRgbError();
+      handleError.rgbError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -261,7 +261,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*(1?[0-9]{1,2}|2[0-4][0-9]|25[0-5])\\s*,\\s*([0-9]{1,2}|100)%\\s*,\\s*([0-9]{1,2}|100)%\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleHslError();
+      handleError.hslError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -272,7 +272,7 @@ colorModeValueField.addEventListener('input', function (event) {
     regex1 = new RegExp(`^\\(\\s*([0-9]{1,2}|100),\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*,\\s*([0-9]{1,2}|100)\\s*\\)$`);
     if (!event.target.value.match(regex1)) {
       disableBtnLink();
-      handleCmykError();
+      handleError.cmykError();
     } else if (event.target.value.match(regex1)) {
       enableBtnLink()
       value = event.target.value.replaceAll(/\s/g, '');
@@ -405,13 +405,13 @@ function getColorCode(mode, y) {
   const selectedColor = new XMLHttpRequest();
   selectedColor.open('GET', `https://www.thecolorapi.com/id?${mode}=` + value);
   selectedColor.responseType = 'json';
-  selectedColor.addEventListener('error', handleError);
+  selectedColor.addEventListener('error', handleError.fetchError);
   selectedColor.addEventListener('loadstart', handleLoading);
   selectedColor.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
     loading.classList.add('hidden');
     if (selectedColor.response.code === 400) {
-      handleError();
+      handleError.fetchError();
     } else {
       colorData.currentColor.name = selectedColor.response.name.value;
       colorData.currentColor.rgb = selectedColor.response.rgb.value;
@@ -428,7 +428,7 @@ function getRandomColor() {
   var randomColor = new XMLHttpRequest();
   randomColor.open('GET', 'https://api.codetabs.com/v1/proxy?quest=https://www.colr.org/json/color/random?time=' + Date.now());
   randomColor.responseType = 'json';
-  randomColor.addEventListener('error', handleError);
+  randomColor.addEventListener('error', handleError.fetchError);
   randomColor.addEventListener('loadstart', handleLoading);
   randomColor.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
@@ -443,7 +443,7 @@ function getColorScheme(hex, scheme) {
   var colorScheme = new XMLHttpRequest();
   colorScheme.open('GET', 'https://www.thecolorapi.com/scheme?hex=' + hex + '&mode=' + scheme + '&count=5');
   colorScheme.responseType = 'json';
-  colorScheme.addEventListener('error', handleError);
+  colorScheme.addEventListener('error', handleError.fetchError);
   colorScheme.addEventListener('loadstart', handleLoading);
   colorScheme.addEventListener('load', function () {
     main.classList.remove('avoid-clicks');
@@ -555,33 +555,35 @@ function schemeSavedDOM(scheme) {
   return schemeItem;
 }
 
-// Error Handling
 function handleLoading(event) {
   error.classList.add('hidden');
   loading.classList.remove('hidden');
   main.classList.add('avoid-clicks');
 }
 
-function handleError() {
-  main.classList.remove('avoid-clicks');
-  loading.classList.add('hidden');
-  error.classList.remove('hidden');
-}
+// Error Handling
+const handleError = {
+  fetchError : function () {
+    main.classList.remove('avoid-clicks');
+    loading.classList.add('hidden');
+    error.classList.remove('hidden');
+  },
 
-function handleHexError () {
-  console.log("Invalid color HEX code.")
-}
+  hexError: function () {
+    return console.log("Invalid color HEX code.")
+  },
 
-function handleRgbError() {
-  console.log("Invalid color RGB code.")
-}
+  rgbError: function () {
+    return console.log("Invalid color RGB code.")
+  },
 
-function handleHslError() {
-  console.log("Invalid color HSL code.")
-}
+  hslError: function () {
+    return console.log("Invalid color HSL code.")
+  },
 
-function handleCmykError() {
-  console.log("Invalid color CMYK code.")
+  cmykError: function () {
+    return console.log("Invalid color CMYK code.")
+  }
 }
 
 // Toggle left/right between the 3 options of color selecting
