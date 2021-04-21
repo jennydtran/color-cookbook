@@ -347,7 +347,6 @@ document.addEventListener('click', function (event) {
   }
 
   let editColors = document.querySelector('i.delete-saved');
-  let index;
   const savedColors = document.querySelectorAll('.colorbook-color-list');
   const savedSchemes = document.querySelectorAll('.row-scheme-colors');
 
@@ -370,9 +369,14 @@ document.addEventListener('click', function (event) {
       getColorScheme(hex, scheme);
       window.location.hash = '#scheme-page';
     } else {
-      const li = (event.target.parentNode);
-      console.log(savedSchemes);
-      console.log(deleteColors('scheme', '1'))
+      const ol = (event.target.closest('ol'));
+      let index;
+      for (let i = 0; i < savedSchemes.length; i++) {
+        if (savedSchemes[i] === ol) {
+          index = i
+        }
+      }
+      deleteColors('scheme', index)
     }
   }
 
@@ -383,13 +387,13 @@ document.addEventListener('click', function (event) {
       window.location.hash = '#color-data-page';
     } else {
       const li = (event.target.parentNode)
+      let index;
       for (let i = 0; i < savedColors.length; i++) {
         if (savedColors[i] === li) {
           index = i;
         }
       }
-      console.log(index);
-      console.log(deleteColors('color', index))
+      deleteColors('color', index)
     }
   }
 
@@ -591,6 +595,7 @@ function schemeSavedDOM(scheme) {
 }
 
 function deleteColors (list, index) {
+  
   console.log(list, index)
 }
 

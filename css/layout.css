@@ -10,6 +10,12 @@ main {
   max-height: 100vh;
 }
 
+.modal {
+  position: absolute;
+  top: 50;
+  left: 50;
+}
+
 .container {
   display: flex;
   flex-direction: column;
